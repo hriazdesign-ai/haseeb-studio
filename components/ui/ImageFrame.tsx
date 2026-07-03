@@ -10,6 +10,7 @@ type ImageFrameProps = {
   objectPosition?: string;
   priority?: boolean;
   parallax?: boolean;
+  parallaxSpeed?: number;
   sizes?: string;
 };
 
@@ -20,6 +21,7 @@ export default function ImageFrame({
   objectPosition = "object-top",
   priority = false,
   parallax = true,
+  parallaxSpeed = 1,
   sizes = "(max-width: 1024px) 100vw, 752px",
 }: ImageFrameProps) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -33,17 +35,28 @@ export default function ImageFrame({
     if (!frame || !layer) return;
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motionQuery.matches) return;
+    const mobileQuery = window.matchMedia("(max-width: 1023px)");
 
     let raf = 0;
 
+    const resetLayer = () => {
+      layer.style.transform = "translate3d(0, 0, 0) scale(1.04)";
+    };
+
     const update = () => {
-      const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-      const maxOffset = isMobile ? 9 : 20;
-      const factor = isMobile ? 0.018 : 0.035;
+      if (motionQuery.matches) {
+        resetLayer();
+        return;
+      }
+
+      const maxOffset = mobileQuery.matches ? 9 : 20;
+      const factor = mobileQuery.matches ? 0.018 : 0.035;
       const rect = frame.getBoundingClientRect();
       const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-      const offset = Math.max(-maxOffset, Math.min(maxOffset, center * factor));
+      const offset = Math.max(
+        -maxOffset,
+        Math.min(maxOffset, center * factor * parallaxSpeed),
+      );
       layer.style.transform = `translate3d(0, ${offset}px, 0) scale(1.04)`;
     };
 
@@ -52,28 +65,44 @@ export default function ImageFrame({
       raf = requestAnimationFrame(update);
     };
 
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    const bindScroll = () => {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+    };
+
+    const unbindScroll = () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
 
     const onMotionChange = () => {
       if (motionQuery.matches) {
-        layer.style.transform = "translate3d(0, 0, 0) scale(1.04)";
-      } else {
-        update();
+        unbindScroll();
+        resetLayer();
+        return;
       }
+      update();
+      bindScroll();
     };
+
+    if (motionQuery.matches) {
+      resetLayer();
+    } else {
+      update();
+      bindScroll();
+    }
 
     motionQuery.addEventListener("change", onMotionChange);
+    mobileQuery.addEventListener("change", onScroll);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      unbindScroll();
       motionQuery.removeEventListener("change", onMotionChange);
-      cancelAnimationFrame(raf);
-      layer.style.transform = "translate3d(0, 0, 0) scale(1.04)";
+      mobileQuery.removeEventListener("change", onScroll);
+      resetLayer();
     };
-  }, [parallax, src]);
+  }, [parallax, parallaxSpeed, src]);
 
   return (
     <div
@@ -88,7 +117,7 @@ export default function ImageFrame({
           className="absolute inset-0 z-0 will-change-transform"
           style={{ transform: "translate3d(0, 0, 0) scale(1.04)" }}
         >
-          <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover/project:scale-[1.02]">
+          <div className="relative h-full w-full">
             <Image
               src={src}
               alt={alt}

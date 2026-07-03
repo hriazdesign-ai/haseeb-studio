@@ -16,7 +16,7 @@ export default function MumsUnitedCaseStudy() {
     <div className="min-h-screen bg-background">
       <SiteHeader variant="case-study" category="Community Impact" />
 
-      <main className="mx-auto max-w-[1280px] px-4 pb-[260px]">
+      <main className="w-full max-w-none px-4 pb-[260px]">
         <section className="pb-[100px] pt-8">
           <div className="grid lg:grid-cols-[255px_minmax(0,1fr)_auto] lg:gap-[70px]">
             <div className="hidden lg:block" aria-hidden="true" />

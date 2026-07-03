@@ -13,7 +13,7 @@ export default function SiteHeader({
   if (variant === "case-study" && category) {
     return (
       <header className="bg-background">
-        <div className="mx-auto max-w-[1280px] px-4 py-4">
+        <div className="w-full max-w-none px-4 py-4">
           <div className="grid gap-6 text-[20px] leading-[22px] tracking-[-0.04em] lg:grid-cols-[255px_minmax(0,1fr)_auto] lg:gap-[70px]">
             <Link href="/#work" className="link-underline text-foreground">
               Work
@@ -33,7 +33,7 @@ export default function SiteHeader({
 
   return (
     <header className="bg-background">
-      <div className="mx-auto flex max-w-[1280px] items-start justify-between gap-6 px-4 py-4">
+      <div className="flex w-full max-w-none items-start justify-between gap-6 px-4 py-4">
         <Link
           href="/"
           className="text-[20px] leading-[22px] tracking-[-0.04em] text-foreground"

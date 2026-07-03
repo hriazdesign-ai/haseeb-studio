@@ -2,12 +2,18 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { footerLinks, socialLinks } from "@/lib/content";
 
-export default function SiteFooter() {
+type SiteFooterProps = {
+  className?: string;
+};
+
+export default function SiteFooter({ className = "" }: SiteFooterProps) {
   return (
     <footer id="contact" className="bg-background">
       <ScrollReveal>
-        <div className="mx-auto grid max-w-[1280px] gap-10 px-4 pb-16 pt-[260px] lg:grid-cols-[255px_minmax(0,1fr)_88px] lg:items-end lg:gap-[70px]">
-          <p className="text-[20px] leading-[22px] tracking-[-0.04em] text-foreground">
+        <div
+          className={`grid gap-10 pb-16 pt-[260px] lg:grid-cols-[255px_minmax(0,1fr)_88px] lg:items-end lg:gap-[70px] ${className}`}
+        >
+          <p className="w-[255px] max-w-full shrink-0 text-[20px] leading-[22px] tracking-[-0.04em] text-foreground">
             Haseeb Riaz Studio
           </p>
 
@@ -23,7 +29,7 @@ export default function SiteFooter() {
             ))}
           </nav>
 
-          <div className="flex flex-col gap-3 lg:text-right">
+          <div className="flex w-[88px] shrink-0 flex-col gap-3 lg:text-right">
             {socialLinks.map((link) => (
               <a
                 key={link.label}

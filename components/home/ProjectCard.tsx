@@ -6,8 +6,6 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 type ProjectCardProps = {
   title: string;
-  category: string;
-  description: string;
   metadata: string;
   href: string;
   image: string;
@@ -16,13 +14,13 @@ type ProjectCardProps = {
   frameClassName?: string;
   sizes?: string;
   contentClassName?: string;
+  captionMaxWidth?: string;
   priority?: boolean;
+  parallaxSpeed?: number;
 };
 
 export default function ProjectCard({
   title,
-  category,
-  description,
   metadata,
   href,
   image,
@@ -31,11 +29,13 @@ export default function ProjectCard({
   frameClassName,
   sizes,
   contentClassName = "",
+  captionMaxWidth = "",
   priority = false,
+  parallaxSpeed = 1,
 }: ProjectCardProps) {
   return (
-    <ScrollReveal className="group/project transition-transform duration-300 ease-out hover:-translate-y-2">
-      <article className={contentClassName}>
+    <ScrollReveal className="group/project min-w-0">
+      <article className={`min-w-0 ${contentClassName}`}>
         <ImageFrame
           src={image}
           alt={alt}
@@ -43,22 +43,18 @@ export default function ProjectCard({
           objectPosition={objectPosition}
           sizes={sizes}
           priority={priority}
+          parallaxSpeed={parallaxSpeed}
         />
 
-        <div className="mt-2 flex flex-col gap-4 transition-transform duration-300 ease-out group-hover/project:-translate-y-1">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-start justify-between gap-2 text-[16px] leading-4 tracking-[-0.04em] text-foreground">
-              <h3>{title}</h3>
-              <span className="shrink-0 text-right text-accent">{category}</span>
-            </div>
-            <p className="max-w-[80%] text-[16px] leading-4 tracking-[-0.04em] text-foreground">
-              {description}
+        <div className={`mt-2 flex flex-col gap-3 ${captionMaxWidth}`}>
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h3 className="text-[16px] leading-4 tracking-[-0.04em] text-foreground">
+              {title}
+            </h3>
+            <p className="text-[14px] leading-4 tracking-[-0.04em] text-accent">
+              {metadata}
             </p>
           </div>
-
-          <p className="text-[14px] leading-4 tracking-[-0.04em] text-foreground/70">
-            {metadata}
-          </p>
 
           <Link
             href={href}

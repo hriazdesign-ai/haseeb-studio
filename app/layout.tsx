@@ -23,7 +23,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} h-full scroll-smooth bg-background antialiased`}
     >
-      <body className="min-h-full bg-background font-sans text-foreground">
+      <body className="min-h-full w-full bg-background font-sans text-foreground">
         {children}
       </body>
     </html>
