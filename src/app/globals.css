@@ -32,6 +32,8 @@
   --hero-copy-gap: clamp(2rem, 4vw, 4rem);
   --menu-duration: 280ms;
   --menu-ease: ease-out;
+  --header-hide-duration: 450ms;
+  --header-hide-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Radius */
   --radius-sm: 0;
@@ -279,10 +281,26 @@ a {
 /* -------------------------------------------------------------------------- */
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
+  width: 100%;
   background: var(--background);
+  transform: translateY(0);
+  transition: transform var(--header-hide-duration) var(--header-hide-ease);
+  will-change: transform;
+}
+
+.site-header.is-hidden {
+  transform: translateY(-100%);
+}
+
+.site-header-spacer {
+  flex-shrink: 0;
+  height: var(--site-header-height);
+  pointer-events: none;
 }
 
 .site-header__bar {
