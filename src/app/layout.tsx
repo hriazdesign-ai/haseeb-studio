@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+// TODO: Replace Geist with the final Haseeb Studio typeface when brand fonts are confirmed.
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
