@@ -1,10 +1,13 @@
 export const siteNav = [
-  // TODO: Confirm final work index route (e.g. /work vs /projects).
   { href: "/work", label: "Work" },
-  // TODO: Confirm final studio route.
-  { href: "/studio", label: "Studio" },
-  // TODO: Confirm final about route.
   { href: "/about", label: "About" },
-  // TODO: Confirm final contact route or mailto/anchor treatment.
-  { href: "/contact", label: "Contact" },
+  { href: "/services", label: "Services" },
+  { href: "/contact", label: "Get in touch" },
+] as const;
+
+export const socialLinks = [
+  // TODO: Add Instagram URL when available.
+  { label: "Instagram" },
+  // TODO: Add LinkedIn URL when available.
+  { label: "LinkedIn" },
 ] as const;
