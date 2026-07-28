@@ -5,11 +5,12 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
-        <div className="site-footer__grid">
+        {/* Same 2-col grid as the philosophy statement above. */}
+        <div className="grid grid-cols-1 gap-[var(--footer-brand-gap)] lg:grid-cols-2 lg:gap-6">
           <div className="site-footer__brand">
             <p className="type-body-lg max-w-[23.25rem]">Haseeb Riaz Studio</p>
-            <p className="type-status max-w-[23.25rem] whitespace-pre-line">
-              {`CURRENTLY ACCEPTING\nNEW PROJECTS`}
+            <p className="type-status whitespace-nowrap">
+              CURRENTLY ACCEPTING NEW PROJECTS
             </p>
           </div>
 

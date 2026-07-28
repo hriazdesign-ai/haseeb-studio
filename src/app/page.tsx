@@ -33,17 +33,20 @@ export default function Home() {
         </div>
       </section>
 
-      <WorkSection
-        mumsUnited={mumsUnited}
-        brightPath={brightPath}
-        meridian={meridian}
-      />
+      <section aria-label="Selected work">
+        <WorkSection
+          mumsUnited={mumsUnited}
+          brightPath={brightPath}
+          meridian={meridian}
+        />
+      </section>
 
       <section
         aria-labelledby="home-philosophy-heading"
         className="container"
       >
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="hidden lg:block" aria-hidden="true" />
           <div className="max-w-[35.25rem]">
             <h2 id="home-philosophy-heading" className="sr-only">
               Design philosophy

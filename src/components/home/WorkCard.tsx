@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { MotionValue } from "framer-motion";
+import Link from "next/link";
 import { ScrollProjectCard } from "@/components/motion/ScrollProjectCard";
 import type { Project } from "@/lib/projects";
 
@@ -7,26 +7,20 @@ type WorkCardProps = {
   project: Project;
   className?: string;
   imageClassName?: string;
-  /** Peak local scroll-linked image scale for this card. */
-  zoomScale?: number;
-  /** Shared focus value between 0 and 1. */
-  imageEmphasis: MotionValue<number>;
   priority?: boolean;
 };
 
 /**
- * Non-interactive project card.
- * TODO: Wrap in a Link once case-study routes exist.
+ * Project card with homepage interaction language (zoom + arrow).
+ * Links to a case study when `project.href` is set.
  */
 export function WorkCard({
   project,
   className,
   imageClassName,
-  zoomScale = 1.2,
-  imageEmphasis,
   priority = false,
 }: WorkCardProps) {
-  const image = (
+  const image = project.image ? (
     <Image
       src={project.image.src}
       alt={project.image.alt}
@@ -36,28 +30,46 @@ export function WorkCard({
       sizes={
         project.size === "featured"
           ? "100vw"
-          : project.size === "secondary"
-            ? "(max-width: 1023px) 100vw, 33vw"
-            : "(max-width: 1023px) 100vw, 66vw"
+          : project.size === "experience"
+            ? "(max-width: 1023px) 100vw, 25vw"
+            : project.size === "secondary"
+              ? "(max-width: 1023px) 100vw, 33vw"
+              : "(max-width: 1023px) 100vw, 66vw"
       }
     />
+  ) : (
+    <div className="size-full bg-surface" aria-hidden="true" />
   );
 
   const caption = (
-    <div className="flex flex-col gap-2">
-      <p className="type-label">{project.name}</p>
+    <div className="work-card__caption flex flex-col gap-2">
+      <div className="work-card__title-row">
+        <p className="type-label">{project.name}</p>
+        <span className="work-card__arrow translate-y-[3px]" aria-hidden="true">
+          ↗
+        </span>
+      </div>
       <h2 className="type-section-title">{project.title}</h2>
     </div>
   );
 
-  return (
+  const card = (
     <ScrollProjectCard
       media={image}
       caption={caption}
       mediaClassName={imageClassName}
       className={className}
-      zoomScale={zoomScale}
-      imageEmphasis={imageEmphasis}
     />
+  );
+
+  if (!project.href) return card;
+
+  return (
+    <Link
+      href={project.href}
+      className="block min-w-0 text-inherit no-underline"
+    >
+      {card}
+    </Link>
   );
 }

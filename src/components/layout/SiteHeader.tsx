@@ -139,15 +139,32 @@ export function SiteHeader() {
   return (
     <>
       <header ref={headerRef} className="site-header">
-        <div ref={barRef} className="site-header__bar bg-background">
+        <div ref={barRef} className="site-header__bar">
           <div className="container">
             <div
-              className="flex items-center justify-between gap-6"
+              className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2"
               style={{ paddingBlock: "var(--header-py)" }}
             >
-              <Link href="/" className="type-body-lg tracking-[-0.02em]">
-                Haseeb Riaz Studio
-              </Link>
+              <div className="flex items-center justify-between gap-6">
+                <Link href="/" className="type-body-lg tracking-[-0.02em]">
+                  Haseeb Riaz Studio
+                </Link>
+
+                <button
+                  ref={buttonRef}
+                  type="button"
+                  className="menu-toggle"
+                  aria-label={open ? "Close menu" : "Open menu"}
+                  aria-expanded={open}
+                  aria-controls={menuId}
+                  onClick={() => setOpen((value) => !value)}
+                >
+                  <span className="menu-toggle__icon" aria-hidden="true">
+                    <span className="menu-toggle__line menu-toggle__line--top" />
+                    <span className="menu-toggle__line menu-toggle__line--bottom" />
+                  </span>
+                </button>
+              </div>
 
               <nav aria-label="Primary" className="site-header__desktop-nav">
                 <ul
@@ -158,7 +175,7 @@ export function SiteHeader() {
                     <li key={item.href} className="min-w-0">
                       <Link
                         href={item.href}
-                        className="type-body-lg tracking-[-0.02em]"
+                        className="site-nav-link type-body-lg tracking-[-0.02em]"
                       >
                         {item.label}
                       </Link>
@@ -166,21 +183,6 @@ export function SiteHeader() {
                   ))}
                 </ul>
               </nav>
-
-              <button
-                ref={buttonRef}
-                type="button"
-                className="menu-toggle"
-                aria-label={open ? "Close menu" : "Open menu"}
-                aria-expanded={open}
-                aria-controls={menuId}
-                onClick={() => setOpen((value) => !value)}
-              >
-                <span className="menu-toggle__icon" aria-hidden="true">
-                  <span className="menu-toggle__line menu-toggle__line--top" />
-                  <span className="menu-toggle__line menu-toggle__line--bottom" />
-                </span>
-              </button>
             </div>
           </div>
         </div>
