@@ -1,5 +1,5 @@
 import { PageShell } from "@/components/layout/PageShell";
-import { WorkCard } from "@/components/home/WorkCard";
+import { WorkSection } from "@/components/home/WorkSection";
 import { homeProjects } from "@/lib/projects";
 
 const [mumsUnited, brightPath, meridian] = homeProjects;
@@ -33,33 +33,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        aria-label="Selected work"
-        className="flex flex-col"
-        style={{ gap: "var(--work-row-gap)" }}
-      >
-        <div className="container">
-          <WorkCard
-            project={mumsUnited}
-            priority
-            imageClassName="aspect-[1152/744] min-h-[12rem]"
-          />
-        </div>
-
-        <div
-          className="container grid grid-cols-1 lg:grid-cols-[minmax(0,372px)_minmax(0,1fr)] lg:items-start"
-          style={{ gap: "var(--work-col-gap)" }}
-        >
-          <WorkCard
-            project={brightPath}
-            imageClassName="aspect-[372/240] w-full lg:max-w-[372px]"
-          />
-          <WorkCard
-            project={meridian}
-            imageClassName="aspect-[788/491] w-full"
-          />
-        </div>
-      </section>
+      <WorkSection
+        mumsUnited={mumsUnited}
+        brightPath={brightPath}
+        meridian={meridian}
+      />
 
       <section
         aria-labelledby="home-philosophy-heading"
