@@ -11,9 +11,9 @@ export const siteNav = [
 ] as const satisfies readonly SiteNavItem[];
 
 /**
- * Nav for `/home-parallax-blocks` only.
- * Projects has no dedicated route yet — points at Work (same as the prior prototype header).
- * Contact is an in-page anchor to the prototype contact section.
+ * Nav for blocks chrome routes (`/`, `/home-parallax-blocks`, `/work-motion-test`).
+ * Projects has no dedicated route yet — points at Work.
+ * Contact is an in-page anchor to the page contact section.
  */
 export const homeParallaxBlocksNav = [
   { href: "/work", label: "Work" },
@@ -27,3 +27,58 @@ export const socialLinks = [
   // TODO: Add LinkedIn URL when available.
   { label: "LinkedIn" },
 ] as const;
+
+/**
+ * Work routes: listing, motion test, and nested `/work/*`
+ * (including current case studies at `/work/[slug]`).
+ */
+export function isWorkRoute(pathname: string): boolean {
+  return (
+    pathname === "/work" ||
+    pathname === "/work-motion-test" ||
+    pathname.startsWith("/work/")
+  );
+}
+
+/**
+ * Projects / Case Studies section routes when those roots exist.
+ * Note: case studies currently ship under `/work/[slug]` and therefore
+ * activate Work via `isWorkRoute` until a dedicated Projects index lands.
+ */
+export function isProjectsRoute(pathname: string): boolean {
+  return (
+    pathname === "/projects" ||
+    pathname.startsWith("/projects/") ||
+    pathname === "/case-studies" ||
+    pathname.startsWith("/case-studies/")
+  );
+}
+
+/**
+ * Whether a header nav item is the active page for `pathname`.
+ * Uses label-based route groups so Work vs Projects can share an href
+ * without both becoming active. Hash links (e.g. Contact) are never active.
+ */
+export function isNavItemActive(item: SiteNavItem, pathname: string): boolean {
+  const path = pathname.split(/[?#]/)[0] || pathname;
+
+  if (item.href.startsWith("#")) return false;
+
+  const label = item.label.trim().toLowerCase();
+
+  if (label === "work") {
+    return isWorkRoute(path);
+  }
+
+  if (label === "projects") {
+    return isProjectsRoute(path);
+  }
+
+  if (label === "contact" || label === "get in touch") {
+    return path === "/contact" || path.startsWith("/contact/");
+  }
+
+  if (path === item.href) return true;
+  if (item.href !== "/" && path.startsWith(`${item.href}/`)) return true;
+  return false;
+}

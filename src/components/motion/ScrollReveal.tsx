@@ -9,6 +9,7 @@ import {
   type HTMLMotionProps,
 } from "framer-motion";
 import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionBreakpoint";
+import { progressInRange } from "@/lib/motion";
 
 type ScrollRevealProps = {
   as?: "div" | "section" | "p" | "h2" | "span";
@@ -23,16 +24,6 @@ type ScrollRevealProps = {
   /** Apply captionY / generic y multiplier from blocks config. */
   applyCaptionMultiplier?: boolean;
 } & Omit<HTMLMotionProps<"div">, "children" | "style" | "ref">;
-
-function progressInRange(
-  progress: number,
-  start: number,
-  end: number,
-): number {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return (progress - start) / (end - start);
-}
 
 /**
  * Generic reversible scroll-linked fade / rise / settle.

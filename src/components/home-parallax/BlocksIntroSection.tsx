@@ -12,16 +12,7 @@ import {
   blocksBiographyMotion,
   blocksStatementMotion,
 } from "@/lib/home-parallax-blocks-motion";
-
-function progressInRange(
-  progress: number,
-  start: number,
-  end: number,
-): number {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return (progress - start) / (end - start);
-}
+import { progressInRange } from "@/lib/motion";
 
 /**
  * Statement + biography with reversible cascade for `/home-parallax-blocks`.

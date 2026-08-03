@@ -1,3 +1,4 @@
+import { AnimatedArrow } from "@/components/motion/AnimatedArrow";
 import { homeParallaxContact } from "@/lib/home-parallax";
 
 type ContactItem = {
@@ -7,19 +8,19 @@ type ContactItem = {
 
 const items: ContactItem[] = [
   {
-    label: "hriaz.design@gmail.com ↗",
+    label: "hriaz.design@gmail.com",
     href: homeParallaxContact.mailto,
   },
   {
-    label: "LinkedIn ↗",
+    label: "LinkedIn",
     href: homeParallaxContact.linkedIn,
   },
   {
-    label: "Instagram ↗",
+    label: "Instagram",
     href: homeParallaxContact.instagram,
   },
   {
-    label: "Download CV ↗",
+    label: "Download CV",
     href: homeParallaxContact.cv,
   },
 ];
@@ -44,20 +45,22 @@ export function PrototypeContactSection() {
         <ul className="hp-contact__links">
           {items.map((item) => (
             <li key={item.label}>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  {...(item.href.startsWith("http")
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <span aria-disabled="true" title="Link not available yet">
-                  {item.label}
-                </span>
-              )}
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {item.label}{" "}
+                    <AnimatedArrow kind="inline" />
+                  </a>
+                ) : (
+                  <span aria-disabled="true" title="Link not available yet">
+                    {item.label}{" "}
+                    <AnimatedArrow kind="inline" />
+                  </span>
+                )}
             </li>
           ))}
         </ul>

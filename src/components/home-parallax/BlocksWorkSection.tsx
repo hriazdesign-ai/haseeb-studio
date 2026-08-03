@@ -10,6 +10,10 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import {
+  AnimatedArrow,
+  animatedArrowLinkProps,
+} from "@/components/motion/AnimatedArrow";
 import { ScrollProjectReveal } from "@/components/motion/ScrollProjectReveal";
 import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionBreakpoint";
 import {
@@ -18,6 +22,9 @@ import {
   resolveScaleKeyframes,
 } from "@/lib/home-parallax-blocks-motion";
 import type { HomeParallaxProject } from "@/lib/home-parallax";
+import { progressInRange, sectionReveal } from "@/lib/motion";
+
+const MotionLink = motion.create(Link);
 
 type BlocksWorkSectionProps = {
   mumsUnited: HomeParallaxProject;
@@ -28,16 +35,6 @@ type BlocksWorkSectionProps = {
 /** Strip trailing Unicode arrows so we render a single shared contact-style arrow. */
 function plainCaption(caption: string) {
   return caption.replace(/\s*↗\s*$/u, "").trimEnd();
-}
-
-function progressInRange(
-  progress: number,
-  start: number,
-  end: number,
-): number {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return (progress - start) / (end - start);
 }
 
 /**
@@ -51,11 +48,19 @@ function ProjectCaption({ children }: { children: string }) {
 
   const { scrollYProgress: captionProgress } = useScroll({
     target: captionRef,
-    offset: ["start 94%", "start 68%"],
+    offset: [...sectionReveal.captionOffset],
   });
 
-  const captionOpacity = useTransform(captionProgress, [0, 1], [0, 1]);
-  const captionY = useTransform(captionProgress, [0, 1], [28, 0]);
+  const captionOpacity = useTransform(
+    captionProgress,
+    [0, 1],
+    [...sectionReveal.captionOpacity],
+  );
+  const captionY = useTransform(
+    captionProgress,
+    [0, 1],
+    [sectionReveal.homeCaptionY, 0],
+  );
 
   return (
     <motion.p
@@ -67,9 +72,9 @@ function ProjectCaption({ children }: { children: string }) {
       }}
     >
       <span className="hp-project__caption-text">{children}</span>
-      <span className="hp-project__caption-arrow" aria-hidden="true">
+      <AnimatedArrow className="hp-project__caption-arrow" kind="caption">
         ↗
-      </span>
+      </AnimatedArrow>
     </motion.p>
   );
 }
@@ -81,15 +86,16 @@ function BlocksWorkCta() {
   const ctaRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const reducedMotion = Boolean(shouldReduceMotion);
+  const { cta } = sectionReveal;
 
   const { scrollYProgress: ctaProgress } = useScroll({
     target: ctaRef,
-    offset: ["start 96%", "start 74%"],
+    offset: [...cta.offset],
   });
 
-  const ctaOpacity = useTransform(ctaProgress, [0, 1], [0, 1]);
-  const ctaY = useTransform(ctaProgress, [0, 1], [18, 0]);
-  const ctaScale = useTransform(ctaProgress, [0, 1], [0.97, 1]);
+  const ctaOpacity = useTransform(ctaProgress, [0, 1], [...cta.opacity]);
+  const ctaY = useTransform(ctaProgress, [0, 1], [cta.y, 0]);
+  const ctaScale = useTransform(ctaProgress, [0, 1], [...cta.scale]);
 
   return (
     <div className="hp-work__cta-wrap">
@@ -102,14 +108,18 @@ function BlocksWorkCta() {
           transformOrigin: "center center",
         }}
       >
-        <Link href="/work" className="hp-work__cta">
+        <MotionLink
+          href="/work"
+          className="hp-work__cta"
+          {...animatedArrowLinkProps}
+        >
           <span className="hp-work__cta-label">Browse all work</span>
           <span className="hp-work__cta-arrow-wrap">
-            <span className="hp-work__cta-arrow" aria-hidden="true">
+            <AnimatedArrow className="hp-work__cta-arrow" kind="cta">
               →
-            </span>
+            </AnimatedArrow>
           </span>
-        </Link>
+        </MotionLink>
       </motion.div>
     </div>
   );
@@ -161,10 +171,11 @@ function MumsUnitedProject({ project }: { project: HomeParallaxProject }) {
 
   return (
     <article className="hp-project-block">
-      <Link
+      <MotionLink
         href={project.href}
         className={`hp-project hp-project--${project.layout}`}
         aria-label={project.name}
+        {...animatedArrowLinkProps}
       >
         {/* Full-bleed media — outside the 1440px content container */}
         <div className="hp-blocks-mums-full-bleed">
@@ -207,7 +218,7 @@ function MumsUnitedProject({ project }: { project: HomeParallaxProject }) {
         <div className="prototype-page-container">
           <ProjectCaption>{plainCaption(project.caption)}</ProjectCaption>
         </div>
-      </Link>
+      </MotionLink>
     </article>
   );
 }
@@ -251,14 +262,15 @@ function BlockProjectLink({
   imageStyle: { scale: MotionValue<number> | number };
 }) {
   return (
-    <Link
+    <MotionLink
       href={project.href}
       className={`hp-project hp-project--${project.layout}`}
       aria-label={project.name}
+      {...animatedArrowLinkProps}
     >
       <BlockProjectMedia project={project} imageScale={imageStyle.scale} />
       <ProjectCaption>{plainCaption(project.caption)}</ProjectCaption>
-    </Link>
+    </MotionLink>
   );
 }
 

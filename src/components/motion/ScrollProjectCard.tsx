@@ -9,12 +9,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-
-/** Shared scroll-linked peak scale for every project card. */
-const SCROLL_ZOOM = 1.12;
-
-/** Extra scale added on hover (same for every card). */
-const HOVER_ZOOM_EXTRA = 0.05;
+import { hoverLift } from "@/lib/motion";
 
 type ScrollProjectCardProps = {
   media: ReactNode;
@@ -38,22 +33,18 @@ export function ScrollProjectCard({
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 92%", "end 12%"],
+    offset: [...hoverLift.scrollOffset],
   });
 
   const scrollScale = useTransform(
     scrollYProgress,
-    [0, 0.75],
-    [1, SCROLL_ZOOM],
+    [...hoverLift.scrollInput],
+    [1, hoverLift.scrollZoom],
     { clamp: true },
   );
 
   const hoverTarget = useMotionValue(0);
-  const hoverProgress = useSpring(hoverTarget, {
-    stiffness: 170,
-    damping: 24,
-    mass: 0.55,
-  });
+  const hoverProgress = useSpring(hoverTarget, hoverLift.spring);
 
   // Additive: scroll and hover never multiply into divergent totals.
   const scale = useTransform(
@@ -62,7 +53,7 @@ export function ScrollProjectCard({
       if (shouldReduceMotion) return 1;
       const scroll = latest[0] ?? 1;
       const hover = latest[1] ?? 0;
-      return scroll + hover * HOVER_ZOOM_EXTRA;
+      return scroll + hover * hoverLift.hoverZoomExtra;
     },
   );
 

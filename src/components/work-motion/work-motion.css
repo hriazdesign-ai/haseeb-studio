@@ -1,0 +1,395 @@
+/**
+ * Work motion-test layout (Figma Studio Work 684:13983).
+ * Grid tokens are centralised here — adjust breakpoints / ratios in one place.
+ */
+
+.work-motion-page {
+  /* Canvas reference: 1280 × 5839.66; content rail 1240 with 20px side padding */
+  --work-max: 1440px;
+  --work-gutter: 20px;
+  --work-row-gap: 60px;
+  --work-pair-gap: 24px;
+  --work-caption-gap: 16px;
+  --work-desktop-min: 1024px;
+  --work-fg: #0f0f0f;
+  --work-bg: #ffffff;
+  --work-mobile-ratio: 6 / 4;
+  /* Fractional tracks from Figma content width 1240 */
+  --work-track-800: 800fr;
+  --work-track-608: 608fr;
+  --work-track-416: 416fr;
+  --work-track-407: 407fr;
+  --work-track-392: 392fr;
+  /* Square-pair group width: 392 + 24 + 392 */
+  --work-track-square-pair: 808fr;
+  --work-quote-inset: 80px;
+
+  background: var(--work-bg);
+  color: var(--work-fg);
+}
+
+/* Keep SiteHeader; replace SiteFooter with PrototypeFooter (same as blocks home). */
+body:has(.work-motion-page) .site-footer {
+  display: none !important;
+}
+
+/* Light page surface when sharing homepage chrome helpers */
+.work-motion-page.home-parallax-page {
+  background: var(--work-bg);
+  color: var(--work-fg);
+}
+
+.work-motion-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Width / grid shell                                                         */
+/* -------------------------------------------------------------------------- */
+
+/* Same width system as Homepage `.prototype-page-container` */
+.work-motion-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--hp-gutter, var(--gutter));
+}
+
+.work-motion-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--work-row-gap);
+  padding-block-end: clamp(4rem, 10vw, 7.5rem);
+}
+
+/* Desktop editorial grid — placement via grid-column only */
+.work-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--work-pair-gap);
+}
+
+.work-col {
+  min-width: 0;
+}
+
+.work-col--1-13 {
+  grid-column: 1 / 13;
+}
+
+.work-col--7-13 {
+  grid-column: 7 / 13;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Hero — layout from Homepage `.hp-hero` / `.prototype-page-container`       */
+/* Work-only: eyebrow + title. No extra gutters or section padding.           */
+/* -------------------------------------------------------------------------- */
+
+.work-motion-page .hp-hero .prototype-page-container {
+  display: flex;
+  flex-direction: column;
+  /* Match Homepage title measure so the heading box shares the same rail */
+  align-items: flex-start;
+}
+
+.work-motion-hero__label {
+  margin: 0 0 clamp(2.5rem, 5vw, 3.75rem);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--work-fg);
+}
+
+.work-motion-hero__title {
+  margin: 0;
+  /* Typography tokens from Homepage `.hp-hero__title` */
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--hp-hero-size);
+  line-height: var(--hp-hero-leading);
+  letter-spacing: -0.02em;
+  color: var(--hp-fg-dark);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Rows                                                                       */
+/* -------------------------------------------------------------------------- */
+
+.work-row {
+  width: 100%;
+  min-width: 0;
+}
+
+.work-row--offset-start {
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--work-track-800))
+    var(--work-pair-gap)
+    minmax(0, var(--work-track-416));
+}
+
+.work-row--offset-start > .work-project-grid-item {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.work-row--square-pair {
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--work-track-407))
+    var(--work-pair-gap)
+    minmax(0, var(--work-track-square-pair));
+}
+
+.work-square-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--work-pair-gap);
+  min-width: 0;
+  grid-column: 3;
+}
+
+.work-row--landscape-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--work-pair-gap);
+}
+
+/* Shared-pair shell — horizontal layout only; no static vertical stagger */
+.work-motion-pair {
+  align-items: start;
+}
+
+.work-motion-pair__item {
+  margin-top: 0;
+  padding-top: 0;
+  top: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Project article                                                            */
+/* -------------------------------------------------------------------------- */
+
+/* Static grid cell — column / width only; never transform this node */
+.work-project-grid-item {
+  min-width: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Whole-card vertical y only — must not affect grid track sizing */
+.work-project-parallax {
+  width: 100%;
+  min-width: 0;
+  /* Do not set transform/overflow here — Framer owns y */
+}
+
+.work-project {
+  display: flex;
+  flex-direction: column;
+  gap: var(--work-caption-gap);
+  min-width: 0;
+  color: inherit;
+}
+
+.work-media-frame {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #1a1a1a;
+  transform: none;
+}
+
+/* Desktop roles — Figma ratios */
+.work-media--feature-landscape {
+  aspect-ratio: 1280 / 690;
+}
+
+.work-media--offset-landscape {
+  aspect-ratio: 800 / 517;
+}
+
+.work-media--offset-square {
+  aspect-ratio: 1 / 1;
+}
+
+.work-media--square-pair {
+  aspect-ratio: 1 / 1;
+}
+
+.work-media--pair-landscape {
+  aspect-ratio: 608 / 392;
+}
+
+.work-media-scale {
+  position: absolute;
+  inset: 0;
+  transform-origin: center center;
+}
+
+.work-media-hover {
+  position: absolute;
+  inset: 0;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform var(--motion-image-hover-duration)
+    var(--motion-image-hover-ease);
+  will-change: transform;
+}
+
+.work-media-hover img {
+  object-fit: cover;
+  object-position: var(--work-object-position, 50% 50%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-media-frame:hover .work-media-hover {
+    transform: scale(var(--motion-image-hover-scale));
+  }
+}
+
+.work-project:focus-visible .work-media-hover,
+.work-project:focus-within .work-media-hover {
+  transform: scale(var(--motion-image-hover-scale));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Captions                                                                   */
+/* -------------------------------------------------------------------------- */
+
+.work-project__caption {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* Caption arrow layout only — opacity/x/y owned by Framer Motion AnimatedArrow */
+.work-project__caption-arrow {
+  display: inline-block;
+  min-width: 1em;
+  margin-left: 0.25em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Quote                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.work-quote {
+  padding-block: clamp(2rem, 5vw, 3.125rem);
+  padding-inline: var(--work-quote-inset);
+}
+
+.work-quote__text {
+  margin: 0;
+  max-width: 1080px;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  /* Match Homepage primary heading / statement colour */
+  color: var(--hp-fg-dark);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive ≤1023px                                                         */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .work-motion-page {
+    --work-gutter: clamp(1.25rem, 5vw, 1.5rem);
+    --work-row-gap: clamp(2.5rem, 6vw, 3.75rem);
+    --work-quote-inset: 0px;
+  }
+
+  .work-desktop-grid {
+    display: block;
+  }
+
+  .work-col--1-13,
+  .work-col--7-13 {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  .work-row--offset-start,
+  .work-row--square-pair {
+    display: block;
+  }
+
+  .work-row--offset-start > .work-project-grid-item {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  .work-square-pair {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  /* Landscape pair stays two-up with 6:4 frames until very narrow */
+
+  /* Single / non-square-pair images → approved homepage 6:4 */
+  .work-media--feature-landscape,
+  .work-media--offset-landscape,
+  .work-media--offset-square,
+  .work-media--pair-landscape {
+    aspect-ratio: var(--work-mobile-ratio);
+    border-radius: 0;
+    height: auto;
+  }
+
+  .work-media--feature-landscape .work-media-hover img,
+  .work-media--offset-landscape .work-media-hover img,
+  .work-media--offset-square .work-media-hover img,
+  .work-media--pair-landscape .work-media-hover img {
+    object-position: var(--work-mobile-object-position, var(--work-object-position, 50% 50%));
+  }
+
+  /* Paired squares stay 1:1 — do not apply 6:4 */
+  .work-square-pair .work-media-frame,
+  .work-square-pair .work-media--square-pair {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* Narrow tablet / large phone: stack landscape pair; squares stay paired */
+@media (max-width: 639px) {
+  .work-row--landscape-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Very small: keep square pair side-by-side; no stack fallback required */
+@media (max-width: 320px) {
+  .work-square-pair {
+    gap: 12px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reduced motion                                                             */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .work-media-hover {
+    transition: none;
+    transform: none;
+  }
+
+  .work-media-frame:hover .work-media-hover,
+  .work-project:focus-visible .work-media-hover,
+  .work-project:focus-within .work-media-hover {
+    transform: none;
+  }
+
+}

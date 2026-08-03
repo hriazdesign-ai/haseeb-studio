@@ -24,6 +24,7 @@ type HomeParallaxPrototypeProps = {
 
 /**
  * Isolated redesigned-homepage prototype for parallax testing.
+ * `motionMode="block"` is the approved homepage (also rendered at `/`).
  * Default `motionMode="image"` keeps `/home-parallax` behaviour unchanged.
  */
 export function HomeParallaxPrototype({

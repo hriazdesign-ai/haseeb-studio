@@ -12,6 +12,7 @@ import {
   resolveScaleKeyframes,
   type ImageScaleKeyframes,
 } from "@/lib/home-parallax-blocks-motion";
+import { progressInRange } from "@/lib/motion";
 
 export type HomepageParallaxImageProps = {
   src: string;
@@ -49,16 +50,6 @@ type FrameMetrics = {
   frameHeight: number;
   movingHeight: number;
 };
-
-function progressInRange(
-  progress: number,
-  start: number,
-  end: number,
-): number {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return (progress - start) / (end - start);
-}
 
 /**
  * Fixed-dimension clipped frame with optional inner image pan + scale.

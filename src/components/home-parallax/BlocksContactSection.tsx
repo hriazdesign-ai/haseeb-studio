@@ -7,9 +7,11 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { AnimatedArrow } from "@/components/motion/AnimatedArrow";
 import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionBreakpoint";
 import { blocksContactMotion } from "@/lib/home-parallax-blocks-motion";
 import { homeParallaxContact } from "@/lib/home-parallax";
+import { progressInRange } from "@/lib/motion";
 
 type ContactItem = {
   label: string;
@@ -18,32 +20,22 @@ type ContactItem = {
 
 const items: ContactItem[] = [
   {
-    label: "hriaz.design@gmail.com ↗",
+    label: "hriaz.design@gmail.com",
     href: homeParallaxContact.mailto,
   },
   {
-    label: "LinkedIn ↗",
+    label: "LinkedIn",
     href: homeParallaxContact.linkedIn,
   },
   {
-    label: "Instagram ↗",
+    label: "Instagram",
     href: homeParallaxContact.instagram,
   },
   {
-    label: "Download CV ↗",
+    label: "Download CV",
     href: homeParallaxContact.cv,
   },
 ];
-
-function progressInRange(
-  progress: number,
-  start: number,
-  end: number,
-): number {
-  if (progress <= start) return 0;
-  if (progress >= end) return 1;
-  return (progress - start) / (end - start);
-}
 
 /**
  * Contact section with minimal reversible reveal for `/home-parallax-blocks`.
@@ -149,11 +141,13 @@ export function BlocksContactSection() {
                       ? { target: "_blank", rel: "noopener noreferrer" }
                       : {})}
                   >
-                    {item.label}
+                    {item.label}{" "}
+                    <AnimatedArrow kind="inline" />
                   </a>
                 ) : (
                   <span aria-disabled="true" title="Link not available yet">
-                    {item.label}
+                    {item.label}{" "}
+                    <AnimatedArrow kind="inline" />
                   </span>
                 )}
               </li>

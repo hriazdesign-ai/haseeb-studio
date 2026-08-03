@@ -12,18 +12,24 @@ import {
 import { useScrollDirectionHeader } from "@/hooks/useScrollDirectionHeader";
 import {
   homeParallaxBlocksNav,
+  isNavItemActive,
   siteNav,
   type SiteNavItem,
 } from "@/lib/navigation";
 import type { PageThemeId } from "@/lib/page-theme";
 
 const DESKTOP_NAV_MQ = "(min-width: 1024px)";
-const BLOCKS_PROTOTYPE_PATH = "/home-parallax-blocks";
+const BLOCKS_HOME_PATHS = new Set([
+  "/",
+  "/home-parallax-blocks",
+  "/work-motion-test",
+]);
 
 type SiteHeaderProps = {
   /**
-   * Optional nav items. Defaults to `siteNav`, except on
-   * `/home-parallax-blocks` which uses `homeParallaxBlocksNav`.
+   * Optional nav items. Defaults to `siteNav`, except on blocks chrome routes
+   * (`/`, `/home-parallax-blocks`, `/work-motion-test`) which use
+   * `homeParallaxBlocksNav`.
    */
   items?: readonly SiteNavItem[];
   /**
@@ -35,9 +41,9 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
   const pathname = usePathname();
-  const isBlocksPrototype = pathname === BLOCKS_PROTOTYPE_PATH;
+  const isBlocksHome = BLOCKS_HOME_PATHS.has(pathname);
   const navItems: readonly SiteNavItem[] =
-    items ?? (isBlocksPrototype ? homeParallaxBlocksNav : siteNav);
+    items ?? (isBlocksHome ? homeParallaxBlocksNav : siteNav);
 
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -166,12 +172,12 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
       <header
         ref={headerRef}
         className={
-          isBlocksPrototype ? "site-header site-header--blocks" : "site-header"
+          isBlocksHome ? "site-header site-header--blocks" : "site-header"
         }
         {...(theme ? { "data-theme": theme } : {})}
       >
         <div ref={barRef} className="site-header__bar">
-          {isBlocksPrototype ? (
+          {isBlocksHome ? (
             <div
               className="site-header__inner site-chrome-inner"
               style={{ paddingBlock: "var(--header-py)" }}
@@ -200,16 +206,20 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
 
               <nav aria-label="Primary" className="site-header__desktop-nav">
                 <ul className="site-header__nav-list">
-                  {navItems.map((item) => (
-                    <li key={`${item.label}-${item.href}`}>
-                      <Link
-                        href={item.href}
-                        className="site-nav-link type-body-lg tracking-[-0.02em]"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
+                  {navItems.map((item) => {
+                    const active = isNavItemActive(item, pathname);
+                    return (
+                      <li key={`${item.label}-${item.href}`}>
+                        <Link
+                          href={item.href}
+                          className="site-nav-link type-body-lg tracking-[-0.02em]"
+                          {...(active ? { "aria-current": "page" as const } : {})}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
             </div>
@@ -242,16 +252,22 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
 
                 <nav aria-label="Primary" className="site-header__desktop-nav">
                   <ul className="site-header__nav-list">
-                    {navItems.map((item) => (
-                      <li key={`${item.label}-${item.href}`}>
-                        <Link
-                          href={item.href}
-                          className="site-nav-link type-body-lg tracking-[-0.02em]"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
+                    {navItems.map((item) => {
+                      const active = isNavItemActive(item, pathname);
+                      return (
+                        <li key={`${item.label}-${item.href}`}>
+                          <Link
+                            href={item.href}
+                            className="site-nav-link type-body-lg tracking-[-0.02em]"
+                            {...(active
+                              ? { "aria-current": "page" as const }
+                              : {})}
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </nav>
               </div>
@@ -271,18 +287,24 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
             <div className="mobile-nav__panel">
               <nav aria-label="Mobile" className="mobile-nav__inner container">
                 <ul className="mobile-nav__list">
-                  {navItems.map((item) => (
-                    <li key={`${item.label}-${item.href}`}>
-                      <Link
-                        href={item.href}
-                        className="type-body-lg tracking-[-0.02em]"
-                        onClick={closeMenu}
-                        tabIndex={open ? undefined : -1}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
+                  {navItems.map((item) => {
+                    const active = isNavItemActive(item, pathname);
+                    return (
+                      <li key={`${item.label}-${item.href}`}>
+                        <Link
+                          href={item.href}
+                          className="type-body-lg tracking-[-0.02em]"
+                          onClick={closeMenu}
+                          tabIndex={open ? undefined : -1}
+                          {...(active
+                            ? { "aria-current": "page" as const }
+                            : {})}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
             </div>

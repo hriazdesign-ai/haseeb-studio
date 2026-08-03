@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HomeParallaxPrototype } from "@/components/home-parallax/HomeParallaxPrototype";
+import { BlocksHomePage } from "@/components/home-parallax/BlocksHomePage";
 
 export const metadata: Metadata = {
   title: "Home Parallax Blocks Prototype — Haseeb Riaz Studio",
@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * Temporary whole-project-block parallax prototype (Test B).
- * Accessible only via direct URL — does not replace `/` or `/home-parallax`.
+ * Temporary comparison route for the approved blocks homepage.
+ * Same source component as `/` — do not diverge markup.
  */
 export default function HomeParallaxBlocksPage() {
-  return <HomeParallaxPrototype motionMode="block" />;
+  return <BlocksHomePage />;
 }

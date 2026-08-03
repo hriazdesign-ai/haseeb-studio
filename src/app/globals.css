@@ -67,6 +67,12 @@ html[data-theme="light"] {
   --duration-standard: 300ms;
   --duration-slow: 500ms;
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Shared image hover + CTA pill (keep in sync with src/lib/motion.ts) */
+  --motion-image-hover-scale: 1.025;
+  --motion-image-hover-duration: 800ms;
+  --motion-image-hover-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-cta-pill-duration: 560ms;
+  --motion-cta-pill-ease: cubic-bezier(0.19, 1, 0.22, 1);
 
   /* Typography — IBM Plex from next/font */
   --font-sans: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
@@ -449,8 +455,16 @@ a {
 }
 
 .site-nav-link:hover::after,
-.site-nav-link:focus-visible::after {
+.site-nav-link:focus-visible::after,
+.site-nav-link[aria-current="page"]::after {
   transform: scaleX(1);
+}
+
+/* Mobile menu has no hover underline — keep active readable without redesign. */
+.mobile-nav__list a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
 }
 
 .menu-toggle {

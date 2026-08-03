@@ -1,7 +1,16 @@
 /**
  * Tunable motion configuration for `/home-parallax-blocks` only.
  * Diagnostic pass — exaggerated so relationships are visually obvious.
+ * Shared scale helpers live in `@/lib/motion`.
  */
+
+import type { ImageScaleKeyframes } from "@/lib/motion";
+
+export {
+  resolveScaleKeyframes,
+  resolveScaleValue,
+  type ImageScaleKeyframes,
+} from "@/lib/motion";
 
 /**
  * Desktop layout breakpoint for blocks project media / pair grid (px).
@@ -37,12 +46,6 @@ export const blocksMotionMultipliers = {
 } as const;
 
 export type BlocksMotionBreakpoint = keyof typeof blocksMotionMultipliers;
-
-export type ImageScaleKeyframes = {
-  keyframes: readonly [number, number, number];
-  /** Local scroll-progress stops for the three keyframes. */
-  stops: readonly [number, number, number];
-};
 
 export const blocksProjectMotion = {
   mumsUnited: {
@@ -139,22 +142,3 @@ export const blocksScrollOffset = {
   project: ["start 92%", "end 18%"] as [string, string],
   mumsFrame: ["start end", "end start"] as [string, string],
 };
-
-/**
- * Compress a scale keyframe toward 1 by strength.
- * `1 + (value - 1) * strength` — peak zoom and under-scale both dampen.
- */
-export function resolveScaleValue(value: number, strength: number): number {
-  return 1 + (value - 1) * strength;
-}
-
-export function resolveScaleKeyframes(
-  keyframes: readonly [number, number, number],
-  strength: number,
-): [number, number, number] {
-  return [
-    resolveScaleValue(keyframes[0], strength),
-    resolveScaleValue(keyframes[1], strength),
-    resolveScaleValue(keyframes[2], strength),
-  ];
-}
