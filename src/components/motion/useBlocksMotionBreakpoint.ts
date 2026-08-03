@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   blocksMotionMultipliers,
+  HP_BLOCKS_DESKTOP_MIN_PX,
   type BlocksMotionBreakpoint,
 } from "@/lib/home-parallax-blocks-motion";
 
@@ -14,7 +15,7 @@ export function useBlocksMotionBreakpoint(): BlocksMotionBreakpoint {
     const update = () => {
       const width = window.innerWidth;
       if (width < 768) setBreakpoint("mobile");
-      else if (width < 1024) setBreakpoint("tablet");
+      else if (width < HP_BLOCKS_DESKTOP_MIN_PX) setBreakpoint("tablet");
       else setBreakpoint("desktop");
     };
 

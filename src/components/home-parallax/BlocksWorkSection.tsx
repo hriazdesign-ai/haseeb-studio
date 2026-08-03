@@ -103,7 +103,12 @@ function BlocksWorkCta() {
         }}
       >
         <Link href="/work" className="hp-work__cta">
-          Browse all work →
+          <span className="hp-work__cta-label">Browse all work</span>
+          <span className="hp-work__cta-arrow-wrap">
+            <span className="hp-work__cta-arrow" aria-hidden="true">
+              →
+            </span>
+          </span>
         </Link>
       </motion.div>
     </div>
@@ -161,42 +166,47 @@ function MumsUnitedProject({ project }: { project: HomeParallaxProject }) {
         className={`hp-project hp-project--${project.layout}`}
         aria-label={project.name}
       >
-        <div
-          ref={frameRef}
-          className="homepage-parallax-frame hp-blocks-mums-frame"
-        >
-          <motion.div
-            className="hp-blocks-mums-y"
-            style={{
-              top: -config.overscan,
-              bottom: -config.overscan,
-              y: motionDisabled ? 0 : imageY,
-              willChange: motionDisabled ? undefined : "transform",
-            }}
+        {/* Full-bleed media — outside the 1440px content container */}
+        <div className="hp-blocks-mums-full-bleed">
+          <div
+            ref={frameRef}
+            className="homepage-parallax-frame hp-blocks-mums-frame"
           >
             <motion.div
-              className="hp-blocks-mums-scale"
+              className="hp-blocks-mums-y"
               style={{
-                scale: motionDisabled ? 1 : imageScale,
-                transformOrigin: "center center",
+                top: -config.overscan,
+                bottom: -config.overscan,
+                y: motionDisabled ? 0 : imageY,
+                willChange: motionDisabled ? undefined : "transform",
               }}
             >
-              <div className="hp-blocks-hover-scale">
-                <Image
-                  src={project.image.src}
-                  alt={project.image.alt}
-                  fill
-                  priority
-                  sizes="100vw"
-                  className="object-cover"
-                  style={{ objectPosition: config.objectPosition }}
-                />
-              </div>
+              <motion.div
+                className="hp-blocks-mums-scale"
+                style={{
+                  scale: motionDisabled ? 1 : imageScale,
+                  transformOrigin: "center center",
+                }}
+              >
+                <div className="hp-blocks-hover-scale">
+                  <Image
+                    src={project.image.src}
+                    alt={project.image.alt}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                    style={{ objectPosition: config.objectPosition }}
+                  />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
-        <ProjectCaption>{plainCaption(project.caption)}</ProjectCaption>
+        <div className="prototype-page-container">
+          <ProjectCaption>{plainCaption(project.caption)}</ProjectCaption>
+        </div>
       </Link>
     </article>
   );
@@ -269,21 +279,26 @@ export function BlocksWorkSection({
     <section className="hp-work hp-work--blocks" aria-label="Selected work">
       <MumsUnitedProject project={mumsUnited} />
 
-      <div className="hp-work__pair">
-        <ScrollProjectReveal config={bright}>
-          {({ imageStyle }) => (
-            <BlockProjectLink project={brightPath} imageStyle={imageStyle} />
-          )}
-        </ScrollProjectReveal>
+      <div className="prototype-page-container hp-work__constrained">
+        <div className="hp-work__pair">
+          <ScrollProjectReveal
+            config={bright}
+            layoutOffsetClassName="hp-project-block__layout-offset hp-project-block__layout-offset--bright-path"
+          >
+            {({ imageStyle }) => (
+              <BlockProjectLink project={brightPath} imageStyle={imageStyle} />
+            )}
+          </ScrollProjectReveal>
 
-        <ScrollProjectReveal config={merid}>
-          {({ imageStyle }) => (
-            <BlockProjectLink project={meridian} imageStyle={imageStyle} />
-          )}
-        </ScrollProjectReveal>
+          <ScrollProjectReveal config={merid}>
+            {({ imageStyle }) => (
+              <BlockProjectLink project={meridian} imageStyle={imageStyle} />
+            )}
+          </ScrollProjectReveal>
+        </div>
+
+        <BlocksWorkCta />
       </div>
-
-      <BlocksWorkCta />
     </section>
   );
 }

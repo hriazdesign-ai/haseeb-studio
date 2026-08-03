@@ -41,6 +41,8 @@ html[data-theme="light"] {
   --header-py: clamp(1rem, 1.6vw, 1.25rem);
   --site-header-height: 4.5rem;
   --nav-gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  /* Shared header/footer edge padding (blocks chrome); desktop overrides below */
+  --site-chrome-inline: var(--gutter);
   --card-gap: 1rem;
   --work-row-gap: clamp(1.5rem, 3.3vw, 2.625rem);
   --work-col-gap: clamp(1rem, 1.6vw, 1.25rem);
@@ -212,6 +214,23 @@ a {
   max-width: var(--content-max);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+/**
+ * Full-bleed chrome row (header / matching footer).
+ * Uses --site-chrome-inline so both stay aligned — no separate footer padding.
+ */
+.site-chrome-inner {
+  width: 100%;
+  box-sizing: border-box;
+  padding-inline: var(--site-chrome-inline);
+}
+
+@media (min-width: 1024px) {
+  .site-header--blocks,
+  .home-parallax-page--blocks {
+    --site-chrome-inline: 30px;
+  }
 }
 
 .section {
@@ -386,9 +405,27 @@ a {
   min-width: 0;
 }
 
+.site-header__nav-list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 @media (min-width: 1024px) {
   .site-header__desktop-nav {
     display: block;
+  }
+
+  .site-header__nav-list {
+    gap: 28px;
+  }
+
+  .site-header__desktop-nav .site-nav-link {
+    width: 90px;
+    font-size: 20px;
+    text-align: left;
   }
 }
 
@@ -623,9 +660,28 @@ a {
   gap: var(--footer-group-gap);
 }
 
+.site-footer__nav-list {
+  gap: 0.5rem;
+}
+
 @media (min-width: 1024px) {
   .site-footer__brand {
     min-height: 9rem;
+  }
+
+  .site-footer__brand-name {
+    font-size: 20px;
+  }
+
+  .site-footer__nav-list {
+    gap: 28px;
+  }
+
+  .site-footer__nav-link {
+    display: block;
+    width: 90px;
+    font-size: 20px;
+    text-align: left;
   }
 }
 

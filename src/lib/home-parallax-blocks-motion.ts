@@ -3,6 +3,18 @@
  * Diagnostic pass — exaggerated so relationships are visually obvious.
  */
 
+/**
+ * Desktop layout breakpoint for blocks project media / pair grid (px).
+ * Keep in sync with `--hp-blocks-desktop-min` usage in `home-parallax.css`.
+ */
+export const HP_BLOCKS_DESKTOP_MIN_PX = 1024;
+
+/**
+ * Large-desktop editorial alignment (statement + contact) breakpoint (px).
+ * Keep in sync with the `@media (min-width: 1280px)` editorial rules.
+ */
+export const HP_BLOCKS_EDITORIAL_MIN_PX = 1280;
+
 export const blocksMotionMultipliers = {
   desktop: {
     blockTravel: 1,
@@ -38,10 +50,11 @@ export const blocksProjectMotion = {
     imageY: { from: 90, to: -90 },
     /** Fixed vertical overscan on the y layer (each side). */
     overscan: 140,
-    objectPosition: "50% 50%",
-    /** Never scales below 1 — prevents black gaps. */
+    /** Crop raised slightly so the volunteer centres in the frame. */
+    objectPosition: "50% 38%",
+    /** Never scales below 1 — prevents black gaps. Softened ~15% from prior peak. */
     imageScale: {
-      keyframes: [1.02, 1.18, 1.04],
+      keyframes: [1.02, 1.15, 1.03],
       stops: [0, 0.5, 1],
     } satisfies ImageScaleKeyframes,
     caption: {
@@ -87,7 +100,11 @@ export const blocksCtaMotion = {
 export const blocksStatementMotion = {
   opacity: [0.2, 1] as const,
   y: 28,
-  offset: ["start 88%", "end 48%"] as [string, string],
+  /**
+   * Completes while the statement is still well in view so the resting
+   * colour reaches full opacity (never left mid-fade while reading).
+   */
+  offset: ["start 92%", "start 52%"] as [string, string],
 };
 
 export const blocksBiographyMotion = {

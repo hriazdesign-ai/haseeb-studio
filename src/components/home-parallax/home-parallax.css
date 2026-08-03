@@ -46,6 +46,222 @@ body:has(.home-parallax-page) .site-footer {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Width system — Test B (`/home-parallax-blocks`) only                        */
+/* Global `.container` stays at --content-max (1300px) for live routes.        */
+/* -------------------------------------------------------------------------- */
+
+.prototype-page-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--hp-gutter, var(--gutter));
+}
+
+/*
+ * Section backgrounds stay full-bleed; gutters move onto the container.
+ * Navigation is the exception — full-width flex, not the 1440px container.
+ */
+.home-parallax-page--blocks .hp-hero,
+.home-parallax-page--blocks .hp-intro,
+.home-parallax-page--blocks .hp-contact {
+  padding-inline: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SiteHeader — Test B desktop spacing (full-width, not 1440px)              */
+/* -------------------------------------------------------------------------- */
+
+.site-header--blocks .site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Horizontal padding comes from shared `.site-chrome-inner` */
+}
+
+.site-header--blocks .site-header__logo {
+  flex-shrink: 0;
+}
+
+.site-header--blocks .site-header__nav-list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-parallax-page--blocks .hp-footer {
+  /* Vertical only — horizontal edges via `.site-chrome-inner` */
+  padding-inline: 0;
+  padding-block: var(--hp-gutter);
+}
+
+.home-parallax-page--blocks .hp-footer__inner.site-chrome-inner {
+  max-width: none;
+  margin-inline: 0;
+}
+
+/* Mums United media spans the viewport; caption uses the page container. */
+.home-parallax-page--blocks .hp-blocks-mums-full-bleed {
+  width: 100%;
+}
+
+.home-parallax-page--blocks .hp-work--blocks .hp-work__pair,
+.home-parallax-page--blocks .hp-work--blocks .hp-work__cta-wrap {
+  padding-inline: 0;
+}
+
+.home-parallax-page--blocks .hp-project--featured .hp-project__caption {
+  padding-inline: 0;
+}
+
+.home-parallax-page--blocks .hp-work__constrained {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4.5rem, 9vw, 8rem);
+}
+
+.home-parallax-page--blocks .hp-intro__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 8vw, 7.5rem);
+}
+
+/*
+ * --------------------------------------------------------------------------
+ * Blocks editorial sections (statement + contact) — large desktop only
+ *
+ * Tokens (change in one place):
+ *   --hp-blocks-editorial-inset: 164px  → outer + inner column offset
+ *   Breakpoint: 1280px (HP_BLOCKS_EDITORIAL_MIN)
+ * --------------------------------------------------------------------------
+ */
+.home-parallax-page--blocks {
+  --hp-blocks-editorial-inset: 164px;
+  /* Tunable Meridian static vertical offset (large desktop). */
+  --hp-blocks-meridian-offset: 120px;
+}
+
+.home-parallax-page--blocks .hp-blocks-editorial {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-parallax-page--blocks .hp-blocks-editorial.hp-intro__inner {
+  /* gap: clamp(3rem, 8vw, 7.5rem); */
+  gap: 96px;
+}
+
+.home-parallax-page--blocks .hp-contact .hp-blocks-editorial {
+  /* Title already owns its bottom margin */
+  gap: 0;
+}
+
+/*
+ * Editorial sections below large desktop — container owns horizontal spacing;
+ * copy wrappers fill the content box; paragraphs keep a ~40rem measure.
+ * Desktop (≥1280px) rules below are unchanged.
+ */
+@media (max-width: 1279px) {
+    /* Horizontal spacing for both editorial sections */
+    .home-parallax-page--blocks .hp-blocks-editorial {
+      padding-inline: clamp(40px, 8vw, 100px);
+    }
+  
+    /* Centre the biography and contact copy blocks */
+    .home-parallax-page--blocks .hp-intro__copy,
+    .home-parallax-page--blocks .hp-contact__body,
+    .home-parallax-page--blocks .hp-blocks-editorial__body {
+      width: 100%;
+      max-width: 40rem;
+      margin-inline: auto;
+    }
+  
+    /* Reduce the gap between the purple statement and biography */
+    .home-parallax-page--blocks
+      .hp-blocks-editorial.hp-intro__inner {
+      gap: 40px;
+    }
+  
+    /* Reduce the gap between the contact heading and contact copy */
+    .home-parallax-page--blocks .hp-contact__title {
+      margin-bottom: 40px;
+    }
+  }
+
+@media (min-width: 1280px) {
+  /*
+   * Keep `.prototype-page-container` at max-width 1440px.
+   * Outer inset via padding on headings’ content box.
+   * Body sits with equal 164px insets on both sides inside that box.
+   */
+  .home-parallax-page--blocks .hp-blocks-editorial {
+    padding-inline: var(--hp-blocks-editorial-inset);
+  }
+
+  .home-parallax-page--blocks .hp-blocks-editorial__body {
+    margin-inline: var(--hp-blocks-editorial-inset);
+    width: calc(100% - (var(--hp-blocks-editorial-inset) * 2));
+    max-width: none;
+  }
+
+  /*
+   * Bright Path + Meridian — same 1440 / 164 outer rails as editorial sections.
+   * One outer inset on `.hp-work__constrained` only (no nested pair padding).
+   * Internal 12-col grid: Bright Path 1–5, gap col 6, Meridian 7–12.
+   */
+  .home-parallax-page--blocks .hp-work__constrained {
+    padding-inline: var(--hp-blocks-editorial-inset);
+  }
+
+  .home-parallax-page--blocks .hp-work--blocks .hp-work__pair {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 28px;
+    align-items: start;
+    width: 100%;
+    padding: 0;
+  }
+
+  .home-parallax-page--blocks
+    .hp-work--blocks
+    .hp-work__pair
+    > .hp-project-block:nth-child(1) {
+    grid-column: 1 / span 6;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .home-parallax-page--blocks
+    .hp-work--blocks
+    .hp-work__pair
+    > .hp-project-block:nth-child(2) {
+    grid-column: 7 / span 6;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin-top: var(--hp-blocks-meridian-offset);
+    padding-top: 0; /* supersedes 11.25rem pair rule at this breakpoint */
+  }
+
+  .home-parallax-page--blocks
+    .hp-work--blocks
+    .hp-work__pair
+    > .hp-project-block
+    .hp-project {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Bright Path — static layout offset (not on the motion.article). */
+  .home-parallax-page--blocks
+    .hp-project-block__layout-offset--bright-path {
+    margin-top: 32px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /* Prototype header                                                           */
 /* -------------------------------------------------------------------------- */
 
@@ -114,20 +330,6 @@ body:has(.home-parallax-page) .site-footer {
 /* Featured work                                                              */
 /* -------------------------------------------------------------------------- */
 
-.hp-dev-label {
-  position: sticky;
-  top: 0;
-  z-index: 60;
-  padding: 0.5rem var(--hp-gutter);
-  background: #8351fc;
-  color: #ffffff;
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .hp-work {
   display: flex;
   flex-direction: column;
@@ -190,15 +392,16 @@ body:has(.home-parallax-page) .site-footer {
   margin: 0;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: var(--hp-caption-size);
-  line-height: var(--hp-caption-leading);
+  font-size: 20px;
+  line-height: 24px;
   letter-spacing: -0.02em;
 }
 
 /*
  * Same Unicode ↗ as BlocksContactSection labels.
  * Stays in flow (no display:none) so caption width does not jump.
- * Hover is driven by the image frame, not the caption text.
+ * Hover/focus is driven by the complete project link (.hp-project).
+ * Resting position is +2px on Y so the arrow sits on the text baseline.
  */
 .hp-project__caption-arrow {
   display: inline-block;
@@ -213,13 +416,11 @@ body:has(.home-parallax-page) .site-footer {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .hp-work--blocks
-    .hp-project:has(.homepage-parallax-frame:hover)
-    .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:hover .hp-project__caption-arrow,
   .hp-work--blocks .hp-project:focus-visible .hp-project__caption-arrow,
   .hp-work--blocks .hp-project:focus-within .hp-project__caption-arrow {
     opacity: 1;
-    transform: translate(0, 0);
+    transform: translate(0, 2px);
   }
 }
 
@@ -228,12 +429,10 @@ body:has(.home-parallax-page) .site-footer {
     transition: none;
   }
 
-  .hp-work--blocks
-    .hp-project:has(.homepage-parallax-frame:hover)
-    .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:hover .hp-project__caption-arrow,
   .hp-work--blocks .hp-project:focus-visible .hp-project__caption-arrow,
   .hp-work--blocks .hp-project:focus-within .hp-project__caption-arrow {
-    transform: none;
+    transform: translate(0, 2px);
   }
 }
 
@@ -382,6 +581,43 @@ body:has(.home-parallax-page) .site-footer {
   aspect-ratio: 566 / 690;
 }
 
+/*
+ * --------------------------------------------------------------------------
+ * Blocks project media ratios (`/home-parallax-blocks`)
+ *
+ * HP_BLOCKS_DESKTOP_MIN = 1024px
+ * Keep in sync with `HP_BLOCKS_DESKTOP_MIN_PX` in home-parallax-blocks-motion.ts
+ * --------------------------------------------------------------------------
+ */
+
+/* Below desktop: all three project frames share 6:4 (no fixed heights). */
+.home-parallax-page--blocks .hp-blocks-mums-frame,
+.home-parallax-page--blocks .hp-project--secondary .homepage-parallax-frame,
+.home-parallax-page--blocks .hp-project--primary .homepage-parallax-frame {
+  aspect-ratio: 6 / 4;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 1024px) {
+  /* Desktop Mums United — full bleed, capped at 690px */
+  .home-parallax-page--blocks .hp-blocks-mums-frame {
+    aspect-ratio: auto;
+    height: clamp(560px, 58vw, 690px);
+  }
+
+  /* Desktop Bright Path / Meridian — designed asymmetric ratios */
+  .home-parallax-page--blocks .hp-project--secondary .homepage-parallax-frame {
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+
+  .home-parallax-page--blocks .hp-project--primary .homepage-parallax-frame {
+    aspect-ratio: 566 / 690;
+    height: auto;
+  }
+}
+
 .hp-work__cta-wrap {
   display: flex;
   justify-content: center;
@@ -404,6 +640,94 @@ body:has(.home-parallax-page) .site-footer {
   color: var(--hp-fg-light);
 }
 
+/*
+ * Blocks CTA — collapsing arrow wrapper so the default pill is centred.
+ * Scroll motion stays on the parent motion.div.
+ */
+.hp-work--blocks .hp-work__cta {
+  gap: 0;
+  width: fit-content;
+  justify-content: center;
+  white-space: nowrap;
+  /* Equal horizontal padding; height unchanged via existing block padding */
+  padding-inline: 28px;
+}
+
+.hp-work--blocks .hp-work__cta-label {
+  flex-shrink: 0;
+}
+
+.hp-work--blocks .hp-work__cta-arrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  transition:
+    width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin-left 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hp-work--blocks .hp-work__cta-arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hp-work--blocks .hp-work__cta:hover .hp-work__cta-arrow-wrap,
+  .hp-work--blocks .hp-work__cta:focus-visible .hp-work__cta-arrow-wrap {
+    width: 18px;
+    margin-left: 8px;
+  }
+
+  .hp-work--blocks .hp-work__cta:hover .hp-work__cta-arrow,
+  .hp-work--blocks .hp-work__cta:focus-visible .hp-work__cta-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hp-work--blocks .hp-work__cta:focus-within .hp-work__cta-arrow-wrap {
+  width: 18px;
+  margin-left: 8px;
+}
+
+.hp-work--blocks .hp-work__cta:focus-within .hp-work__cta-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-work--blocks .hp-work__cta-arrow-wrap,
+  .hp-work--blocks .hp-work__cta-arrow {
+    transition: none;
+  }
+
+  .hp-work--blocks .hp-work__cta-arrow {
+    transform: none;
+  }
+
+  .hp-work--blocks .hp-work__cta:hover .hp-work__cta-arrow-wrap,
+  .hp-work--blocks .hp-work__cta:focus-visible .hp-work__cta-arrow-wrap,
+  .hp-work--blocks .hp-work__cta:focus-within .hp-work__cta-arrow-wrap {
+    width: 18px;
+    margin-left: 8px;
+  }
+
+  .hp-work--blocks .hp-work__cta:hover .hp-work__cta-arrow,
+  .hp-work--blocks .hp-work__cta:focus-visible .hp-work__cta-arrow,
+  .hp-work--blocks .hp-work__cta:focus-within .hp-work__cta-arrow {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Intro                                                                      */
 /* -------------------------------------------------------------------------- */
@@ -411,7 +735,8 @@ body:has(.home-parallax-page) .site-footer {
 .hp-intro {
   display: flex;
   flex-direction: column;
-  gap: clamp(3rem, 8vw, 7.5rem);
+  /* gap: clamp(3rem, 8vw, 7.5rem); */
+  gap: 96px;
   padding: var(--hp-section-y) var(--hp-gutter);
   background: var(--hp-bg-dark);
   color: var(--hp-fg-light);
@@ -438,6 +763,8 @@ body:has(.home-parallax-page) .site-footer {
 /* Test B only: let the statement use its full grid/column width. */
 .home-parallax-page--blocks .hp-intro__quote {
   max-width: none;
+  /* Resting colour — motion may animate opacity up to 1, never below after reveal. */
+  color: var(--hp-accent);
 }
 
 .hp-intro__copy {
@@ -583,6 +910,12 @@ body:has(.home-parallax-page) .site-footer {
   line-height: 1.45;
 }
 
+@media (min-width: 1024px) {
+  .hp-footer__brand {
+    font-size: 20px;
+  }
+}
+
 .hp-footer__status {
   display: inline-flex;
   align-items: center;
@@ -597,4 +930,36 @@ body:has(.home-parallax-page) .site-footer {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/*
+ * Test B footer — always one row; copyright 14px; pill typography unchanged.
+ */
+.home-parallax-page--blocks .hp-footer__inner {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  min-width: 0;
+}
+
+.home-parallax-page--blocks .hp-footer__brand {
+  flex-shrink: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.home-parallax-page--blocks .hp-footer__status {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .home-parallax-page--blocks .hp-footer__status {
+    padding-inline: 0.75rem; /* 12px — tighten for single-row mobile */
+    padding-block: 0.875rem;
+  }
 }

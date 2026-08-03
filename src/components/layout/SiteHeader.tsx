@@ -35,9 +35,9 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
   const pathname = usePathname();
+  const isBlocksPrototype = pathname === BLOCKS_PROTOTYPE_PATH;
   const navItems: readonly SiteNavItem[] =
-    items ??
-    (pathname === BLOCKS_PROTOTYPE_PATH ? homeParallaxBlocksNav : siteNav);
+    items ?? (isBlocksPrototype ? homeParallaxBlocksNav : siteNav);
 
   const [open, setOpen] = useState(false);
   const menuId = useId();
@@ -165,46 +165,43 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
     <>
       <header
         ref={headerRef}
-        className="site-header"
+        className={
+          isBlocksPrototype ? "site-header site-header--blocks" : "site-header"
+        }
         {...(theme ? { "data-theme": theme } : {})}
       >
         <div ref={barRef} className="site-header__bar">
-          <div className="container">
+          {isBlocksPrototype ? (
             <div
-              className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2"
+              className="site-header__inner site-chrome-inner"
               style={{ paddingBlock: "var(--header-py)" }}
             >
-              <div className="flex items-center justify-between gap-6">
-                <Link href="/" className="type-body-lg tracking-[-0.02em]">
-                  Haseeb Riaz Studio
-                </Link>
+              <Link
+                href="/"
+                className="site-header__logo type-body-lg tracking-[-0.02em]"
+              >
+                Haseeb Riaz Studio
+              </Link>
 
-                <button
-                  ref={buttonRef}
-                  type="button"
-                  className="menu-toggle"
-                  aria-label={open ? "Close menu" : "Open menu"}
-                  aria-expanded={open}
-                  aria-controls={menuId}
-                  onClick={() => setOpen((value) => !value)}
-                >
-                  <span className="menu-toggle__icon" aria-hidden="true">
-                    <span className="menu-toggle__line menu-toggle__line--top" />
-                    <span className="menu-toggle__line menu-toggle__line--bottom" />
-                  </span>
-                </button>
-              </div>
+              <button
+                ref={buttonRef}
+                type="button"
+                className="menu-toggle"
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                aria-controls={menuId}
+                onClick={() => setOpen((value) => !value)}
+              >
+                <span className="menu-toggle__icon" aria-hidden="true">
+                  <span className="menu-toggle__line menu-toggle__line--top" />
+                  <span className="menu-toggle__line menu-toggle__line--bottom" />
+                </span>
+              </button>
 
               <nav aria-label="Primary" className="site-header__desktop-nav">
-                <ul
-                  className="grid"
-                  style={{
-                    gap: "var(--nav-gap)",
-                    gridTemplateColumns: `repeat(${navItems.length}, minmax(0, 1fr))`,
-                  }}
-                >
+                <ul className="site-header__nav-list">
                   {navItems.map((item) => (
-                    <li key={`${item.label}-${item.href}`} className="min-w-0">
+                    <li key={`${item.label}-${item.href}`}>
                       <Link
                         href={item.href}
                         className="site-nav-link type-body-lg tracking-[-0.02em]"
@@ -216,7 +213,50 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
                 </ul>
               </nav>
             </div>
-          </div>
+          ) : (
+            <div className="container">
+              <div
+                className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2"
+                style={{ paddingBlock: "var(--header-py)" }}
+              >
+                <div className="flex items-center justify-between gap-6">
+                  <Link href="/" className="type-body-lg tracking-[-0.02em]">
+                    Haseeb Riaz Studio
+                  </Link>
+
+                  <button
+                    ref={buttonRef}
+                    type="button"
+                    className="menu-toggle"
+                    aria-label={open ? "Close menu" : "Open menu"}
+                    aria-expanded={open}
+                    aria-controls={menuId}
+                    onClick={() => setOpen((value) => !value)}
+                  >
+                    <span className="menu-toggle__icon" aria-hidden="true">
+                      <span className="menu-toggle__line menu-toggle__line--top" />
+                      <span className="menu-toggle__line menu-toggle__line--bottom" />
+                    </span>
+                  </button>
+                </div>
+
+                <nav aria-label="Primary" className="site-header__desktop-nav">
+                  <ul className="site-header__nav-list">
+                    {navItems.map((item) => (
+                      <li key={`${item.label}-${item.href}`}>
+                        <Link
+                          href={item.href}
+                          className="site-nav-link type-body-lg tracking-[-0.02em]"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          )}
         </div>
 
         <div

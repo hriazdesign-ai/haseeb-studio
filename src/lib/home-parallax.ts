@@ -32,7 +32,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     name: "Mums United",
     href: "/work/mums-united",
     caption:
-      "Helping Mums United communicate its impact with greater clarity ↗",
+      "Helping Mums United communicate its impact, services and community support with greater clarity.",
     image: {
       src: "/images/home-parallax/mums-united.png",
       alt: "Mums United volunteer packing boxes for community support",
@@ -49,7 +49,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     name: "Bright Path Learning",
     href: "/work/bright-path-learning",
     caption:
-      "Making Bright Path Learning’s educational support easier to navigate ↗",
+      "Making Bright Path Learning's educational support clearer, easier to navigate and more accessible.",
     image: {
       src: "/images/home-parallax/bright-path.png",
       alt: "Bright Path Learning mobile app on a teal field",
@@ -66,7 +66,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     name: "Meridian & Co.",
     href: "/work/meridian-and-co",
     caption:
-      "Creating a more considered digital experience for Meridian & Co. ↗",
+      "Creating a clearer, more considered digital experience for Meridian & Co. and its clients.",
     image: {
       src: "/images/home-parallax/meridian.png",
       alt: "Meridian & Co. tablet interface held by a person",

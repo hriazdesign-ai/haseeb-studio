@@ -35,6 +35,11 @@ type ScrollProjectRevealRenderProps = {
 type ScrollProjectRevealProps = {
   config: ScrollProjectRevealConfig;
   className?: string;
+  /**
+   * Optional static layout wrapper inside the motion article.
+   * Use for margin offsets that must not share a transform with parallax `y`.
+   */
+  layoutOffsetClassName?: string;
   children: (props: ScrollProjectRevealRenderProps) => ReactNode;
 };
 
@@ -58,6 +63,7 @@ function progressInRange(
 export function ScrollProjectReveal({
   config,
   className,
+  layoutOffsetClassName,
   children,
 }: ScrollProjectRevealProps) {
   const projectRef = useRef<HTMLElement>(null);
@@ -107,6 +113,12 @@ export function ScrollProjectReveal({
     return b + (c - b) * t;
   });
 
+  const content = children({
+    imageStyle: {
+      scale: motionDisabled ? 1 : imageScale,
+    },
+  });
+
   return (
     <motion.article
       ref={projectRef}
@@ -116,11 +128,11 @@ export function ScrollProjectReveal({
         willChange: motionDisabled ? undefined : "transform",
       }}
     >
-      {children({
-        imageStyle: {
-          scale: motionDisabled ? 1 : imageScale,
-        },
-      })}
+      {layoutOffsetClassName ? (
+        <div className={layoutOffsetClassName}>{content}</div>
+      ) : (
+        content
+      )}
     </motion.article>
   );
 }

@@ -114,51 +114,53 @@ export function BlocksContactSection() {
       className="hp-contact"
       aria-labelledby="hp-contact-heading"
     >
-      <motion.h2
-        id="hp-contact-heading"
-        className="hp-contact__title"
-        style={{
-          opacity: motionDisabled ? 1 : headingOpacity,
-          y: motionDisabled ? 0 : headingY,
-        }}
-      >
-        Let’s build something thoughtful.
-      </motion.h2>
+      <div className="prototype-page-container hp-blocks-editorial">
+        <motion.h2
+          id="hp-contact-heading"
+          className="hp-contact__title hp-blocks-editorial__heading"
+          style={{
+            opacity: motionDisabled ? 1 : headingOpacity,
+            y: motionDisabled ? 0 : headingY,
+          }}
+        >
+          Let’s build something thoughtful.
+        </motion.h2>
 
-      <motion.div
-        className="hp-contact__body"
-        style={{
-          opacity: motionDisabled ? 1 : bodyOpacity,
-          y: motionDisabled ? 0 : bodyY,
-        }}
-      >
-        <p className="hp-contact__copy">
-          Whether you’re building a product, evolving a design system or creating
-          a new digital experience, I’d love to hear about it.
-        </p>
-        <p className="hp-contact__label">Start a conversation:</p>
+        <motion.div
+          className="hp-contact__body hp-blocks-editorial__body"
+          style={{
+            opacity: motionDisabled ? 1 : bodyOpacity,
+            y: motionDisabled ? 0 : bodyY,
+          }}
+        >
+          <p className="hp-contact__copy">
+            Whether you’re building a product, evolving a design system or
+            creating a new digital experience, I’d love to hear about it.
+          </p>
+          <p className="hp-contact__label">Start a conversation:</p>
 
-        <ul className="hp-contact__links">
-          {items.map((item) => (
-            <li key={item.label}>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  {...(item.href.startsWith("http")
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <span aria-disabled="true" title="Link not available yet">
-                  {item.label}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </motion.div>
+          <ul className="hp-contact__links">
+            {items.map((item) => (
+              <li key={item.label}>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span aria-disabled="true" title="Link not available yet">
+                    {item.label}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </div>
     </section>
   );
 }

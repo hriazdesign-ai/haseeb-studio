@@ -44,13 +44,15 @@ export function BlocksIntroSection() {
   const statementOpacity = useTransform(statementProgress, (progress) => {
     if (motionDisabled) return 1;
     const [from, to] = blocksStatementMotion.opacity;
-    return from + (to - from) * progress;
+    const t = Math.min(1, Math.max(0, progress));
+    return from + (to - from) * t;
   });
 
   const statementY = useTransform(statementProgress, (progress) => {
     if (motionDisabled) return 0;
+    const t = Math.min(1, Math.max(0, progress));
     const from = blocksStatementMotion.y * captionY;
-    return from + (0 - from) * progress;
+    return from + (0 - from) * t;
   });
 
   const { scrollYProgress: bioProgress } = useScroll({
@@ -107,37 +109,43 @@ export function BlocksIntroSection() {
 
   return (
     <section className="hp-intro" aria-labelledby="hp-intro-heading">
-      <motion.h2
-        ref={statementRef}
-        id="hp-intro-heading"
-        className="hp-intro__quote"
-        style={{
-          opacity: motionDisabled ? 1 : statementOpacity,
-          y: motionDisabled ? 0 : statementY,
-        }}
-      >
-        I like turning complexity into something that feels simple.
-      </motion.h2>
+      <div className="prototype-page-container hp-intro__inner hp-blocks-editorial">
+        <motion.h2
+          ref={statementRef}
+          id="hp-intro-heading"
+          className="hp-intro__quote hp-blocks-editorial__heading"
+          style={{
+            opacity: motionDisabled ? 1 : statementOpacity,
+            y: motionDisabled ? 0 : statementY,
+          }}
+        >
+          Turning complexity into something that feels simple.
+        </motion.h2>
 
-      <div ref={bioRef} className="hp-intro__copy">
-        <motion.p
-          style={{
-            opacity: motionDisabled ? 1 : p1Opacity,
-            y: motionDisabled ? 0 : p1Y,
-          }}
+        <div
+          ref={bioRef}
+          className="hp-intro__copy hp-blocks-editorial__body"
         >
-          I’m a Senior Product Designer with more than twenty years of
-          experience designing products, design systems and editorial platforms.
-        </motion.p>
-        <motion.p
-          style={{
-            opacity: motionDisabled ? 1 : p2Opacity,
-            y: motionDisabled ? 0 : p2Y,
-          }}
-        >
-          After sixteen years at Condé Nast, I now work independently, helping
-          organisations simplify complex products through thoughtful design.
-        </motion.p>
+          <motion.p
+            style={{
+              opacity: motionDisabled ? 1 : p1Opacity,
+              y: motionDisabled ? 0 : p1Y,
+            }}
+          >
+            I’m a Senior Product Designer with more than twenty years of
+            experience designing products, design systems and editorial
+            platforms.
+          </motion.p>
+          <motion.p
+            style={{
+              opacity: motionDisabled ? 1 : p2Opacity,
+              y: motionDisabled ? 0 : p2Y,
+            }}
+          >
+            After sixteen years at Condé Nast, I now work independently, helping
+            organisations simplify complex products through thoughtful design.
+          </motion.p>
+        </div>
       </div>
     </section>
   );

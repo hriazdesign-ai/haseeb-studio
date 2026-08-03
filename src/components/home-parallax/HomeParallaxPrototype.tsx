@@ -40,12 +40,6 @@ export function HomeParallaxPrototype({
         .filter(Boolean)
         .join(" ")}
     >
-      {isBlockMode && process.env.NODE_ENV === "development" ? (
-        <div className="hp-dev-label" aria-hidden="true">
-          PARALLAX TEST B — PROJECT BLOCKS
-        </div>
-      ) : null}
-
       {/*
        * Test A keeps the static PrototypeHeader.
        * Test B uses the shared SiteHeader from the root layout
@@ -55,9 +49,17 @@ export function HomeParallaxPrototype({
 
       <main>
         <section className="hp-hero" aria-labelledby="hp-hero-heading">
-          <h1 id="hp-hero-heading" className="hp-hero__title">
-            Bringing clarity to complex digital products.
-          </h1>
+          {isBlockMode ? (
+            <div className="prototype-page-container">
+              <h1 id="hp-hero-heading" className="hp-hero__title">
+                Bringing clarity to complex digital products.
+              </h1>
+            </div>
+          ) : (
+            <h1 id="hp-hero-heading" className="hp-hero__title">
+              Bringing clarity to complex digital products.
+            </h1>
+          )}
         </section>
 
         {isBlockMode ? (
@@ -89,7 +91,7 @@ export function HomeParallaxPrototype({
 
             <section className="hp-intro" aria-labelledby="hp-intro-heading">
               <h2 id="hp-intro-heading" className="hp-intro__quote">
-                I like turning complexity into something that feels simple.
+              Transforming complexity into intuitive experiences.
               </h2>
               <div className="hp-intro__copy">
                 <p>
@@ -110,7 +112,7 @@ export function HomeParallaxPrototype({
         )}
       </main>
 
-      <PrototypeFooter />
+      <PrototypeFooter alignWithChrome={isBlockMode} />
     </div>
   );
 }
