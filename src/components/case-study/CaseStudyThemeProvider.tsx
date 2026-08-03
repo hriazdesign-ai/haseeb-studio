@@ -2,13 +2,7 @@
 
 import { useLayoutEffect, type ReactNode } from "react";
 import type { CaseStudyTheme } from "@/lib/case-studies";
-
-const THEME_VARS = [
-  "--site-header-bg",
-  "--site-header-fg",
-  "--site-nav-underline",
-  "--case-study-hero-bg",
-] as const;
+import { pageThemeRootCss } from "@/lib/page-theme";
 
 type CaseStudyThemeProviderProps = {
   theme: CaseStudyTheme;
@@ -16,8 +10,9 @@ type CaseStudyThemeProviderProps = {
 };
 
 /**
- * Applies per-case-study colours to the shared SiteHeader via CSS variables.
- * Clears them on unmount so Home / Work keep the global theme.
+ * Case-study pages use the shared Dark theme for chrome + body.
+ * Project `primary` is applied only to the hero background.
+ * Nav colours come from the dark theme tokens — not per-project overrides.
  */
 export function CaseStudyThemeProvider({
   theme,
@@ -25,24 +20,27 @@ export function CaseStudyThemeProvider({
 }: CaseStudyThemeProviderProps) {
   useLayoutEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty("--site-header-bg", theme.navBackground);
-    root.style.setProperty("--site-header-fg", theme.navForeground);
-    root.style.setProperty("--site-nav-underline", theme.navUnderline);
+    const previousTheme = root.getAttribute("data-theme");
+    root.setAttribute("data-theme", "dark");
+    root.style.colorScheme = "dark";
     root.style.setProperty("--case-study-hero-bg", theme.heroBackground);
 
     return () => {
-      for (const name of THEME_VARS) {
-        root.style.removeProperty(name);
+      root.style.removeProperty("--case-study-hero-bg");
+      root.style.colorScheme = "";
+      if (previousTheme) {
+        root.setAttribute("data-theme", previousTheme);
+      } else {
+        root.removeAttribute("data-theme");
       }
     };
   }, [theme]);
 
   return (
     <>
-      {/* SSR-friendly first paint for themed header / hero */}
       <style
         dangerouslySetInnerHTML={{
-          __html: `:root{--site-header-bg:${theme.navBackground};--site-header-fg:${theme.navForeground};--site-nav-underline:${theme.navUnderline};--case-study-hero-bg:${theme.heroBackground};}`,
+          __html: `:root{${pageThemeRootCss("dark")};--case-study-hero-bg:${theme.heroBackground};}html{color-scheme:dark;}`,
         }}
       />
       {children}

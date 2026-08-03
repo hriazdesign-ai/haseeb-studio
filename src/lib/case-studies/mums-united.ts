@@ -1,3 +1,4 @@
+import { getCaseStudyTheme } from "@/lib/project-themes";
 import type { CaseStudy } from "./types";
 
 const base = "/images/work/mums-united/case-study";
@@ -9,12 +10,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   title:
     "Helping a community organisation communicate its impact and support families more clearly.",
   disciplines: "Community Impact · Website Design · UI · Development",
-  theme: {
-    heroBackground: "#4f4e4d",
-    navBackground: "#4f4e4d",
-    navForeground: "#ffffff",
-    navUnderline: "#ffffff",
-  },
+  theme: getCaseStudyTheme("mums-united"),
   meta: [
     { label: "Role:", values: ["Product Designer & Developer"] },
     {
@@ -25,7 +21,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2026"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/mu-hero.jpg`,
     alt: "Mums United website homepage in a desktop browser mockup",
     width: 2560,
     height: 1440,

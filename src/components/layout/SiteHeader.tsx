@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   useCallback,
   useEffect,
@@ -9,11 +10,35 @@ import {
   useState,
 } from "react";
 import { useScrollDirectionHeader } from "@/hooks/useScrollDirectionHeader";
-import { siteNav } from "@/lib/navigation";
+import {
+  homeParallaxBlocksNav,
+  siteNav,
+  type SiteNavItem,
+} from "@/lib/navigation";
+import type { PageThemeId } from "@/lib/page-theme";
 
 const DESKTOP_NAV_MQ = "(min-width: 1024px)";
+const BLOCKS_PROTOTYPE_PATH = "/home-parallax-blocks";
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  /**
+   * Optional nav items. Defaults to `siteNav`, except on
+   * `/home-parallax-blocks` which uses `homeParallaxBlocksNav`.
+   */
+  items?: readonly SiteNavItem[];
+  /**
+   * Optional colour theme for the header only.
+   * When omitted, the header inherits the page `data-theme` tokens.
+   */
+  theme?: PageThemeId;
+};
+
+export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
+  const pathname = usePathname();
+  const navItems: readonly SiteNavItem[] =
+    items ??
+    (pathname === BLOCKS_PROTOTYPE_PATH ? homeParallaxBlocksNav : siteNav);
+
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const headerRef = useRef<HTMLElement>(null);
@@ -138,7 +163,11 @@ export function SiteHeader() {
 
   return (
     <>
-      <header ref={headerRef} className="site-header">
+      <header
+        ref={headerRef}
+        className="site-header"
+        {...(theme ? { "data-theme": theme } : {})}
+      >
         <div ref={barRef} className="site-header__bar">
           <div className="container">
             <div
@@ -168,11 +197,14 @@ export function SiteHeader() {
 
               <nav aria-label="Primary" className="site-header__desktop-nav">
                 <ul
-                  className="grid grid-cols-4"
-                  style={{ gap: "var(--nav-gap)" }}
+                  className="grid"
+                  style={{
+                    gap: "var(--nav-gap)",
+                    gridTemplateColumns: `repeat(${navItems.length}, minmax(0, 1fr))`,
+                  }}
                 >
-                  {siteNav.map((item) => (
-                    <li key={item.href} className="min-w-0">
+                  {navItems.map((item) => (
+                    <li key={`${item.label}-${item.href}`} className="min-w-0">
                       <Link
                         href={item.href}
                         className="site-nav-link type-body-lg tracking-[-0.02em]"
@@ -199,8 +231,8 @@ export function SiteHeader() {
             <div className="mobile-nav__panel">
               <nav aria-label="Mobile" className="mobile-nav__inner container">
                 <ul className="mobile-nav__list">
-                  {siteNav.map((item) => (
-                    <li key={item.href}>
+                  {navItems.map((item) => (
+                    <li key={`${item.label}-${item.href}`}>
                       <Link
                         href={item.href}
                         className="type-body-lg tracking-[-0.02em]"

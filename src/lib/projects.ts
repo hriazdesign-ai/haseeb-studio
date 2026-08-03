@@ -42,6 +42,7 @@ export const homeProjects: Project[] = [
       height: 2344,
     },
     size: "secondary",
+    href: "/work/bright-path-learning",
   },
   {
     id: "meridian-and-co",
@@ -55,6 +56,7 @@ export const homeProjects: Project[] = [
       height: 2667,
     },
     size: "primary",
+    href: "/work/meridian-and-co",
   },
 ];
 
@@ -77,6 +79,7 @@ export const experienceProjects: Project[] = [
       height: 482,
     },
     size: "experience",
+    href: "/work/verso-design-system",
   },
   {
     id: "onenav",
@@ -89,6 +92,7 @@ export const experienceProjects: Project[] = [
       height: 482,
     },
     size: "experience",
+    href: "/work/onenav",
   },
   {
     id: "editorial-experience",
@@ -101,6 +105,7 @@ export const experienceProjects: Project[] = [
       height: 482,
     },
     size: "experience",
+    href: "/work/editorial-experience",
   },
   {
     id: "digital-editions",
@@ -114,6 +119,7 @@ export const experienceProjects: Project[] = [
       height: 356,
     },
     size: "experience",
+    href: "/work/digital-editions",
   },
   {
     id: "editorial-publications",
@@ -126,6 +132,7 @@ export const experienceProjects: Project[] = [
       height: 356,
     },
     size: "experience",
+    href: "/work/editorial-publications",
   },
   {
     id: "brand-identity",
@@ -139,6 +146,7 @@ export const experienceProjects: Project[] = [
       height: 356,
     },
     size: "experience",
+    href: "/work/brand-identity",
   },
   {
     id: "delivery-drop",
@@ -151,5 +159,6 @@ export const experienceProjects: Project[] = [
       height: 356,
     },
     size: "experience",
+    href: "/work/delivery-drop",
   },
 ];

@@ -21,6 +21,32 @@ export type CaseStudyNarrative = {
   paragraphs: string[];
 };
 
+/**
+ * Ordered body blocks for publication-heavy studies whose sequence
+ * interleaves galleries, features and narratives beyond the standard flow.
+ * When `bodyBlocks` is set on a CaseStudy, it replaces challenge→result.
+ */
+export type CaseStudyBodyBlock =
+  | {
+      type: "gallery";
+      images: [CaseStudyImage, CaseStudyImage];
+      label?: string;
+    }
+  | {
+      type: "feature";
+      image: CaseStudyImage;
+      label?: string;
+      /**
+       * Scroll parallax for large atmospheric features. Defaults to true.
+       * Set false for detailed UI where cropping would hurt readability.
+       */
+      parallax?: boolean;
+    }
+  | {
+      type: "narrative";
+      narrative: CaseStudyNarrative;
+    };
+
 /** Per-project colours for hero + shared SiteHeader theming. */
 export type CaseStudyTheme = {
   heroBackground: string;
@@ -37,19 +63,68 @@ export type CaseStudy = {
   theme: CaseStudyTheme;
   meta: CaseStudyMetaGroup[];
   hero: CaseStudyImage;
+  /** Optional section label above the intro (e.g. Overview). */
+  introLabel?: string;
   intro: string[];
-  pullQuote: {
-    image: CaseStudyImage;
+  /**
+   * Optional pull quote. Omit entirely when the study has none.
+   * Without `image`, quote renders as body text beside The Challenge (Verso).
+   */
+  pullQuote?: {
+    image?: CaseStudyImage;
     text: string;
+    /** Serif muted text-aside quote (Verso). Image overlay quotes stay default. */
+    appearance?: "aside";
   };
-  challenge: CaseStudyNarrative;
-  challengeGallery: [CaseStudyImage, CaseStudyImage];
-  feature: CaseStudyImage;
-  solution: CaseStudyNarrative;
-  solutionGallery: [CaseStudyImage, CaseStudyImage];
-  result: CaseStudyNarrative;
-  outcome: {
+  /**
+   * When set, replaces the standard challenge→…→result body after intro.
+   * Use for interleaved gallery / narrative sequences (Editorial & Publications).
+   */
+  bodyBlocks?: CaseStudyBodyBlock[];
+  /** Required for the standard flow; omit when using `bodyBlocks`. */
+  challenge?: CaseStudyNarrative;
+  /** Optional paired gallery near the challenge. Omit when unused (Digital Editions). */
+  challengeGallery?: [CaseStudyImage, CaseStudyImage];
+  /**
+   * Where the challenge gallery sits relative to the challenge narrative.
+   * Defaults to `after` (Mums United). Bright Path / Meridian / Verso use `before`.
+   */
+  challengeGalleryPlacement?: "before" | "after";
+  /**
+   * Optional paired gallery after the challenge block
+   * (Meridian / Verso / OneNav / Digital Editions).
+   */
+  midGallery?: [CaseStudyImage, CaseStudyImage];
+  /** Optional full-width feature mockup. */
+  feature?: CaseStudyImage;
+  /**
+   * Placement for `feature` relative to challenge / midGallery.
+   * Defaults to `afterMidGallery`.
+   * Prefer this over the legacy `featureBeforeMidGallery` boolean.
+   */
+  featurePlacement?: "beforeChallenge" | "beforeMidGallery" | "afterMidGallery";
+  /**
+   * @deprecated Use `featurePlacement: "beforeMidGallery"` instead.
+   */
+  featureBeforeMidGallery?: boolean;
+  /** Optional solution narrative. Omit when unused (Digital Editions). */
+  solution?: CaseStudyNarrative;
+  /**
+   * Optional second narrative beside The Solution (OneNav Platform Evolution).
+   * When set, both columns render; `solution.align` is ignored for placement.
+   */
+  solutionCompanion?: CaseStudyNarrative;
+  /** Optional paired gallery after The Solution. */
+  solutionGallery?: [CaseStudyImage, CaseStudyImage];
+  /** Optional large feature before the result (Verso / OneNav / Digital covers). */
+  closingFeature?: CaseStudyImage;
+  /** Required for the standard flow; omit when using `bodyBlocks`. */
+  result?: CaseStudyNarrative;
+  /** Optional outcome list beside the result. Omit when unused (Digital Editions). */
+  outcome?: {
     label: string;
     items: string[];
   };
+  /** Optional large feature after the result (Digital Editions interactive edition). */
+  postResultFeature?: CaseStudyImage;
 };

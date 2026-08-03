@@ -1,0 +1,600 @@
+/* Prototype-only styles for `/home-parallax`. Do not import from the live homepage. */
+
+.home-parallax-page {
+  --hp-bg-dark: #0f0f0f;
+  --hp-bg-light: #ffffff;
+  --hp-fg-dark: #0f0f0f;
+  --hp-fg-light: #ffffff;
+  --hp-accent: #c8b1ff;
+  --hp-accent-strong: #8351fc;
+  --hp-accent-soft: rgba(169, 134, 255, 0.12);
+  --hp-gutter: clamp(1.25rem, 5vw, 4rem);
+  --hp-section-y: clamp(4rem, 9vw, 7.5rem);
+  --hp-hero-size: clamp(2.75rem, 6.5vw, 5rem);
+  --hp-hero-leading: 1.125;
+  --hp-quote-size: clamp(2rem, 4.5vw, 3.75rem);
+  --hp-quote-leading: 1.15;
+  --hp-contact-size: clamp(2.75rem, 7vw, 5.625rem);
+  --hp-contact-leading: 1.1;
+  --hp-body-size: clamp(1.25rem, 2.2vw, 1.875rem);
+  --hp-body-leading: 1.333;
+  --hp-caption-size: clamp(1.25rem, 2vw, 1.75rem);
+  --hp-caption-leading: 1.15;
+}
+
+/*
+ * Prototype chrome:
+ * - Test A (`/home-parallax`): hide shared SiteHeader + SiteFooter.
+ * - Test B (`/home-parallax-blocks`): keep SiteHeader (shared nav behaviour);
+ *   still hide SiteFooter (prototype footer remains).
+ */
+body:has(.home-parallax-page:not(.home-parallax-page--blocks)) .site-header,
+body:has(.home-parallax-page:not(.home-parallax-page--blocks))
+  .site-header-spacer,
+body:has(.home-parallax-page) .site-footer {
+  display: none !important;
+}
+
+.home-parallax-page {
+  background: var(--hp-bg-dark);
+  color: var(--hp-fg-light);
+}
+
+.home-parallax-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Prototype header                                                           */
+/* -------------------------------------------------------------------------- */
+
+.hp-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--hp-bg-light);
+  color: var(--hp-fg-dark);
+}
+
+.hp-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 5.5rem;
+  padding-inline: var(--hp-gutter);
+  padding-block: 1.25rem;
+}
+
+.hp-header__brand {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.375;
+  letter-spacing: -0.02em;
+}
+
+.hp-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(1.5rem, 4vw, 3.125rem);
+}
+
+.hp-header__nav a {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.375;
+  letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Hero                                                                       */
+/* -------------------------------------------------------------------------- */
+
+.hp-hero {
+  background: var(--hp-bg-light);
+  color: var(--hp-fg-dark);
+  padding: var(--hp-section-y) var(--hp-gutter);
+}
+
+.hp-hero__title {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--hp-hero-size);
+  line-height: var(--hp-hero-leading);
+  letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Featured work                                                              */
+/* -------------------------------------------------------------------------- */
+
+.hp-dev-label {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  padding: 0.5rem var(--hp-gutter);
+  background: #8351fc;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hp-work {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 3.75rem);
+  padding-block: clamp(2.5rem, 5vw, 3.75rem) clamp(3rem, 6vw, 5rem);
+  background: var(--hp-bg-dark);
+  color: var(--hp-fg-light);
+}
+
+/*
+ * Extra static vertical room for whole-block translateY so cards do not
+ * collide with each other, the CTA, or the intro while scrolling.
+ */
+.hp-work--blocks {
+  gap: clamp(4.5rem, 9vw, 8rem);
+  /* Hero meets Mums United with no black strip; keep bottom spacing. */
+  padding-top: 0;
+  padding-bottom: clamp(5.5rem, 11vw, 9rem);
+}
+
+.hp-work--blocks .hp-work__pair {
+  gap: clamp(4.5rem, 9vw, 8rem) 1.25rem;
+}
+
+.hp-work--blocks .hp-work__cta-wrap {
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+.hp-project-block {
+  min-width: 0;
+}
+
+.hp-work__pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 3.75rem) 1.25rem;
+  padding-inline: var(--hp-gutter);
+}
+
+@media (min-width: 1024px) {
+  .hp-work__pair {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .hp-work__pair .hp-project--primary {
+    padding-top: 11.25rem;
+  }
+}
+
+.hp-project {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  color: inherit;
+}
+
+.hp-project__caption {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--hp-caption-size);
+  line-height: var(--hp-caption-leading);
+  letter-spacing: -0.02em;
+}
+
+/*
+ * Same Unicode ↗ as BlocksContactSection labels.
+ * Stays in flow (no display:none) so caption width does not jump.
+ * Hover is driven by the image frame, not the caption text.
+ */
+.hp-project__caption-arrow {
+  display: inline-block;
+  min-width: 1em;
+  margin-left: 0.25em;
+  color: inherit;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hp-work--blocks
+    .hp-project:has(.homepage-parallax-frame:hover)
+    .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:focus-visible .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:focus-within .hp-project__caption-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-project__caption-arrow {
+    transition: none;
+  }
+
+  .hp-work--blocks
+    .hp-project:has(.homepage-parallax-frame:hover)
+    .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:focus-visible .hp-project__caption-arrow,
+  .hp-work--blocks .hp-project:focus-within .hp-project__caption-arrow {
+    transform: none;
+  }
+}
+
+.hp-project--featured .hp-project__caption {
+  padding-inline: var(--hp-gutter);
+}
+
+@media (min-width: 1024px) {
+  .hp-project--featured .hp-project__caption {
+    width: 50%;
+    margin-left: auto;
+  }
+}
+
+.homepage-parallax-frame {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #1a1a1a;
+  /* Frame must never translate or scale. */
+  transform: none;
+}
+
+/*
+ * Y layer for `/home-parallax` (Test A): left/right pin; top/bottom overscan
+ * is set inline from travel. Framer Motion owns `y` only.
+ */
+.homepage-parallax-frame__motion {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Do not set inset/top/bottom/transform in CSS — conflicts with motion y. */
+}
+
+/*
+ * Scale layer for shared HomepageParallaxImage (Test A optional).
+ * Fills the Y layer; Framer Motion owns `scale` only.
+ */
+.homepage-parallax-frame__scale {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * `/home-parallax-blocks` — Mums United geometry.
+ * Visible frame keeps design aspect-ratio; y layer is substantially taller.
+ */
+.hp-blocks-mums-frame {
+  padding: 0;
+  /* No transform, spacer, or pseudo — clip only. */
+}
+
+.hp-blocks-mums-y {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* top/bottom overscan set inline from config (140px each → 280px total). */
+  /* Do not set inset/transform here — Framer owns y. */
+}
+
+.hp-blocks-mums-scale {
+  position: absolute;
+  inset: 0;
+  transform-origin: center center;
+}
+
+/*
+ * Bright Path / Meridian — fixed frame + oversized scale layer.
+ * inset -10% keeps under-scale from revealing the frame background.
+ */
+.hp-blocks-media-frame {
+  padding: 0;
+}
+
+.hp-blocks-media-scale {
+  position: absolute;
+  inset: -10%;
+  transform-origin: center center;
+}
+
+/*
+ * Independent image-hover zoom. Nested inside the scroll-scale layer so it
+ * multiplies with scroll scale without sharing a transform element.
+ * Triggered by the media frame only — not caption hover.
+ */
+.hp-blocks-hover-scale {
+  position: absolute;
+  inset: 0;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hp-work--blocks .homepage-parallax-frame:hover .hp-blocks-hover-scale {
+    transform: scale(1.025);
+  }
+}
+
+.hp-work--blocks .hp-project:focus-visible .hp-blocks-hover-scale,
+.hp-work--blocks .hp-project:focus-within .hp-blocks-hover-scale {
+  transform: scale(1.025);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-blocks-hover-scale {
+    transition: none;
+    transform: none;
+  }
+
+  .hp-work--blocks .homepage-parallax-frame:hover .hp-blocks-hover-scale,
+  .hp-work--blocks .hp-project:focus-visible .hp-blocks-hover-scale,
+  .hp-work--blocks .hp-project:focus-within .hp-blocks-hover-scale {
+    transform: none;
+  }
+}
+
+/* Frames never animate; disable hover/CSS transform conflicts on media only. */
+.hp-work--blocks .homepage-parallax-frame,
+.hp-work--blocks .hp-blocks-mums-frame,
+.hp-work--blocks .hp-blocks-media-frame,
+.hp-work--blocks .homepage-parallax-frame:hover,
+.hp-work--blocks .hp-blocks-mums-frame:hover,
+.hp-work--blocks .hp-blocks-media-frame:hover {
+  transform: none !important;
+  transition: none;
+}
+
+.hp-work--blocks .hp-project:hover .homepage-parallax-frame,
+.hp-work--blocks .hp-project:hover .hp-blocks-mums-frame,
+.hp-work--blocks .hp-project:hover .hp-blocks-media-frame {
+  transform: none !important;
+}
+
+.hp-project--featured .homepage-parallax-frame {
+  aspect-ratio: 1280 / 690;
+}
+
+.hp-project--secondary .homepage-parallax-frame {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+}
+
+.hp-project--primary .homepage-parallax-frame {
+  aspect-ratio: 566 / 690;
+}
+
+.hp-work__cta-wrap {
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--hp-gutter);
+}
+
+.hp-work__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.875rem 1.6875rem;
+  border-radius: 50px;
+  background: var(--hp-accent-soft);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--hp-fg-light);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Intro                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.hp-intro {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 8vw, 7.5rem);
+  padding: var(--hp-section-y) var(--hp-gutter);
+  background: var(--hp-bg-dark);
+  color: var(--hp-fg-light);
+}
+
+/*
+ * Test B only: work section already owns the boundary spacing via
+ * padding-bottom — drop the intro’s top padding so the gap is not doubled.
+ */
+.home-parallax-page--blocks .hp-intro {
+  padding-top: 0;
+}
+
+.hp-intro__quote {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--hp-quote-size);
+  line-height: var(--hp-quote-leading);
+  color: var(--hp-accent);
+}
+
+/* Test B only: let the statement use its full grid/column width. */
+.home-parallax-page--blocks .hp-intro__quote {
+  max-width: none;
+}
+
+.hp-intro__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.625rem;
+  max-width: 40rem;
+}
+
+@media (min-width: 1024px) {
+  .hp-intro__copy {
+    margin-inline-start: clamp(4rem, 12vw, 10.25rem);
+  }
+}
+
+.hp-intro__copy p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--hp-body-size);
+  line-height: var(--hp-body-leading);
+  letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Contact                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.hp-contact {
+  background: var(--hp-bg-light);
+  color: var(--hp-fg-dark);
+  padding: var(--hp-section-y) var(--hp-gutter);
+  scroll-margin-top: 6rem;
+}
+
+.hp-contact__title {
+  margin: 0 0 clamp(3rem, 8vw, 6rem);
+  max-width: 12ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--hp-contact-size);
+  line-height: var(--hp-contact-leading);
+  letter-spacing: -0.04em;
+}
+
+/* Test B only: let the contact statement use its full grid/column width. */
+.home-parallax-page--blocks .hp-contact__title {
+  max-width: none;
+}
+
+.hp-contact__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 36rem;
+}
+
+@media (min-width: 1024px) {
+  .hp-contact__body {
+    margin-inline-start: clamp(4rem, 14vw, 12rem);
+  }
+}
+
+.hp-contact__copy {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--hp-body-size);
+  line-height: var(--hp-body-leading);
+  letter-spacing: -0.02em;
+}
+
+.hp-contact__label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--hp-body-size);
+  line-height: var(--hp-body-leading);
+  letter-spacing: -0.02em;
+}
+
+.hp-contact__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hp-contact__links a,
+.hp-contact__links span {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--hp-body-size);
+  line-height: var(--hp-body-leading);
+  letter-spacing: -0.02em;
+  color: var(--hp-accent-strong);
+}
+
+.hp-contact__links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.hp-contact__links span[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Footer                                                                     */
+/* -------------------------------------------------------------------------- */
+
+.hp-footer {
+  background: var(--hp-bg-light);
+  color: var(--hp-fg-dark);
+  border-top: 0.25px solid var(--hp-accent-strong);
+  padding: var(--hp-gutter);
+}
+
+.hp-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hp-footer__inner {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.hp-footer__brand {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1.375rem;
+  line-height: 1.45;
+}
+
+.hp-footer__status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 1.0625rem;
+  border-radius: 130px;
+  background: var(--hp-accent-strong);
+  color: var(--hp-fg-light);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

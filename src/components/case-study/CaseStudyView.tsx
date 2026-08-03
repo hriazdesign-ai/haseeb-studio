@@ -1,6 +1,11 @@
-import Image from "next/image";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
-import type { CaseStudy, CaseStudyNarrative } from "@/lib/case-studies";
+import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
+import type {
+  CaseStudy,
+  CaseStudyBodyBlock,
+  CaseStudyImage,
+  CaseStudyNarrative,
+} from "@/lib/case-studies";
 
 type CaseStudyViewProps = {
   study: CaseStudy;
@@ -8,30 +13,328 @@ type CaseStudyViewProps = {
 
 function NarrativeBlock({ narrative }: { narrative: CaseStudyNarrative }) {
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <div
-        className={[
-          "flex max-w-[35.25rem] flex-col",
-          narrative.align === "right" ? "lg:col-start-2" : "lg:col-start-1",
-        ].join(" ")}
-        style={{ gap: "var(--hero-copy-gap)" }}
-      >
+    <div
+      className="flex max-w-[35.25rem] flex-col"
+      style={{ gap: "var(--hero-copy-gap)" }}
+    >
+      {narrative.label ? (
         <h2 className="type-cs-section">{narrative.label}</h2>
-        <div className="flex flex-col gap-8">
-          {narrative.paragraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 32)} className="type-cs-body">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+      ) : null}
+      <div className="flex flex-col gap-8">
+        {narrative.paragraphs.map((paragraph) => (
+          <p key={paragraph.slice(0, 32)} className="type-cs-body">
+            {paragraph}
+          </p>
+        ))}
       </div>
     </div>
   );
 }
 
+function PairedGallery({
+  images,
+  label,
+}: {
+  images: [CaseStudyImage, CaseStudyImage];
+  label: string;
+}) {
+  return (
+    <section className="container" aria-label={label}>
+      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "2rem" }}>
+        {images.map((image) => (
+          <CaseStudyMedia
+            key={image.src}
+            image={image}
+            frameClassName="aspect-[560/361]"
+            sizes="(max-width: 1023px) 100vw, 50vw"
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PullQuoteImage({
+  image,
+  text,
+}: {
+  image: CaseStudyImage;
+  text: string;
+}) {
+  return (
+    <section
+      className="case-study__pull-quote relative w-full"
+      aria-label="Pull quote"
+    >
+      <div className="relative aspect-[16/9] w-full overflow-hidden lg:aspect-auto lg:h-[720px]">
+        <ScrollParallaxImage
+          src={image.src}
+          alt={image.alt}
+          sizes="100vw"
+        />
+        <div
+          className="absolute inset-0 bg-[rgb(15_15_15/0.35)]"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-x-0 bottom-0 container pb-11 text-white">
+          <p className="type-cs-quote max-w-[35.25rem]">{text}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LargeFeature({
+  image,
+  label,
+  parallax = true,
+}: {
+  image: CaseStudyImage;
+  label: string;
+  parallax?: boolean;
+}) {
+  return (
+    <section className="container" aria-label={label}>
+      <CaseStudyMedia
+        image={image}
+        parallax={parallax}
+        frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
+        sizes="100vw"
+      />
+    </section>
+  );
+}
+
+function BodyBlocks({ blocks }: { blocks: CaseStudyBodyBlock[] }) {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        if (block.type === "gallery") {
+          return (
+            <PairedGallery
+              key={`gallery-${block.images[0].src}-${index}`}
+              images={block.images}
+              label={block.label ?? "Gallery"}
+            />
+          );
+        }
+
+        if (block.type === "feature") {
+          return (
+            <LargeFeature
+              key={`feature-${block.image.src}-${index}`}
+              image={block.image}
+              label={block.label ?? "Featured design"}
+              parallax={block.parallax}
+            />
+          );
+        }
+
+        const { narrative } = block;
+        return (
+          <section
+            key={`narrative-${narrative.id}-${index}`}
+            className="container"
+          >
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div
+                className={
+                  narrative.align === "right"
+                    ? "lg:col-start-2"
+                    : "lg:col-start-1"
+                }
+              >
+                <NarrativeBlock narrative={narrative} />
+              </div>
+            </div>
+          </section>
+        );
+      })}
+    </>
+  );
+}
+
+function StandardBody({ study }: { study: CaseStudy }) {
+  const galleryBeforeChallenge =
+    study.challengeGalleryPlacement === "before";
+  const pullQuote = study.pullQuote;
+  const hasPullQuoteImage = Boolean(pullQuote?.image);
+  const hasTextAsideQuote = Boolean(pullQuote && !pullQuote.image);
+  const challengeGallery = study.challengeGallery;
+  const challenge = study.challenge;
+  const result = study.result;
+  const featurePlacement =
+    study.featurePlacement ??
+    (study.featureBeforeMidGallery ? "beforeMidGallery" : "afterMidGallery");
+
+  if (!challenge || !result) return null;
+
+  return (
+    <>
+      {featurePlacement === "beforeChallenge" && study.feature ? (
+        <LargeFeature image={study.feature} label="Featured design" />
+      ) : null}
+
+      {galleryBeforeChallenge && challengeGallery ? (
+        <PairedGallery
+          images={challengeGallery}
+          label="Challenge gallery"
+        />
+      ) : hasPullQuoteImage && pullQuote?.image ? (
+        <PullQuoteImage image={pullQuote.image} text={pullQuote.text} />
+      ) : null}
+
+      <section className="container">
+        {hasTextAsideQuote && pullQuote ? (
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
+            <NarrativeBlock narrative={challenge} />
+            <p
+              className={[
+                "type-cs-quote max-w-[35.25rem]",
+                pullQuote.appearance === "aside" && "type-cs-quote--aside",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              {pullQuote.text}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div
+              className={
+                challenge.align === "right"
+                  ? "lg:col-start-2"
+                  : "lg:col-start-1"
+              }
+            >
+              <NarrativeBlock narrative={challenge} />
+            </div>
+          </div>
+        )}
+      </section>
+
+      {galleryBeforeChallenge ? (
+        hasPullQuoteImage && pullQuote?.image ? (
+          <PullQuoteImage image={pullQuote.image} text={pullQuote.text} />
+        ) : null
+      ) : challengeGallery ? (
+        <PairedGallery
+          images={challengeGallery}
+          label="Challenge gallery"
+        />
+      ) : null}
+
+      {featurePlacement === "beforeMidGallery" && study.feature ? (
+        <LargeFeature image={study.feature} label="Featured design" />
+      ) : null}
+
+      {study.midGallery ? (
+        <PairedGallery images={study.midGallery} label="Feature gallery" />
+      ) : null}
+
+      {featurePlacement === "afterMidGallery" && study.feature ? (
+        <LargeFeature image={study.feature} label="Featured design" />
+      ) : null}
+
+      {study.solution ? (
+        <section className="container">
+          {study.solutionCompanion ? (
+            <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
+              <NarrativeBlock narrative={study.solution} />
+              <NarrativeBlock narrative={study.solutionCompanion} />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div
+                className={
+                  study.solution.align === "right"
+                    ? "lg:col-start-2"
+                    : "lg:col-start-1"
+                }
+              >
+                <NarrativeBlock narrative={study.solution} />
+              </div>
+            </div>
+          )}
+        </section>
+      ) : null}
+
+      {study.solutionGallery ? (
+        <PairedGallery
+          images={study.solutionGallery}
+          label="Solution gallery"
+        />
+      ) : null}
+
+      {study.closingFeature ? (
+        <LargeFeature
+          image={study.closingFeature}
+          label="Closing feature"
+        />
+      ) : null}
+
+      <section
+        className="container"
+        aria-labelledby={result.label ? "result-heading" : undefined}
+      >
+        {study.outcome ? (
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
+            <div
+              className="flex max-w-[35.25rem] flex-col"
+              style={{ gap: "var(--hero-copy-gap)" }}
+            >
+              <h2 id="result-heading" className="type-cs-section">
+                {result.label}
+              </h2>
+              <div className="flex flex-col gap-8">
+                {result.paragraphs.map((paragraph) => (
+                  <p key={paragraph.slice(0, 32)} className="type-cs-body">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div
+              className="flex max-w-[35.25rem] flex-col"
+              style={{ gap: "var(--hero-copy-gap)" }}
+            >
+              <h2 className="type-cs-section">{study.outcome.label}</h2>
+              <ul className="m-0 flex list-none flex-col p-0">
+                {study.outcome.items.map((item) => (
+                  <li key={item} className="type-cs-body">
+                    — {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div
+              className={
+                result.align === "right" ? "lg:col-start-2" : "lg:col-start-1"
+              }
+            >
+              <NarrativeBlock narrative={result} />
+            </div>
+          </div>
+        )}
+      </section>
+
+      {study.postResultFeature ? (
+        <LargeFeature
+          image={study.postResultFeature}
+          label="Closing feature"
+        />
+      ) : null}
+    </>
+  );
+}
+
 /**
  * Reusable case-study layout driven by structured content data.
- * Visual system matches Figma Studio MU (node 515:931).
  */
 export function CaseStudyView({ study }: CaseStudyViewProps) {
   return (
@@ -48,7 +351,9 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
             >
               <p className="type-cs-eyebrow">{study.name}</p>
               <h1 className="type-cs-title">{study.title}</h1>
-              <p className="type-cs-meta-value">{study.disciplines}</p>
+              {study.disciplines ? (
+                <p className="type-cs-meta-value">{study.disciplines}</p>
+              ) : null}
             </div>
 
             <dl className="case-study__meta m-0">
@@ -73,7 +378,8 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
             image={study.hero}
             priority
             showCaption={false}
-            frameClassName="aspect-[1280/720]"
+            parallax
+            frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
             sizes="100vw"
           />
         </div>
@@ -86,112 +392,33 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
         <section className="container" aria-label="Introduction">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="hidden lg:block" aria-hidden="true" />
-            <div className="flex max-w-[35.25rem] flex-col gap-8">
-              {study.intro.map((paragraph) => (
-                <p key={paragraph.slice(0, 32)} className="type-cs-body">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="case-study__pull-quote relative w-full"
-          aria-label="Pull quote"
-        >
-          <div className="relative aspect-[560/315] w-full overflow-hidden">
-            <Image
-              src={study.pullQuote.image.src}
-              alt={study.pullQuote.image.alt}
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
-            <div className="absolute inset-x-0 bottom-0 container pb-11 text-white">
-              <p className="type-cs-quote max-w-[35.25rem]">
-                {study.pullQuote.text}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="container">
-          <NarrativeBlock narrative={study.challenge} />
-        </section>
-
-        <section className="container" aria-label="Challenge gallery">
-          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "2rem" }}>
-            {study.challengeGallery.map((image) => (
-              <CaseStudyMedia
-                key={image.src}
-                image={image}
-                frameClassName="aspect-[560/361]"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="container" aria-label="Featured design">
-          <CaseStudyMedia
-            image={study.feature}
-            frameClassName="aspect-[1280/720]"
-            sizes="100vw"
-          />
-        </section>
-
-        <section className="container">
-          <NarrativeBlock narrative={study.solution} />
-        </section>
-
-        <section className="container" aria-label="Solution gallery">
-          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: "2rem" }}>
-            {study.solutionGallery.map((image) => (
-              <CaseStudyMedia
-                key={image.src}
-                image={image}
-                frameClassName="aspect-[560/361]"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="container" aria-labelledby="result-heading">
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
             <div
               className="flex max-w-[35.25rem] flex-col"
-              style={{ gap: "var(--hero-copy-gap)" }}
+              style={{
+                gap: study.introLabel
+                  ? "var(--hero-copy-gap)"
+                  : undefined,
+              }}
             >
-              <h2 id="result-heading" className="type-cs-section">
-                {study.result.label}
-              </h2>
+              {study.introLabel ? (
+                <h2 className="type-cs-section">{study.introLabel}</h2>
+              ) : null}
               <div className="flex flex-col gap-8">
-                {study.result.paragraphs.map((paragraph) => (
+                {study.intro.map((paragraph) => (
                   <p key={paragraph.slice(0, 32)} className="type-cs-body">
                     {paragraph}
                   </p>
                 ))}
               </div>
             </div>
-
-            <div
-              className="flex max-w-[35.25rem] flex-col"
-              style={{ gap: "var(--hero-copy-gap)" }}
-            >
-              <h2 className="type-cs-section">{study.outcome.label}</h2>
-              <ul className="m-0 flex list-none flex-col p-0">
-                {study.outcome.items.map((item) => (
-                  <li key={item} className="type-cs-body">
-                    — {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </section>
+
+        {study.bodyBlocks ? (
+          <BodyBlocks blocks={study.bodyBlocks} />
+        ) : (
+          <StandardBody study={study} />
+        )}
       </div>
     </article>
   );

@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { ImageLightbox } from "@/components/case-study/ImageLightbox";
+import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
+import Image from "next/image";
 import type { CaseStudyImage } from "@/lib/case-studies";
 
 type CaseStudyMediaProps = {
@@ -9,6 +10,8 @@ type CaseStudyMediaProps = {
   sizes?: string;
   priority?: boolean;
   showCaption?: boolean;
+  /** Subtle scroll parallax for large visual sections only. */
+  parallax?: boolean;
 };
 
 /** Case-study figure with optional zoom lightbox for UI detail shots. */
@@ -18,6 +21,7 @@ export function CaseStudyMedia({
   sizes = "100vw",
   priority = false,
   showCaption = true,
+  parallax = false,
 }: CaseStudyMediaProps) {
   const media = (
     <div
@@ -25,14 +29,23 @@ export function CaseStudyMedia({
         .filter(Boolean)
         .join(" ")}
     >
-      <Image
-        src={image.src}
-        alt={image.alt}
-        fill
-        priority={priority}
-        className="object-cover"
-        sizes={sizes}
-      />
+      {parallax ? (
+        <ScrollParallaxImage
+          src={image.src}
+          alt={image.alt}
+          sizes={sizes}
+          priority={priority}
+        />
+      ) : (
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority={priority}
+          className="object-cover"
+          sizes={sizes}
+        />
+      )}
     </div>
   );
 

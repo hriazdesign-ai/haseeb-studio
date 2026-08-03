@@ -1,16 +1,36 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------------------- */
-/* Design tokens — Studio Home (dark)                                         */
+/* Design tokens — Light / Dark themes                                        */
 /* -------------------------------------------------------------------------- */
 
-:root {
-  /* Color */
-  --background: #0f0f0f;
-  --foreground: #ffffff;
+/*
+ * Two reusable themes only. Pages set `data-theme` via <PageTheme />.
+ * Default (`:root` / light) = Homepage + Work.
+ * Dark = individual case-study pages.
+ */
+:root,
+html[data-theme="light"] {
+  /* Semantic colour tokens */
+  --surface-primary: #ffffff;
+  --text-primary: #0f0f0f;
+  --nav-background: #ffffff;
+  --nav-text: #0f0f0f;
+  --link-colour: #0f0f0f;
+  --underline-colour: currentColor;
+  --border-subtle: rgba(15, 15, 15, 0.06);
+
+  /* Bridged legacy tokens (components already consume these) */
+  --background: var(--surface-primary);
+  --foreground: var(--text-primary);
+  --surface: var(--surface-primary);
+  --border: var(--border-subtle);
+  --site-header-bg: var(--nav-background);
+  --site-header-fg: var(--nav-text);
+  --site-nav-underline: var(--underline-colour);
+
+  /* Brand accents (shared across themes) */
   --muted: #a89c7a;
-  --border: rgb(168 156 122 / 0.5);
-  --surface: #0a0a0a;
   --accent: #a89c7a;
 
   /* Layout — Figma desktop gutters are 64px; nav switches at 1024px */
@@ -76,6 +96,27 @@
   --tracking-label: 0.02em;
 }
 
+html[data-theme="dark"] {
+  --surface-primary: #0f0f0f;
+  --text-primary: #ffffff;
+  --nav-background: #0f0f0f;
+  --nav-text: #ffffff;
+  --link-colour: #ffffff;
+  --underline-colour: currentColor;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --background: var(--surface-primary);
+  --foreground: var(--text-primary);
+  --surface: var(--surface-primary);
+  --border: var(--border-subtle);
+  --site-header-bg: var(--nav-background);
+  --site-header-fg: var(--nav-text);
+  --site-nav-underline: var(--underline-colour);
+
+  --muted: #a89c7a;
+  --accent: #a89c7a;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -101,16 +142,20 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Follows case-study nav theme when set; otherwise site background. */
-  background: var(--site-header-bg, var(--background));
+  background: var(--surface-primary);
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-height: 100%;
   overflow-x: clip;
-  background: var(--site-header-bg, var(--background));
-  color: var(--foreground);
+  background: var(--surface-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-body-lg);
   font-weight: 300;
@@ -289,11 +334,34 @@ a {
   right: 0;
   z-index: 50;
   width: 100%;
-  background: var(--site-header-bg, var(--background));
-  color: var(--site-header-fg, var(--foreground));
+  background: var(--nav-background);
+  color: var(--nav-text);
   transform: translateY(0);
   transition: transform var(--header-hide-duration) var(--header-hide-ease);
   will-change: transform;
+}
+
+/* Optional header-level theme override via <SiteHeader theme="…" /> */
+.site-header[data-theme="light"] {
+  --nav-background: #ffffff;
+  --nav-text: #0f0f0f;
+  --underline-colour: currentColor;
+  --site-header-bg: var(--nav-background);
+  --site-header-fg: var(--nav-text);
+  --site-nav-underline: var(--underline-colour);
+  background: var(--nav-background);
+  color: var(--nav-text);
+}
+
+.site-header[data-theme="dark"] {
+  --nav-background: #0f0f0f;
+  --nav-text: #ffffff;
+  --underline-colour: currentColor;
+  --site-header-bg: var(--nav-background);
+  --site-header-fg: var(--nav-text);
+  --site-nav-underline: var(--underline-colour);
+  background: var(--nav-background);
+  color: var(--nav-text);
 }
 
 .site-header.is-hidden {
@@ -309,8 +377,8 @@ a {
 .site-header__bar {
   position: relative;
   z-index: 2;
-  background: var(--site-header-bg, var(--background));
-  color: var(--site-header-fg, var(--foreground));
+  background: var(--nav-background);
+  color: var(--nav-text);
 }
 
 .site-header__desktop-nav {
@@ -337,13 +405,14 @@ a {
   top: calc(100% + 8px);
   width: 100%;
   height: 1px;
-  background: var(--site-nav-underline, currentColor);
+  background: var(--underline-colour, currentColor);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 280ms var(--ease-standard);
 }
 
-.site-nav-link:hover::after {
+.site-nav-link:hover::after,
+.site-nav-link:focus-visible::after {
   transform: scaleX(1);
 }
 
@@ -409,8 +478,8 @@ a {
 .mobile-nav {
   display: grid;
   grid-template-rows: 0fr;
-  background: var(--site-header-bg, var(--background));
-  color: var(--site-header-fg, var(--foreground));
+  background: var(--nav-background);
+  color: var(--nav-text);
   transition: grid-template-rows var(--menu-duration) var(--menu-ease);
 }
 
@@ -426,8 +495,8 @@ a {
 .mobile-nav__panel {
   height: calc(100dvh - var(--site-header-height));
   min-height: calc(100svh - var(--site-header-height));
-  background: var(--site-header-bg, var(--background));
-  color: var(--site-header-fg, var(--foreground));
+  background: var(--nav-background);
+  color: var(--nav-text);
 }
 
 .mobile-nav__inner {
@@ -444,7 +513,9 @@ a {
   padding: 0;
   list-style: none;
 }
-.mobile-nav__list .site-nav-link {
+.mobile-nav__list a {
+  display: block;
+  width: 100%;
   font-size: 28px;
   text-align: center;
 }
@@ -460,7 +531,7 @@ a {
 /* -------------------------------------------------------------------------- */
 
 .home-page {
-  padding-bottom: var(--home-after-gap);
+  padding-bottom: 0;
 }
 
 .home-hero__copy {
@@ -511,9 +582,31 @@ a {
 /* -------------------------------------------------------------------------- */
 /* Footer                                                                     */
 /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* Footer                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Footer is always dark studio identity — never inherits the page theme.
+ */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+/*
+ * Shared typography utilities use var(--foreground).
+ * Force all footer content to inherit the footer's white foreground instead.
+ */
+.site-footer *,
+.site-footer a {
+  color: inherit;
+}
 
 .site-footer__inner {
-  padding-top: 0;
+  padding-top: 60px;
   padding-bottom: var(--footer-py);
 }
 
@@ -541,13 +634,15 @@ a {
 /* -------------------------------------------------------------------------- */
 
 .case-study-page {
-  padding-bottom: var(--home-after-gap);
+  padding-bottom: 0;
 }
 
+
+
 .case-study {
-  /* Content surface */
-  --cs-bg: #ffffff;
-  --cs-fg: #0f0f0f;
+  /* Content surface follows the active page theme (dark on case studies). */
+  --cs-bg: var(--surface-primary);
+  --cs-fg: var(--text-primary);
 
   /* Metadata rhythm */
   --cs-meta-stack: 0.5rem; /* 8px label → value */
@@ -654,6 +749,11 @@ a {
   color: inherit;
 }
 
+.type-cs-quote--aside {
+  font-family: var(--font-serif);
+  color: #929292;
+}
+
 .case-study__hero {
   background: var(--case-study-hero-bg, #4f4e4d);
   color: #ffffff;
@@ -726,7 +826,14 @@ a {
 .case-study__body {
   background: var(--cs-bg);
   color: var(--cs-fg);
-  padding-block: var(--stack-gap);
+  padding-top: var(--stack-gap);
+  padding-bottom: 80px;
+}
+
+@media (max-width: 1023px) {
+  .case-study__body {
+    padding-bottom: 60px;
+  }
 }
 
 .case-study-zoom {

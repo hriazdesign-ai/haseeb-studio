@@ -1,5 +1,6 @@
 import { PageShell } from "@/components/layout/PageShell";
 import { WorkSection } from "@/components/home/WorkSection";
+import { PageTheme } from "@/components/theme/PageTheme";
 import { ExperienceSection } from "@/components/work/ExperienceSection";
 import { SectionHeading } from "@/components/work/SectionHeading";
 import {
@@ -11,7 +12,8 @@ const [mumsUnited, brightPath, meridian] = studioWorkProjects;
 
 export default function WorkPage() {
   return (
-    <PageShell fullWidth unpadded className="stack home-page">
+    <PageTheme theme="light">
+      <PageShell fullWidth unpadded className="stack home-page">
       <section
         aria-labelledby="work-intro-heading"
         className="container"
@@ -99,5 +101,6 @@ Every project begins by understanding people, simplifying complexity and creatin
         <hr className="m-0 h-px w-full border-0 bg-border" />
       </div>
     </PageShell>
+    </PageTheme>
   );
 }
