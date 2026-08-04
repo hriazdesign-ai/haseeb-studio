@@ -11,6 +11,10 @@ export const digitalEditionsCaseStudy: CaseStudy = {
     "Reimagining magazine publishing through responsive editorial design and interactive reading experiences.",
   disciplines: "Editorial Design · Digital Publishing · Interactive Design",
   theme: getCaseStudyTheme("digital-editions"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Senior Product Designer"] },
     {

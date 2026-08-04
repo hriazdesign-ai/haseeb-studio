@@ -41,12 +41,64 @@ export function isWorkRoute(pathname: string): boolean {
   );
 }
 
-/** Verso case study — dark SiteHeader while over the themed hero. */
+/** Verso case study — kept for call sites that still name Verso explicitly. */
 export const VERSO_CASE_STUDY_PATH = "/work/verso-design-system";
+
+/** Editorial Platform case study. */
+export const EDITORIAL_EXPERIENCE_CASE_STUDY_PATH =
+  "/work/editorial-experience";
+
+/** OneNav case study. */
+export const ONENAV_CASE_STUDY_PATH = "/work/onenav";
+
+/** Digital Editions case study. */
+export const DIGITAL_EDITIONS_CASE_STUDY_PATH = "/work/digital-editions";
+
+/** Editorial Publications case study. */
+export const EDITORIAL_PUBLICATIONS_CASE_STUDY_PATH =
+  "/work/editorial-publications";
+
+/** Brand Identity case study. */
+export const BRAND_IDENTITY_CASE_STUDY_PATH = "/work/brand-identity";
+
+/** Delivery Drop case study. */
+export const DELIVERY_DROP_CASE_STUDY_PATH = "/work/delivery-drop";
+
+/** Mums United case study. */
+export const MUMS_UNITED_CASE_STUDY_PATH = "/work/mums-united";
+
+/** Bright Path Learning case study. */
+export const BRIGHT_PATH_LEARNING_CASE_STUDY_PATH =
+  "/work/bright-path-learning";
+
+/** Meridian & Co. case study. */
+export const MERIDIAN_AND_CO_CASE_STUDY_PATH = "/work/meridian-and-co";
+
+/**
+ * Portfolio case studies with solid project-themed SiteHeader
+ * (`data-theme="case-study"` → `--case-study-hero-bg` + white type).
+ */
+export const PORTFOLIO_CASE_STUDY_PATHS = [
+  VERSO_CASE_STUDY_PATH,
+  EDITORIAL_EXPERIENCE_CASE_STUDY_PATH,
+  ONENAV_CASE_STUDY_PATH,
+  DIGITAL_EDITIONS_CASE_STUDY_PATH,
+  EDITORIAL_PUBLICATIONS_CASE_STUDY_PATH,
+  BRAND_IDENTITY_CASE_STUDY_PATH,
+  DELIVERY_DROP_CASE_STUDY_PATH,
+  MUMS_UNITED_CASE_STUDY_PATH,
+  BRIGHT_PATH_LEARNING_CASE_STUDY_PATH,
+  MERIDIAN_AND_CO_CASE_STUDY_PATH,
+] as const;
 
 export function isVersoCaseStudyRoute(pathname: string): boolean {
   const path = pathname.split(/[?#]/)[0] || pathname;
   return path === VERSO_CASE_STUDY_PATH;
+}
+
+export function isPortfolioCaseStudyRoute(pathname: string): boolean {
+  const path = pathname.split(/[?#]/)[0] || pathname;
+  return (PORTFOLIO_CASE_STUDY_PATHS as readonly string[]).includes(path);
 }
 
 /**

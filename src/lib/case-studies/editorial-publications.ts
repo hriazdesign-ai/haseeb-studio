@@ -11,6 +11,10 @@ export const editorialPublicationsCaseStudy: CaseStudy = {
     "Designing publications, annual reports and editorial communications that transform complex information into engaging printed experiences.",
   disciplines: "",
   theme: getCaseStudyTheme("editorial-publications"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Senior Designer"] },
     {

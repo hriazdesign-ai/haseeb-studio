@@ -477,9 +477,9 @@ a {
 }
 
 /*
- * Case-study chrome (Verso): solid project blue + white type at all scroll
- * positions. Re-scopes `--foreground` so `.type-body-lg` links stay white
- * on light page chrome.
+ * Case-study chrome (Verso, Editorial Experience, …): solid project colour +
+ * white type at all scroll positions. Re-scopes `--foreground` so
+ * `.type-body-lg` links stay white on light page chrome.
  */
 .site-header[data-theme="case-study"] {
   --nav-background: var(--case-study-hero-bg);
@@ -829,8 +829,9 @@ a {
 }
 
 /*
- * Light portfolio chrome (Verso first): white page surface, shared contact/footer.
- * Reuses Homepage/Work `home-parallax-page` tokens when those classes are present.
+ * Light portfolio chrome (Verso, Editorial Experience, …): white page surface,
+ * shared contact/footer. Reuses Homepage/Work `home-parallax-page` tokens
+ * when those classes are present.
  */
 .case-study-page--light.home-parallax-page {
   background: var(--surface-primary);
@@ -1011,6 +1012,31 @@ a {
 /* Image sits directly under the padded header — no inherited section padding. */
 .case-study-hero > .case-study__hero-media {
   margin-top: 0;
+}
+
+/*
+ * Full-bleed Verso hero media — outside `.prototype-page-container`.
+ * Height + scroll layers reuse Homepage Mums United classes
+ * (`.hp-blocks-mums-frame`, `.hp-blocks-mums-y`, …).
+ */
+.case-study-hero-media {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-study-hero-media .homepage-parallax-frame:hover .hp-blocks-hover-scale {
+    transform: scale(var(--motion-image-hover-scale));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study-hero-media .homepage-parallax-frame:hover .hp-blocks-hover-scale {
+    transform: none;
+  }
 }
 
 .case-study-hero__meta {

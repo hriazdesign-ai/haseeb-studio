@@ -11,6 +11,10 @@ export const brightPathLearningCaseStudy: CaseStudy = {
     "Helping an education provider build trust with parents and students.",
   disciplines: "Education · Website Design · UI · Development",
   theme: getCaseStudyTheme("bright-path-learning"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Product Designer"] },
     {

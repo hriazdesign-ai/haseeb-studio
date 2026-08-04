@@ -2,7 +2,7 @@ export type PageThemeId = "light" | "dark";
 
 /**
  * Header-only chrome. Extends page themes with `case-study` for solid
- * project-coloured nav (e.g. Verso via `--case-study-hero-bg`).
+ * project-coloured nav (portfolio case studies via `--case-study-hero-bg`).
  */
 export type SiteHeaderThemeId = PageThemeId | "case-study";
 

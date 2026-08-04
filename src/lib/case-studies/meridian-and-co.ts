@@ -11,6 +11,10 @@ export const meridianAndCoCaseStudy: CaseStudy = {
   disciplines:
     "Accounting Services · Financial Planning · Small Business Support",
   theme: getCaseStudyTheme("meridian-and-co"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Product Designer & Developer"] },
     {

@@ -1,12 +1,13 @@
 "use client";
 
-import { isVersoCaseStudyRoute } from "@/lib/navigation";
+import { isPortfolioCaseStudyRoute } from "@/lib/navigation";
 import type { SiteHeaderThemeId } from "@/lib/page-theme";
 
 /**
  * Resolves SiteHeader `data-theme`.
  * - Explicit `theme` prop always wins.
- * - Verso uses solid case-study chrome (`--case-study-hero-bg` + white type).
+ * - Portfolio case studies (Verso, Editorial Experience, …) use solid
+ *   project chrome (`--case-study-hero-bg` + white type) at all scroll positions.
  * - Otherwise `undefined` so the header inherits page tokens.
  */
 export function useSiteHeaderTheme(
@@ -14,6 +15,6 @@ export function useSiteHeaderTheme(
   themeProp?: SiteHeaderThemeId,
 ): SiteHeaderThemeId | undefined {
   if (themeProp) return themeProp;
-  if (isVersoCaseStudyRoute(pathname)) return "case-study";
+  if (isPortfolioCaseStudyRoute(pathname)) return "case-study";
   return undefined;
 }

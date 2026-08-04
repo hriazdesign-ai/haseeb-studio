@@ -11,6 +11,10 @@ export const deliveryDropCaseStudy: CaseStudy = {
     "Designing a rapid grocery delivery platform that combined product design, brand identity and launch strategy into a cohesive customer experience.",
   disciplines: "",
   theme: getCaseStudyTheme("delivery-drop"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Lead Designer"] },
     {

@@ -1,6 +1,9 @@
 import { CaseStudyHeroHeading } from "@/components/case-study/CaseStudyHeroHeading";
+import { CaseStudyHeroMedia } from "@/components/case-study/CaseStudyHeroMedia";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { blocksStatementMotion } from "@/lib/home-parallax-blocks-motion";
 import type {
   CaseStudy,
   CaseStudyBodyBlock,
@@ -78,7 +81,17 @@ function PullQuoteImage({
           aria-hidden="true"
         />
         <div className="absolute inset-x-0 bottom-0 container pb-11 text-white">
-          <p className="type-cs-quote max-w-[35.25rem]">{text}</p>
+          <ScrollReveal
+            as="p"
+            className="type-cs-quote max-w-[35.25rem]"
+            offset={blocksStatementMotion.offset}
+            range={[0, 1]}
+            opacity={blocksStatementMotion.opacity}
+            y={blocksStatementMotion.y}
+            applyCaptionMultiplier
+          >
+            {text}
+          </ScrollReveal>
         </div>
       </div>
     </section>
@@ -189,16 +202,22 @@ function StandardBody({ study }: { study: CaseStudy }) {
         {hasTextAsideQuote && pullQuote ? (
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
             <NarrativeBlock narrative={challenge} />
-            <p
+            <ScrollReveal
+              as="p"
               className={[
                 "type-cs-quote max-w-[35.25rem]",
                 pullQuote.appearance === "aside" && "type-cs-quote--aside",
               ]
                 .filter(Boolean)
                 .join(" ")}
+              offset={blocksStatementMotion.offset}
+              range={[0, 1]}
+              opacity={blocksStatementMotion.opacity}
+              y={blocksStatementMotion.y}
+              applyCaptionMultiplier
             >
               {pullQuote.text}
-            </p>
+            </ScrollReveal>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -344,21 +363,12 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
     <article className="case-study">
       <header className="case-study__hero">
         {usePortfolioHeading ? (
-          <div
-            className="prototype-page-container case-study-hero"
-          >
-            <CaseStudyHeroHeading study={study} />
-            <div className="case-study__hero-media">
-              <CaseStudyMedia
-                image={study.hero}
-                priority
-                showCaption={false}
-                parallax
-                frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
-                sizes="(max-width: 1440px) 100vw, 1440px"
-              />
+          <>
+            <div className="prototype-page-container case-study-hero">
+              <CaseStudyHeroHeading study={study} />
             </div>
-          </div>
+            <CaseStudyHeroMedia image={study.hero} />
+          </>
         ) : (
           <>
             <div

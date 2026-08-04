@@ -11,6 +11,10 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     "Helping a community organisation communicate its impact and support families more clearly.",
   disciplines: "Community Impact · Website Design · UI · Development",
   theme: getCaseStudyTheme("mums-united"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Product Designer & Developer"] },
     {

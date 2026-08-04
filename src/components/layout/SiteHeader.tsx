@@ -31,8 +31,9 @@ type SiteHeaderProps = {
   items?: readonly SiteNavItem[];
   /**
    * Optional colour theme for the header only.
-   * `case-study` = solid `--case-study-hero-bg` with white type (Verso).
-   * When omitted, Verso resolves `case-study`; other pages inherit page tokens.
+   * `case-study` = solid `--case-study-hero-bg` with white type.
+   * When omitted, portfolio case studies resolve `case-study`;
+   * other pages inherit page tokens.
    */
   theme?: SiteHeaderThemeId;
 };

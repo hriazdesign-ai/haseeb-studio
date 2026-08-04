@@ -11,6 +11,10 @@ export const editorialExperienceCaseStudy: CaseStudy = {
     "Designing editorial tools that help publishing teams work faster and smarter.",
   disciplines: "Product Design · UX · Editorial Platform · AI Features",
   theme: getCaseStudyTheme("editorial-experience"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Senior Product Designer"] },
     {

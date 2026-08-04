@@ -12,6 +12,10 @@ export const oneNavCaseStudy: CaseStudy = {
   disciplines:
     "Product Design · Navigation Systems · Design Systems · Responsive UX",
   theme: getCaseStudyTheme("onenav"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Senior Product Designer"] },
     {
