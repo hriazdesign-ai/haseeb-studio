@@ -11,13 +11,14 @@ export const siteNav = [
 ] as const satisfies readonly SiteNavItem[];
 
 /**
- * Nav for blocks chrome routes (`/`, `/home-parallax-blocks`, `/work-motion-test`).
- * Projects has no dedicated route yet — points at Work.
+ * Nav for blocks chrome routes (`/`, `/home-parallax-blocks`, `/work`,
+ * `/work-motion-test`, `/projects-motion-test`).
+ * Projects points at the review test route until production `/projects` ships.
  * Contact is an in-page anchor to the page contact section.
  */
 export const homeParallaxBlocksNav = [
   { href: "/work", label: "Work" },
-  { href: "/work", label: "Projects" },
+  { href: "/projects-motion-test", label: "Projects" },
   { href: "#contact", label: "Contact" },
 ] as const satisfies readonly SiteNavItem[];
 
@@ -41,14 +42,14 @@ export function isWorkRoute(pathname: string): boolean {
 }
 
 /**
- * Projects / Case Studies section routes when those roots exist.
- * Note: case studies currently ship under `/work/[slug]` and therefore
- * activate Work via `isWorkRoute` until a dedicated Projects index lands.
+ * Projects section routes (test + future production).
+ * Case studies currently ship under `/work/[slug]` and activate Work.
  */
 export function isProjectsRoute(pathname: string): boolean {
   return (
     pathname === "/projects" ||
     pathname.startsWith("/projects/") ||
+    pathname === "/projects-motion-test" ||
     pathname === "/case-studies" ||
     pathname.startsWith("/case-studies/")
   );

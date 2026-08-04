@@ -2,7 +2,7 @@ import { cardParallax } from "@/lib/motion";
 import { experienceProjects } from "@/lib/projects";
 
 /**
- * Work motion-test layout + motion config (Figma Studio Work 684:13983).
+ * Work page layout + motion config (Figma Studio Work 684:13983).
  * Shares project images/hrefs from `experienceProjects`.
  * Springs come from the global motion system (`src/lib/motion.ts`).
  */

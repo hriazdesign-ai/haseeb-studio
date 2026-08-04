@@ -8,9 +8,8 @@ import "@/components/home-parallax/home-parallax.css";
 import "@/components/work-motion/work-motion.css";
 
 /**
- * Test route page for Figma Studio Work (684:13983).
+ * Production Work page (also mounted at `/work-motion-test` for comparison).
  * Reuses SiteHeader (via pathname), BlocksContactSection, PrototypeFooter.
- * Does not replace `/work`.
  */
 export function WorkMotionPage() {
   return (
@@ -19,7 +18,7 @@ export function WorkMotionPage() {
         {/*
          * Same hero shell as HomeParallaxPrototype (blocks):
          * `.hp-hero` + `.prototype-page-container` — gutters, 1440 max, section-y.
-         * Work keeps its eyebrow + coral title styles only.
+         * Work keeps its eyebrow + title styles only.
          */}
         <section className="hp-hero" aria-labelledby="work-motion-hero-heading">
           <div className="prototype-page-container">

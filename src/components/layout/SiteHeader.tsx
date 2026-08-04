@@ -22,14 +22,16 @@ const DESKTOP_NAV_MQ = "(min-width: 1024px)";
 const BLOCKS_HOME_PATHS = new Set([
   "/",
   "/home-parallax-blocks",
+  "/work",
   "/work-motion-test",
+  "/projects-motion-test",
 ]);
 
 type SiteHeaderProps = {
   /**
    * Optional nav items. Defaults to `siteNav`, except on blocks chrome routes
-   * (`/`, `/home-parallax-blocks`, `/work-motion-test`) which use
-   * `homeParallaxBlocksNav`.
+   * (`/`, `/home-parallax-blocks`, `/work`, `/work-motion-test`,
+   * `/projects-motion-test`) which use `homeParallaxBlocksNav`.
    */
   items?: readonly SiteNavItem[];
   /**

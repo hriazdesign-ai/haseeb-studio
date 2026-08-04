@@ -1,0 +1,168 @@
+/**
+ * Projects motion-test layout (Figma Studio Projects 709:4223).
+ * Dark body + shared 12-column grid (gap 24px). Reuses Work media/motion classes.
+ */
+
+.projects-motion-page {
+  --projects-max: 1440px;
+  --projects-gutter: 20px;
+  --projects-row-gap: 60px;
+  --projects-pair-gap: 24px;
+  --projects-fg: #ffffff;
+  --projects-bg: #0f0f0f;
+  /*
+   * Required by shared Work media responsive rules in work-motion.css
+   * (`aspect-ratio: var(--work-mobile-ratio)` below 1024px). Without this,
+   * non-square frames collapse to 0 height and project links appear missing.
+   */
+  --work-mobile-ratio: 6 / 4;
+  --work-caption-gap: 16px;
+  --work-pair-gap: var(--projects-pair-gap);
+
+  background: var(--projects-bg);
+  color: var(--projects-fg);
+}
+
+body:has(.projects-motion-page) .site-footer {
+  display: none !important;
+}
+
+.projects-motion-page.home-parallax-page {
+  background: var(--projects-bg);
+  color: var(--projects-fg);
+}
+
+.projects-motion-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Hero — Homepage shell; purple accent title from Figma */
+.projects-motion-page .hp-hero {
+  background: var(--projects-bg);
+  color: var(--projects-fg);
+}
+
+.projects-motion-page .hp-hero .prototype-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.projects-motion-hero__label {
+  margin: 0 0 clamp(2.5rem, 5vw, 3.75rem);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--projects-fg);
+}
+
+.projects-motion-hero__title {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--hp-hero-size);
+  line-height: var(--hp-hero-leading);
+  letter-spacing: -0.02em;
+  /* Established homepage accent — Figma hero colour */
+  color: var(--hp-accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 12-column grid                                                             */
+/* -------------------------------------------------------------------------- */
+
+.projects-motion-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--projects-row-gap);
+  padding-block-end: clamp(4rem, 10vw, 7.5rem);
+}
+
+.projects-motion-container {
+  width: 100%;
+  max-width: var(--projects-max);
+  margin-inline: auto;
+  padding-inline: var(--hp-gutter, var(--gutter));
+}
+
+.projects-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--projects-pair-gap);
+  row-gap: var(--projects-row-gap);
+  align-items: start;
+}
+
+.projects-col {
+  min-width: 0;
+}
+
+.projects-col--1-13 {
+  grid-column: 1 / 13;
+}
+
+/* Left-aligned square pair occupies cols 1–8; 9–12 remain empty */
+.projects-col--1-9 {
+  grid-column: 1 / 9;
+}
+
+.projects-col--5-13 {
+  grid-column: 5 / 13;
+}
+
+/* Square pair inside an 8-col span — override Work’s `grid-column: 3` */
+.projects-motion-page .projects-square-pair.work-motion-pair,
+.projects-motion-page .projects-square-pair.work-square-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--projects-pair-gap);
+  grid-column: auto;
+  width: 100%;
+}
+
+/* Landscape pair — full 12-col width, equal halves */
+.projects-motion-page .projects-landscape-pair.work-motion-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--projects-pair-gap);
+}
+
+/* Meridian — Figma rounded media only */
+.projects-motion-page
+  .projects-col--5-13
+  .work-media--offset-landscape {
+  border-radius: 8px;
+}
+
+/* Captions inherit white from page; keep Work typography (20/24) */
+
+@media (max-width: 1023px) {
+  .projects-desktop-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--projects-row-gap);
+  }
+
+  .projects-col--1-13,
+  .projects-col--1-9,
+  .projects-col--5-13 {
+    grid-column: auto;
+    width: 100%;
+  }
+
+  .projects-motion-page .projects-square-pair.work-motion-pair {
+    width: 100%;
+  }
+
+  /* Below desktop: stack landscape projects into one column */
+  .projects-motion-page .projects-landscape-pair.work-motion-pair,
+  .projects-motion-page .projects-landscape-pair.work-row--landscape-pair {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
