@@ -17,8 +17,8 @@ export const studioTheme = {
 /**
  * Per-project theme palette — ONE place to edit each project's main colour.
  *
- * `primary` drives the case-study hero background only.
- * Page chrome (nav / body) uses the shared Dark theme.
+ * `primary` / `foreground` drive the case-study hero and SiteHeader chrome
+ * via `getCaseStudyTheme` → `CaseStudyThemeProvider`.
  *
  * Experience projects without a case study yet are reserved placeholders.
  */
@@ -80,9 +80,8 @@ export function getCaseStudyTheme(projectId: ProjectThemeId): CaseStudyTheme {
   const theme = projectThemes[projectId];
   return {
     heroBackground: theme.primary,
-    /** Nav follows the Dark page theme; kept for type compatibility. */
-    navBackground: "#0F0F0F",
-    navForeground: "#FFFFFF",
+    navBackground: theme.primary,
+    navForeground: theme.foreground,
     navUnderline: studioTheme.navUnderline,
   };
 }

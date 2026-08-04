@@ -23,6 +23,8 @@
   /* Square-pair group width: 392 + 24 + 392 */
   --work-track-square-pair: 808fr;
   --work-quote-inset: 80px;
+  /* Shared `.portfolio-grid` / `.work-desktop-grid` gap (was 24px). */
+  --portfolio-grid-gap: var(--work-pair-gap);
 
   background: var(--work-bg);
   color: var(--work-fg);
@@ -48,26 +50,16 @@ body:has(.work-motion-page) .site-footer {
 /* Width / grid shell                                                         */
 /* -------------------------------------------------------------------------- */
 
-/* Same width system as Homepage `.prototype-page-container` */
-.work-motion-container {
-  width: 100%;
-  max-width: 1440px;
-  margin-inline: auto;
-  padding-inline: var(--hp-gutter, var(--gutter));
-}
+/*
+ * `.work-motion-container` and `.work-desktop-grid` are defined once in
+ * globals.css as aliases of `.portfolio-container` / `.portfolio-grid`.
+ */
 
 .work-motion-grid {
   display: flex;
   flex-direction: column;
   gap: var(--work-row-gap);
   padding-block-end: clamp(4rem, 10vw, 7.5rem);
-}
-
-/* Desktop editorial grid — placement via grid-column only */
-.work-desktop-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--work-pair-gap);
 }
 
 .work-col {
@@ -83,16 +75,9 @@ body:has(.work-motion-page) .site-footer {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Hero — layout from Homepage `.hp-hero` / `.prototype-page-container`       */
-/* Work-only: eyebrow + title. No extra gutters or section padding.           */
+/* Hero — shared `.portfolio-hero-grid` / `.portfolio-hero-title-wrap`        */
+/* Work-only: eyebrow + title typography. Placement via CSS variables.        */
 /* -------------------------------------------------------------------------- */
-
-.work-motion-page .hp-hero .prototype-page-container {
-  display: flex;
-  flex-direction: column;
-  /* Match Homepage title measure so the heading box shares the same rail */
-  align-items: flex-start;
-}
 
 .work-motion-hero__label {
   margin: 0 0 clamp(2.5rem, 5vw, 3.75rem);
@@ -108,7 +93,6 @@ body:has(.work-motion-page) .site-footer {
 .work-motion-hero__title {
   margin: 0;
   /* Typography tokens from Homepage `.hp-hero__title` */
-  max-width: 18ch;
   font-family: var(--font-serif);
   font-weight: 300;
   font-size: var(--hp-hero-size);

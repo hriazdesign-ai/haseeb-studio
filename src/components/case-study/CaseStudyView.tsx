@@ -1,3 +1,4 @@
+import { CaseStudyHeroHeading } from "@/components/case-study/CaseStudyHeroHeading";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
 import type {
@@ -337,52 +338,75 @@ function StandardBody({ study }: { study: CaseStudy }) {
  * Reusable case-study layout driven by structured content data.
  */
 export function CaseStudyView({ study }: CaseStudyViewProps) {
+  const usePortfolioHeading = study.heroLayout === "portfolio";
+
   return (
     <article className="case-study">
       <header className="case-study__hero">
-        <div
-          className="container case-study__hero-inner"
-          style={{ paddingTop: "var(--stack-gap)" }}
-        >
-          <div className="case-study__hero-grid">
+        {usePortfolioHeading ? (
+          <div
+            className="prototype-page-container case-study-hero"
+          >
+            <CaseStudyHeroHeading study={study} />
+            <div className="case-study__hero-media">
+              <CaseStudyMedia
+                image={study.hero}
+                priority
+                showCaption={false}
+                parallax
+                frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
+                sizes="(max-width: 1440px) 100vw, 1440px"
+              />
+            </div>
+          </div>
+        ) : (
+          <>
             <div
-              className="case-study__hero-copy flex flex-col"
-              style={{ gap: "var(--hero-copy-gap)" }}
+              className="container case-study__hero-inner"
+              style={{ paddingTop: "var(--stack-gap)" }}
             >
-              <p className="type-cs-eyebrow">{study.name}</p>
-              <h1 className="type-cs-title">{study.title}</h1>
-              {study.disciplines ? (
-                <p className="type-cs-meta-value">{study.disciplines}</p>
-              ) : null}
+              <div className="case-study__hero-grid">
+                <div
+                  className="case-study__hero-copy flex flex-col"
+                  style={{ gap: "var(--hero-copy-gap)" }}
+                >
+                  <p className="type-cs-eyebrow">{study.name}</p>
+                  <h1 className="type-cs-title">{study.title}</h1>
+                  {study.disciplines ? (
+                    <p className="type-cs-meta-value">{study.disciplines}</p>
+                  ) : null}
+                </div>
+
+                <dl className="case-study__meta m-0">
+                  {study.meta.map((group) => (
+                    <div key={group.label} className="case-study__meta-group">
+                      <dt className="type-cs-meta-label">{group.label}</dt>
+                      {group.values.map((value) => (
+                        <dd key={value} className="type-cs-meta-value">
+                          {group.label === "Focus:" ||
+                          group.label === "Platform:"
+                            ? `· ${value}`
+                            : value}
+                        </dd>
+                      ))}
+                    </div>
+                  ))}
+                </dl>
+              </div>
             </div>
 
-            <dl className="case-study__meta m-0">
-              {study.meta.map((group) => (
-                <div key={group.label} className="case-study__meta-group">
-                  <dt className="type-cs-meta-label">{group.label}</dt>
-                  {group.values.map((value) => (
-                    <dd key={value} className="type-cs-meta-value">
-                      {group.label === "Focus:" || group.label === "Platform:"
-                        ? `· ${value}`
-                        : value}
-                    </dd>
-                  ))}
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-
-        <div className="case-study__hero-media">
-          <CaseStudyMedia
-            image={study.hero}
-            priority
-            showCaption={false}
-            parallax
-            frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
-            sizes="100vw"
-          />
-        </div>
+            <div className="case-study__hero-media">
+              <CaseStudyMedia
+                image={study.hero}
+                priority
+                showCaption={false}
+                parallax
+                frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
+                sizes="100vw"
+              />
+            </div>
+          </>
+        )}
       </header>
 
       <div

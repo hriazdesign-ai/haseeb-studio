@@ -10,40 +10,37 @@ import {
   useState,
 } from "react";
 import { useScrollDirectionHeader } from "@/hooks/useScrollDirectionHeader";
+import { useSiteHeaderTheme } from "@/hooks/useSiteHeaderTheme";
 import {
   homeParallaxBlocksNav,
+  isBlocksChromeRoute,
   isNavItemActive,
   siteNav,
   type SiteNavItem,
 } from "@/lib/navigation";
-import type { PageThemeId } from "@/lib/page-theme";
+import type { SiteHeaderThemeId } from "@/lib/page-theme";
 
 const DESKTOP_NAV_MQ = "(min-width: 1024px)";
-const BLOCKS_HOME_PATHS = new Set([
-  "/",
-  "/home-parallax-blocks",
-  "/work",
-  "/work-motion-test",
-  "/projects-motion-test",
-]);
 
 type SiteHeaderProps = {
   /**
    * Optional nav items. Defaults to `siteNav`, except on blocks chrome routes
-   * (`/`, `/home-parallax-blocks`, `/work`, `/work-motion-test`,
-   * `/projects-motion-test`) which use `homeParallaxBlocksNav`.
+   * (Homepage, Work, Projects, and `/work/[slug]` case studies) which use
+   * `homeParallaxBlocksNav`.
    */
   items?: readonly SiteNavItem[];
   /**
    * Optional colour theme for the header only.
-   * When omitted, the header inherits the page `data-theme` tokens.
+   * `case-study` = solid `--case-study-hero-bg` with white type (Verso).
+   * When omitted, Verso resolves `case-study`; other pages inherit page tokens.
    */
-  theme?: PageThemeId;
+  theme?: SiteHeaderThemeId;
 };
 
 export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
   const pathname = usePathname();
-  const isBlocksHome = BLOCKS_HOME_PATHS.has(pathname);
+  const headerTheme = useSiteHeaderTheme(pathname, theme);
+  const isBlocksHome = isBlocksChromeRoute(pathname);
   const navItems: readonly SiteNavItem[] =
     items ?? (isBlocksHome ? homeParallaxBlocksNav : siteNav);
 
@@ -176,7 +173,7 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
         className={
           isBlocksHome ? "site-header site-header--blocks" : "site-header"
         }
-        {...(theme ? { "data-theme": theme } : {})}
+        {...(headerTheme ? { "data-theme": headerTheme } : {})}
       >
         <div ref={barRef} className="site-header__bar">
           {isBlocksHome ? (

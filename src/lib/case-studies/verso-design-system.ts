@@ -12,6 +12,10 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
   disciplines:
     "Design System · Product Design · Documentation · Component Library",
   theme: getCaseStudyTheme("verso-design-system"),
+  /** Approved portfolio light chrome (nav, heading, contact, footer). */
+  chrome: "light",
+  /** Shared 12-column portfolio heading (label / title / meta). */
+  heroLayout: "portfolio",
   meta: [
     { label: "Role:", values: ["Senior Product Designer"] },
     {

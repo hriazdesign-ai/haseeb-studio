@@ -36,6 +36,10 @@ html[data-theme="light"] {
   /* Layout — Figma desktop gutters are 64px; nav switches at 1024px */
   --content-max: 1300px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
+  /* Shared portfolio rail (Homepage / Work / case-study headings) */
+  --portfolio-max: 1440px;
+  --page-gutter: var(--gutter);
+  --portfolio-grid-gap: 24px;
   --section-space: clamp(3rem, 6vw, 6rem);
   --stack-gap: clamp(3rem, 6vw, 6rem);
   --header-py: clamp(1rem, 1.6vw, 1.25rem);
@@ -222,6 +226,89 @@ a {
   padding-inline: var(--gutter);
 }
 
+/*
+ * Shared portfolio width rail — one source of truth for Homepage, Work,
+ * Projects, and case-study headings. Aliases keep existing class names.
+ */
+.portfolio-container,
+.prototype-page-container,
+.work-motion-container {
+  width: 100%;
+  max-width: var(--portfolio-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter, var(--hp-gutter, var(--gutter)));
+}
+
+/*
+ * Shared 12-column placement grid. Work’s `.work-desktop-grid` aliases this
+ * with the same gap (24px). Homepage Bright Path/Meridian pair stays on its
+ * own 28px gap definition (left unchanged).
+ */
+.portfolio-grid,
+.work-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--portfolio-grid-gap);
+}
+
+/*
+ * Shared hero title placement — Homepage / Work / case-study headings.
+ * Override per page via --hero-title-column-start / --hero-title-column-end.
+ * Default desktop: grid-area 2 / 1 / auto / 9 (columns 1–8).
+ */
+.portfolio-hero-grid {
+  --hero-title-column-start: 1;
+  --hero-title-column-end: 9;
+  --hero-label-column-start: var(--hero-title-column-start);
+  --hero-label-column-end: var(--hero-title-column-end);
+}
+
+.home-hero,
+.work-motion-hero,
+.case-study-hero {
+  --hero-title-column-start: 1;
+  --hero-title-column-end: 9;
+}
+
+.portfolio-hero-label,
+.portfolio-hero-title-wrap {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.portfolio-hero-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .portfolio-hero-label {
+    grid-area:
+      1 /
+      var(--hero-label-column-start) /
+      auto /
+      var(--hero-label-column-end);
+  }
+
+  .portfolio-hero-title-wrap {
+    grid-area:
+      2 /
+      var(--hero-title-column-start) /
+      auto /
+      var(--hero-title-column-end);
+    min-width: 0;
+  }
+
+  /* Grid lines control width — not character measure. */
+  .portfolio-hero-grid .hp-hero__title,
+  .portfolio-hero-grid .work-motion-hero__title,
+  .portfolio-hero-title-wrap .hp-hero__title,
+  .portfolio-hero-title-wrap .work-motion-hero__title {
+    width: 100%;
+    max-width: none;
+  }
+}
+
 /**
  * Full-bleed chrome row (header / matching footer).
  * Uses --site-chrome-inline so both stay aligned — no separate footer padding.
@@ -387,6 +474,40 @@ a {
   --site-nav-underline: var(--underline-colour);
   background: var(--nav-background);
   color: var(--nav-text);
+}
+
+/*
+ * Case-study chrome (Verso): solid project blue + white type at all scroll
+ * positions. Re-scopes `--foreground` so `.type-body-lg` links stay white
+ * on light page chrome.
+ */
+.site-header[data-theme="case-study"] {
+  --nav-background: var(--case-study-hero-bg);
+  --nav-text: #ffffff;
+  --foreground: #ffffff;
+  --text-primary: #ffffff;
+  --link-colour: #ffffff;
+  --underline-colour: #ffffff;
+  --site-header-bg: var(--case-study-hero-bg);
+  --site-header-fg: #ffffff;
+  --site-nav-underline: #ffffff;
+  background: var(--case-study-hero-bg);
+  color: var(--site-header-fg);
+}
+
+.site-header[data-theme="case-study"] .site-header__bar {
+  background: var(--case-study-hero-bg);
+  color: var(--site-header-fg);
+}
+
+.site-header[data-theme="case-study"] .site-nav-link::after {
+  background: var(--site-nav-underline);
+}
+
+.site-header[data-theme="case-study"] .mobile-nav,
+.site-header[data-theme="case-study"] .mobile-nav__panel {
+  background: var(--case-study-hero-bg);
+  color: var(--site-header-fg);
 }
 
 .site-header.is-hidden {
@@ -707,10 +828,17 @@ a {
   padding-bottom: 0;
 }
 
-
+/*
+ * Light portfolio chrome (Verso first): white page surface, shared contact/footer.
+ * Reuses Homepage/Work `home-parallax-page` tokens when those classes are present.
+ */
+.case-study-page--light.home-parallax-page {
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
 
 .case-study {
-  /* Content surface follows the active page theme (dark on case studies). */
+  /* Content surface follows the active page theme. */
   --cs-bg: var(--surface-primary);
   --cs-fg: var(--text-primary);
 
@@ -826,7 +954,7 @@ a {
 
 .case-study__hero {
   background: var(--case-study-hero-bg, #4f4e4d);
-  color: #ffffff;
+  color: var(--case-study-hero-fg, #ffffff);
 }
 
 .case-study__hero-inner {
@@ -865,6 +993,92 @@ a {
   width: 100%;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Portfolio case-study heading (Verso+) — placement via grid-column only     */
+/* Parent uses `.prototype-page-container` (Homepage / Work horizontal rail). */
+/* Vertical rhythm on `.case-study-hero__header` only (matches `.hp-hero`).   */
+/* -------------------------------------------------------------------------- */
+
+.case-study-hero__header {
+  padding-block: var(--hp-section-y);
+}
+
+.case-study-hero__grid {
+  row-gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: start;
+}
+
+/* Image sits directly under the padded header — no inherited section padding. */
+.case-study-hero > .case-study__hero-media {
+  margin-top: 0;
+}
+
+.case-study-hero__meta {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.case-study-hero__copy {
+  gap: var(--hero-copy-gap);
+}
+
+/*
+ * Portfolio heading reuses Homepage/Work type classes. Neutralise only the
+ * properties that would fight Verso colour or case-study spacing.
+ * Title width is controlled by `.portfolio-hero-title-wrap` grid-area.
+ */
+.case-study-hero .work-motion-hero__label {
+  margin: 0;
+  color: inherit;
+}
+
+.case-study-hero .hp-hero__title {
+  color: inherit;
+}
+
+.case-study-hero__title {
+  margin: 0;
+}
+
+/*
+ * Metadata — scoped so Homepage caption / body utilities cannot leak in.
+ * Labels: IBM Plex Serif Light 12/13. Values: shared sans 12/13.
+ */
+.case-study-hero__meta-key {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 12px;
+  line-height: 13px;
+  font-weight: 300;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.case-study-hero__meta-value {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 13px;
+  font-weight: 300;
+  letter-spacing: var(--tracking-label);
+  color: inherit;
+}
+
+.case-study-hero__meta-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 0.75rem;
+  row-gap: var(--cs-meta-gap, 1.25rem);
+}
+
+.case-study-hero__meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-meta-stack, 0.5rem);
+  min-width: 0;
+}
+
 @media (min-width: 1024px) {
   .case-study__hero-inner {
     padding-bottom: 0;
@@ -890,6 +1104,20 @@ a {
 
   .case-study__hero-media {
     margin-top: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* Label + title use shared `.portfolio-hero-*` grid-area variables. */
+  .case-study-hero__meta {
+    grid-column: 10 / 13;
+    grid-row: 2;
+    align-self: start;
+    min-width: 0;
+  }
+
+  .case-study-hero__meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cs-meta-gap, 1.25rem);
   }
 }
 

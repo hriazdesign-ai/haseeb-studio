@@ -49,12 +49,19 @@ export function HomeParallaxPrototype({
       {isBlockMode ? null : <PrototypeHeader />}
 
       <main>
-        <section className="hp-hero" aria-labelledby="hp-hero-heading">
+        <section
+          className={isBlockMode ? "hp-hero home-hero" : "hp-hero"}
+          aria-labelledby="hp-hero-heading"
+        >
           {isBlockMode ? (
             <div className="prototype-page-container">
-              <h1 id="hp-hero-heading" className="hp-hero__title">
-                Bringing clarity to complex digital products.
-              </h1>
+              <div className="portfolio-grid portfolio-hero-grid">
+                <div className="portfolio-hero-title-wrap">
+                  <h1 id="hp-hero-heading" className="hp-hero__title">
+                    Bringing clarity to complex digital products.
+                  </h1>
+                </div>
+              </div>
             </div>
           ) : (
             <h1 id="hp-hero-heading" className="hp-hero__title">

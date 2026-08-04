@@ -20,15 +20,24 @@ export function WorkMotionPage() {
          * `.hp-hero` + `.prototype-page-container` — gutters, 1440 max, section-y.
          * Work keeps its eyebrow + title styles only.
          */}
-        <section className="hp-hero" aria-labelledby="work-motion-hero-heading">
+        <section
+          className="hp-hero work-motion-hero"
+          aria-labelledby="work-motion-hero-heading"
+        >
           <div className="prototype-page-container">
-            <p className="work-motion-hero__label">{workMotionHero.label}</p>
-            <h1
-              id="work-motion-hero-heading"
-              className="work-motion-hero__title"
-            >
-              {workMotionHero.title}
-            </h1>
+            <div className="portfolio-grid portfolio-hero-grid">
+              <p className="work-motion-hero__label portfolio-hero-label">
+                {workMotionHero.label}
+              </p>
+              <div className="portfolio-hero-title-wrap">
+                <h1
+                  id="work-motion-hero-heading"
+                  className="work-motion-hero__title"
+                >
+                  {workMotionHero.title}
+                </h1>
+              </div>
+            </div>
           </div>
         </section>
 

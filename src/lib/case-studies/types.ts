@@ -61,6 +61,16 @@ export type CaseStudy = {
   title: string;
   disciplines: string;
   theme: CaseStudyTheme;
+  /**
+   * Page chrome theme. Defaults to `dark` (legacy case studies).
+   * `light` aligns with the approved Homepage / Work visual system.
+   */
+  chrome?: "light" | "dark";
+  /**
+   * Heading layout. `portfolio` = shared 12-column case-study hero
+   * (Verso first). Defaults to `legacy`.
+   */
+  heroLayout?: "legacy" | "portfolio";
   meta: CaseStudyMetaGroup[];
   hero: CaseStudyImage;
   /** Optional section label above the intro (e.g. Overview). */

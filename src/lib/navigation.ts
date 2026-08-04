@@ -41,6 +41,31 @@ export function isWorkRoute(pathname: string): boolean {
   );
 }
 
+/** Verso case study — dark SiteHeader while over the themed hero. */
+export const VERSO_CASE_STUDY_PATH = "/work/verso-design-system";
+
+export function isVersoCaseStudyRoute(pathname: string): boolean {
+  const path = pathname.split(/[?#]/)[0] || pathname;
+  return path === VERSO_CASE_STUDY_PATH;
+}
+
+/**
+ * Routes that use the approved portfolio SiteHeader chrome
+ * (blocks layout + Work / Projects / Contact nav).
+ */
+export function isBlocksChromeRoute(pathname: string): boolean {
+  const path = pathname.split(/[?#]/)[0] || pathname;
+  return (
+    path === "/" ||
+    path === "/home-parallax-blocks" ||
+    path === "/work" ||
+    path === "/work-motion-test" ||
+    path === "/projects-motion-test" ||
+    /* Case studies under /work/[slug] — same shared portfolio nav. */
+    (path.startsWith("/work/") && path !== "/work")
+  );
+}
+
 /**
  * Projects section routes (test + future production).
  * Case studies currently ship under `/work/[slug]` and activate Work.

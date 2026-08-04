@@ -9,6 +9,8 @@
   --hp-accent-strong: #8351fc;
   --hp-accent-soft: rgba(169, 134, 255, 0.12);
   --hp-gutter: clamp(1.25rem, 5vw, 4rem);
+  /* Align shared portfolio rail with Homepage gutters when present. */
+  --page-gutter: var(--hp-gutter);
   --hp-section-y: clamp(4rem, 9vw, 7.5rem);
   --hp-hero-size: clamp(2.75rem, 6.5vw, 5rem);
   --hp-hero-leading: 1.125;
@@ -48,14 +50,9 @@ body:has(.home-parallax-page) .site-footer {
 /* -------------------------------------------------------------------------- */
 /* Width system — Test B (`/home-parallax-blocks`) only                        */
 /* Global `.container` stays at --content-max (1300px) for live routes.        */
+/* `.prototype-page-container` is defined once in globals.css as an alias of   */
+/* `.portfolio-container` (1440 / --page-gutter).                              */
 /* -------------------------------------------------------------------------- */
-
-.prototype-page-container {
-  width: 100%;
-  max-width: 1440px;
-  margin-inline: auto;
-  padding-inline: var(--hp-gutter, var(--gutter));
-}
 
 /*
  * Section backgrounds stay full-bleed; gutters move onto the container.
