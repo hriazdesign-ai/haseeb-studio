@@ -13,8 +13,8 @@ export function PrototypeHeader() {
         </Link>
         <nav aria-label="Prototype primary" className="hp-header__nav">
           <Link href="/work">Work</Link>
-          {/* No dedicated Projects route yet — points at Work until one exists. */}
-          <Link href="/work">Projects</Link>
+          {/* No dedicated Case Studies route yet — points at Work until one exists. */}
+          <Link href="/work">Case Studies</Link>
           <a href="#contact">Contact</a>
         </nav>
       </div>

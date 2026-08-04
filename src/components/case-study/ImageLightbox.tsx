@@ -11,6 +11,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useReducedMotion } from "framer-motion";
+import { MenuToggleButton } from "@/components/layout/MenuToggleButton";
 
 type ImageLightboxProps = {
   src: string;
@@ -99,15 +100,17 @@ export function ImageLightbox({ src, alt, children }: ImageLightboxProps) {
               <p id={titleId} className="sr-only">
                 {alt}
               </p>
-              <button
+              <MenuToggleButton
                 ref={closeRef}
-                type="button"
+                open
+                closeGlyph
                 className="case-study-lightbox__close"
                 aria-label="Close image"
-                onClick={close}
-              >
-                Close
-              </button>
+                onClick={(event) => {
+                  event.stopPropagation();
+                  close();
+                }}
+              />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}

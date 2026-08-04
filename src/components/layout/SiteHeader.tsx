@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useScrollDirectionHeader } from "@/hooks/useScrollDirectionHeader";
 import { useSiteHeaderTheme } from "@/hooks/useSiteHeaderTheme";
+import { MenuToggleButton } from "@/components/layout/MenuToggleButton";
 import {
   homeParallaxBlocksNav,
   isBlocksChromeRoute,
@@ -25,7 +26,7 @@ const DESKTOP_NAV_MQ = "(min-width: 1024px)";
 type SiteHeaderProps = {
   /**
    * Optional nav items. Defaults to `siteNav`, except on blocks chrome routes
-   * (Homepage, Work, Projects, and `/work/[slug]` case studies) which use
+   * (Homepage, Work, Case Studies, and `/work/[slug]` case studies) which use
    * `homeParallaxBlocksNav`.
    */
   items?: readonly SiteNavItem[];
@@ -189,20 +190,13 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
                 Haseeb Riaz Studio
               </Link>
 
-              <button
+              <MenuToggleButton
                 ref={buttonRef}
-                type="button"
-                className="menu-toggle"
+                open={open}
                 aria-label={open ? "Close menu" : "Open menu"}
-                aria-expanded={open}
                 aria-controls={menuId}
                 onClick={() => setOpen((value) => !value)}
-              >
-                <span className="menu-toggle__icon" aria-hidden="true">
-                  <span className="menu-toggle__line menu-toggle__line--top" />
-                  <span className="menu-toggle__line menu-toggle__line--bottom" />
-                </span>
-              </button>
+              />
 
               <nav aria-label="Primary" className="site-header__desktop-nav">
                 <ul className="site-header__nav-list">
@@ -212,7 +206,7 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
                       <li key={`${item.label}-${item.href}`}>
                         <Link
                           href={item.href}
-                          className="site-nav-link type-body-lg tracking-[-0.02em]"
+                          className="site-nav-link"
                           {...(active ? { "aria-current": "page" as const } : {})}
                         >
                           {item.label}
@@ -230,24 +224,20 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
                 style={{ paddingBlock: "var(--header-py)" }}
               >
                 <div className="flex items-center justify-between gap-6">
-                  <Link href="/" className="type-body-lg tracking-[-0.02em]">
+                  <Link
+                    href="/"
+                    className="site-header__logo type-body-lg tracking-[-0.02em]"
+                  >
                     Haseeb Riaz Studio
                   </Link>
 
-                  <button
+                  <MenuToggleButton
                     ref={buttonRef}
-                    type="button"
-                    className="menu-toggle"
+                    open={open}
                     aria-label={open ? "Close menu" : "Open menu"}
-                    aria-expanded={open}
                     aria-controls={menuId}
                     onClick={() => setOpen((value) => !value)}
-                  >
-                    <span className="menu-toggle__icon" aria-hidden="true">
-                      <span className="menu-toggle__line menu-toggle__line--top" />
-                      <span className="menu-toggle__line menu-toggle__line--bottom" />
-                    </span>
-                  </button>
+                  />
                 </div>
 
                 <nav aria-label="Primary" className="site-header__desktop-nav">
@@ -258,7 +248,7 @@ export function SiteHeader({ items, theme }: SiteHeaderProps = {}) {
                         <li key={`${item.label}-${item.href}`}>
                           <Link
                             href={item.href}
-                            className="site-nav-link type-body-lg tracking-[-0.02em]"
+                            className="site-nav-link"
                             {...(active
                               ? { "aria-current": "page" as const }
                               : {})}

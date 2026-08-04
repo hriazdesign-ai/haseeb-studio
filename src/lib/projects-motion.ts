@@ -12,7 +12,7 @@ import type { WorkMotionItem, WorkMotionPresetId } from "@/lib/work-motion";
  */
 
 export const projectsMotionHero = {
-  label: "Featured projects",
+  label: "Featured Case Studies",
   title: "Helping organisations simplify complex digital products.",
 } as const;
 

@@ -13,12 +13,12 @@ export const siteNav = [
 /**
  * Nav for blocks chrome routes (`/`, `/home-parallax-blocks`, `/work`,
  * `/work-motion-test`, `/projects-motion-test`).
- * Projects points at the review test route until production `/projects` ships.
+ * Case Studies points at the review test route until production `/projects` ships.
  * Contact is an in-page anchor to the page contact section.
  */
 export const homeParallaxBlocksNav = [
   { href: "/work", label: "Work" },
-  { href: "/projects-motion-test", label: "Projects" },
+  { href: "/projects-motion-test", label: "Case Studies" },
   { href: "#contact", label: "Contact" },
 ] as const satisfies readonly SiteNavItem[];
 
@@ -103,7 +103,7 @@ export function isPortfolioCaseStudyRoute(pathname: string): boolean {
 
 /**
  * Routes that use the approved portfolio SiteHeader chrome
- * (blocks layout + Work / Projects / Contact nav).
+ * (blocks layout + Work / Case Studies / Contact nav).
  */
 export function isBlocksChromeRoute(pathname: string): boolean {
   const path = pathname.split(/[?#]/)[0] || pathname;
@@ -134,7 +134,7 @@ export function isProjectsRoute(pathname: string): boolean {
 
 /**
  * Whether a header nav item is the active page for `pathname`.
- * Uses label-based route groups so Work vs Projects can share an href
+ * Uses label-based route groups so Work vs Case Studies can share an href
  * without both becoming active. Hash links (e.g. Contact) are never active.
  */
 export function isNavItemActive(item: SiteNavItem, pathname: string): boolean {
@@ -148,7 +148,7 @@ export function isNavItemActive(item: SiteNavItem, pathname: string): boolean {
     return isWorkRoute(path);
   }
 
-  if (label === "projects") {
+  if (label === "case studies" || label === "projects") {
     return isProjectsRoute(path);
   }
 

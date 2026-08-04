@@ -309,6 +309,57 @@ a {
   }
 }
 
+/*
+ * Shared editorial section placement — intro statement + contact.
+ * Markup matches Homepage hero: `.prototype-page-container` > `.portfolio-grid`.
+ * Headings reuse hero title columns (`--hero-title-column-start/end` → 1 / 9).
+ * Copy spans stay independent. Do not change hero placement above.
+ */
+.portfolio-intro-grid {
+  --intro-heading-column-start: var(--hero-title-column-start, 1);
+  --intro-heading-column-end: var(--hero-title-column-end, 9);
+  --intro-copy-column-start: 3;
+  --intro-copy-column-end: 11;
+}
+
+.portfolio-contact-grid {
+  --contact-heading-column-start: var(--hero-title-column-start, 1);
+  --contact-heading-column-end: var(--hero-title-column-end, 9);
+  --contact-copy-column-start: 3;
+  --contact-copy-column-end: 11;
+}
+
+.portfolio-intro-heading,
+.portfolio-intro-copy,
+.portfolio-contact-heading,
+.portfolio-contact-copy {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* Large-desktop editorial rails (matches prior ≥1280 blocks behaviour). */
+@media (min-width: 1280px) {
+  .portfolio-intro-heading {
+    grid-column:
+      var(--intro-heading-column-start) / var(--intro-heading-column-end);
+  }
+
+  .portfolio-intro-copy {
+    grid-column:
+      var(--intro-copy-column-start) / var(--intro-copy-column-end);
+  }
+
+  .portfolio-contact-heading {
+    grid-column:
+      var(--contact-heading-column-start) / var(--contact-heading-column-end);
+  }
+
+  .portfolio-contact-copy {
+    grid-column:
+      var(--contact-copy-column-start) / var(--contact-copy-column-end);
+  }
+}
+
 /**
  * Full-bleed chrome row (header / matching footer).
  * Uses --site-chrome-inline so both stay aligned — no separate footer padding.
@@ -491,6 +542,7 @@ a {
   --site-header-bg: var(--case-study-hero-bg);
   --site-header-fg: #ffffff;
   --site-nav-underline: #ffffff;
+  --site-nav-underline-hover: #ffffff7a;
   background: var(--case-study-hero-bg);
   color: var(--site-header-fg);
 }
@@ -549,17 +601,38 @@ a {
     gap: 28px;
   }
 
+  /*
+   * Single source of truth for desktop header chrome type (20px).
+   * Overrides `.type-body-lg` → var(--text-body-lg) which resolves to 22px
+   * (was still winning on the site-name logo).
+   * Mobile menu keeps `.type-body-lg` unchanged.
+   */
   .site-header__desktop-nav .site-nav-link {
-    width: 90px;
+    width: auto;
+    min-width: 90px;
     font-size: 20px;
     text-align: left;
   }
+
+  .site-header__logo {
+    font-size: 20px;
+  }
 }
 
+/*
+ * Desktop nav link type base. Font-size is applied in the ≥1024px block above
+ * so tablet/mobile menus are unaffected. Not `.type-body-lg` (caps at 22px).
+ */
 .site-nav-link {
   position: relative;
   display: block;
   width: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: var(--leading-body-lg);
+  letter-spacing: -0.02em;
+  color: inherit;
 }
 
 .site-nav-link::after {
@@ -575,17 +648,22 @@ a {
   transition: transform 280ms var(--ease-standard);
 }
 
+/*
+ * Hover / focus only — softer underline (~48% white on project themes → #FFFFFF7A).
+ * Active pages use opacity, not a permanent underline.
+ */
 .site-nav-link:hover::after,
-.site-nav-link:focus-visible::after,
-.site-nav-link[aria-current="page"]::after {
+.site-nav-link:focus-visible::after {
   transform: scaleX(1);
+  background: var(
+    --site-nav-underline-hover,
+    color-mix(in srgb, var(--underline-colour, currentColor) 48%, transparent)
+  );
 }
 
-/* Mobile menu has no hover underline — keep active readable without redesign. */
+.site-nav-link[aria-current="page"],
 .mobile-nav__list a[aria-current="page"] {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.35em;
+  opacity: 0.5;
 }
 
 .menu-toggle {
@@ -636,12 +714,14 @@ a {
   bottom: 0;
 }
 
-.menu-toggle[aria-expanded="true"] .menu-toggle__line--top {
+.menu-toggle[aria-expanded="true"] .menu-toggle__line--top,
+.menu-toggle--close .menu-toggle__line--top {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
 
-.menu-toggle[aria-expanded="true"] .menu-toggle__line--bottom {
+.menu-toggle[aria-expanded="true"] .menu-toggle__line--bottom,
+.menu-toggle--close .menu-toggle__line--bottom {
   top: 50%;
   bottom: auto;
   transform: translateY(-50%) rotate(-45deg);
@@ -1207,28 +1287,17 @@ a {
   animation: none;
 }
 
-.case-study-lightbox__close {
+.case-study-lightbox__close.menu-toggle {
+  display: inline-flex;
   position: absolute;
   top: clamp(1rem, 3vw, 1.5rem);
   right: clamp(1rem, 3vw, 1.5rem);
-  margin: 0;
-  padding: 0.35rem 0.15rem;
-  border: 0;
-  background: transparent;
-  color: rgb(255 255 255 / 0.72);
-  font-family: var(--font-serif);
-  font-size: var(--text-label);
-  font-weight: 300;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-}
-
-.case-study-lightbox__close:hover,
-.case-study-lightbox__close:focus-visible {
+  width: 44px;
+  height: 44px;
   color: #ffffff;
 }
 
-.case-study-lightbox__close:focus-visible {
+.case-study-lightbox__close.menu-toggle:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 4px;
 }

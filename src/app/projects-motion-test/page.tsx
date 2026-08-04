@@ -3,13 +3,13 @@ import { ProjectsMotionPage } from "@/components/projects-motion/ProjectsMotionP
 import { PageTheme } from "@/components/theme/PageTheme";
 
 export const metadata: Metadata = {
-  title: "Projects (motion test) — Haseeb Riaz Studio",
+  title: "Case Studies (motion test) — Haseeb Riaz Studio",
   description:
-    "Test route for the Studio Projects editorial grid and scroll-linked motion.",
+    "Test route for the Studio Case Studies editorial grid and scroll-linked motion.",
 };
 
 /**
- * Temporary Projects test route — does not replace a production Projects page.
+ * Temporary Case Studies test route — does not replace a production page.
  */
 export default function ProjectsMotionTestPage() {
   return (

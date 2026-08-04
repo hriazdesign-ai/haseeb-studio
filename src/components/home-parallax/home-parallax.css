@@ -12,6 +12,7 @@
   /* Align shared portfolio rail with Homepage gutters when present. */
   --page-gutter: var(--hp-gutter);
   --hp-section-y: clamp(4rem, 9vw, 7.5rem);
+  /* Fluid below desktop; ≥1024px locks to 70/80 via media query below. */
   --hp-hero-size: clamp(2.75rem, 6.5vw, 5rem);
   --hp-hero-leading: 1.125;
   --hp-quote-size: clamp(2rem, 4.5vw, 3.75rem);
@@ -22,6 +23,19 @@
   --hp-body-leading: 1.333;
   --hp-caption-size: clamp(1.25rem, 2vw, 1.75rem);
   --hp-caption-leading: 1.15;
+}
+
+/*
+ * Desktop editorial headings — page heroes + contact title
+ * (“Let’s build something thoughtful.”). Fluid tokens below stay unchanged.
+ */
+@media (min-width: 1024px) {
+  .home-parallax-page {
+    --hp-hero-size: 70px;
+    --hp-hero-leading: 80px;
+    --hp-contact-size: var(--hp-hero-size);
+    --hp-contact-leading: var(--hp-hero-leading);
+  }
 }
 
 /*
@@ -118,19 +132,17 @@ body:has(.home-parallax-page) .site-footer {
   gap: clamp(4.5rem, 9vw, 8rem);
 }
 
-.home-parallax-page--blocks .hp-intro__inner {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(3rem, 8vw, 7.5rem);
-}
-
 /*
  * --------------------------------------------------------------------------
- * Blocks editorial sections (statement + contact) — large desktop only
+ * Blocks editorial sections (statement + contact)
  *
- * Tokens (change in one place):
- *   --hp-blocks-editorial-inset: 164px  → outer + inner column offset
- *   Breakpoint: 1280px (HP_BLOCKS_EDITORIAL_MIN)
+ * Same horizontal rail as Homepage hero:
+ *   .prototype-page-container → .portfolio-grid
+ * Heading columns reuse `--hero-title-column-start/end` (1 / 9).
+ *
+ * Do NOT zero container padding-inline on desktop — that shifted grid line 1
+ * relative to the hero. `--hp-blocks-editorial-inset` remains for the
+ * Bright Path / Meridian pair only.
  * --------------------------------------------------------------------------
  */
 .home-parallax-page--blocks {
@@ -139,71 +151,46 @@ body:has(.home-parallax-page) .site-footer {
   --hp-blocks-meridian-offset: 120px;
 }
 
-.home-parallax-page--blocks .hp-blocks-editorial {
-  display: flex;
-  flex-direction: column;
-}
-
-.home-parallax-page--blocks .hp-blocks-editorial.hp-intro__inner {
-  /* gap: clamp(3rem, 8vw, 7.5rem); */
-  gap: 96px;
-}
-
-.home-parallax-page--blocks .hp-contact .hp-blocks-editorial {
-  /* Title already owns its bottom margin */
-  gap: 0;
+.home-parallax-page--blocks .hp-intro__inner {
+  row-gap: 96px;
 }
 
 /*
- * Editorial sections below large desktop — container owns horizontal spacing;
- * copy wrappers fill the content box; paragraphs keep a ~40rem measure.
- * Desktop (≥1280px) rules below are unchanged.
+ * Below large desktop — tighter horizontal inset + centred copy measure.
+ * Desktop (≥1280) keeps the shared `.prototype-page-container` gutters.
  */
 @media (max-width: 1279px) {
-    /* Horizontal spacing for both editorial sections */
-    .home-parallax-page--blocks .hp-blocks-editorial {
-      padding-inline: clamp(40px, 8vw, 100px);
-    }
-  
-    /* Centre the biography and contact copy blocks */
-    .home-parallax-page--blocks .hp-intro__copy,
-    .home-parallax-page--blocks .hp-contact__body,
-    .home-parallax-page--blocks .hp-blocks-editorial__body {
-      width: 100%;
-      max-width: 40rem;
-      margin-inline: auto;
-    }
-  
-    /* Reduce the gap between the purple statement and biography */
-    .home-parallax-page--blocks
-      .hp-blocks-editorial.hp-intro__inner {
-      gap: 40px;
-    }
-  
-    /* Reduce the gap between the contact heading and contact copy */
-    .home-parallax-page--blocks .hp-contact__title {
-      margin-bottom: 40px;
-    }
+  .home-parallax-page--blocks .hp-intro .prototype-page-container,
+  .home-parallax-page--blocks .hp-contact .prototype-page-container {
+    padding-inline: clamp(40px, 8vw, 100px);
   }
+
+  .home-parallax-page--blocks .hp-intro__copy,
+  .home-parallax-page--blocks .hp-contact__body {
+    width: 100%;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  .home-parallax-page--blocks .hp-intro__inner {
+    row-gap: 40px;
+  }
+
+  .home-parallax-page--blocks .hp-contact__title {
+    margin-bottom: 40px;
+  }
+}
 
 @media (min-width: 1280px) {
-  /*
-   * Keep `.prototype-page-container` at max-width 1440px.
-   * Outer inset via padding on headings’ content box.
-   * Body sits with equal 164px insets on both sides inside that box.
-   */
-  .home-parallax-page--blocks .hp-blocks-editorial {
-    padding-inline: var(--hp-blocks-editorial-inset);
-  }
-
-  .home-parallax-page--blocks .hp-blocks-editorial__body {
-    margin-inline: var(--hp-blocks-editorial-inset);
-    width: calc(100% - (var(--hp-blocks-editorial-inset) * 2));
+  /* Neutralise legacy measure / indent once grid columns control width. */
+  .home-parallax-page--blocks .portfolio-grid .hp-intro__copy,
+  .home-parallax-page--blocks .portfolio-grid .hp-contact__body {
     max-width: none;
+    margin-inline-start: 0;
   }
 
   /*
-   * Bright Path + Meridian — same 1440 / 164 outer rails as editorial sections.
+   * Bright Path + Meridian — same 1440 / 164 outer rails as before.
    * One outer inset on `.hp-work__constrained` only (no nested pair padding).
    * Internal 12-col grid: Bright Path 1–5, gap col 6, Meridian 7–12.
    */

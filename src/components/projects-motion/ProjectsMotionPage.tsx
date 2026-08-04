@@ -33,7 +33,7 @@ export function ProjectsMotionPage() {
           </div>
         </section>
 
-        <section aria-label="Featured projects">
+        <section aria-label="Featured Case Studies">
           <ProjectsMotionGrid />
         </section>
       </main>

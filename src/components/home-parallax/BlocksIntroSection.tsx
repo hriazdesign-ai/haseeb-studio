@@ -100,42 +100,43 @@ export function BlocksIntroSection() {
 
   return (
     <section className="hp-intro" aria-labelledby="hp-intro-heading">
-      <div className="prototype-page-container hp-intro__inner hp-blocks-editorial">
-        <motion.h2
-          ref={statementRef}
-          id="hp-intro-heading"
-          className="hp-intro__quote hp-blocks-editorial__heading"
-          style={{
-            opacity: motionDisabled ? 1 : statementOpacity,
-            y: motionDisabled ? 0 : statementY,
-          }}
-        >
-          Turning complexity into something that feels simple.
-        </motion.h2>
+      {/* Same rail as Homepage hero: container → portfolio-grid */}
+      <div className="prototype-page-container">
+        <div className="portfolio-grid portfolio-intro-grid hp-intro__inner">
+          <motion.h2
+            ref={statementRef}
+            id="hp-intro-heading"
+            className="hp-intro__quote portfolio-intro-heading"
+            style={{
+              opacity: motionDisabled ? 1 : statementOpacity,
+              y: motionDisabled ? 0 : statementY,
+            }}
+          >
+            Turning complexity into something that feels simple.
+          </motion.h2>
 
-        <div
-          ref={bioRef}
-          className="hp-intro__copy hp-blocks-editorial__body"
-        >
-          <motion.p
-            style={{
-              opacity: motionDisabled ? 1 : p1Opacity,
-              y: motionDisabled ? 0 : p1Y,
-            }}
-          >
-            I’m a Senior Product Designer with more than twenty years of
-            experience designing products, design systems and editorial
-            platforms.
-          </motion.p>
-          <motion.p
-            style={{
-              opacity: motionDisabled ? 1 : p2Opacity,
-              y: motionDisabled ? 0 : p2Y,
-            }}
-          >
-            After sixteen years at Condé Nast, I now work independently, helping
-            organisations simplify complex products through thoughtful design.
-          </motion.p>
+          <div ref={bioRef} className="hp-intro__copy portfolio-intro-copy">
+            <motion.p
+              style={{
+                opacity: motionDisabled ? 1 : p1Opacity,
+                y: motionDisabled ? 0 : p1Y,
+              }}
+            >
+              I’m a Senior Product Designer with more than twenty years of
+              experience designing products, design systems and editorial
+              platforms.
+            </motion.p>
+            <motion.p
+              style={{
+                opacity: motionDisabled ? 1 : p2Opacity,
+                y: motionDisabled ? 0 : p2Y,
+              }}
+            >
+              After sixteen years at Condé Nast, I now work independently,
+              helping organisations simplify complex products through thoughtful
+              design.
+            </motion.p>
+          </div>
         </div>
       </div>
     </section>
