@@ -93,9 +93,12 @@ export const meridianAndCoCaseStudy: CaseStudy = {
   ],
   feature: {
     src: `${base}/pricing-feature.png`,
+    mobileSrc: `${base}/pricing-feature-mobile.png`,
     alt: "Laptop mockup showing Meridian & Co. pricing plans",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption: "Pricing Experience · Choosing The Right Plan",
   },

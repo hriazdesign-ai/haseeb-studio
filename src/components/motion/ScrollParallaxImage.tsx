@@ -1,19 +1,21 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import {
   motion,
   useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
+import { ArtDirectedFillImage } from "@/components/case-study/ArtDirectedFillImage";
 
 /** Total vertical travel in px (gentle depth, not obvious motion). */
 const PARALLAX_TRAVEL = 72;
 
 type ScrollParallaxImageProps = {
   src: string;
+  /** Optional phone crop; used below the tablet breakpoint. */
+  mobileSrc?: string;
   alt: string;
   sizes?: string;
   priority?: boolean;
@@ -26,6 +28,7 @@ type ScrollParallaxImageProps = {
  */
 export function ScrollParallaxImage({
   src,
+  mobileSrc,
   alt,
   sizes = "100vw",
   priority = false,
@@ -48,7 +51,10 @@ export function ScrollParallaxImage({
   const inset = PARALLAX_TRAVEL / 2;
 
   return (
-    <div ref={containerRef} className={["absolute inset-0", className].filter(Boolean).join(" ")}>
+    <div
+      ref={containerRef}
+      className={["absolute inset-0", className].filter(Boolean).join(" ")}
+    >
       <motion.div
         className="absolute inset-x-0"
         style={{
@@ -58,13 +64,12 @@ export function ScrollParallaxImage({
           willChange: shouldReduceMotion ? undefined : "transform",
         }}
       >
-        <Image
+        <ArtDirectedFillImage
           src={src}
+          mobileSrc={mobileSrc}
           alt={alt}
-          fill
-          priority={priority}
-          className="object-cover"
           sizes={sizes}
+          priority={priority}
         />
       </motion.div>
     </div>

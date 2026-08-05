@@ -64,9 +64,12 @@ export const brandIdentityCaseStudy: CaseStudy = {
       label: "Street Foods",
       image: {
         src: `${base}/street-foods.png`,
+        mobileSrc: `${base}/street-foods-mobile.png`,
         alt: "BMÔH Street Foods stencilled logo on a textured wall",
         width: 1920,
         height: 1080,
+        mobileWidth: 1170,
+        mobileHeight: 780,
         zoomable: true,
         caption:
           "Street Foods · Building a memorable identity for a food brand.",
@@ -147,9 +150,12 @@ export const brandIdentityCaseStudy: CaseStudy = {
       label: "Balqees",
       image: {
         src: `${base}/balqees-logo.png`,
+        mobileSrc: `${base}/balqees-logo-mobile.png`,
         alt: "Balqees geometric gold honey bee logo on a deep maroon patterned field",
         width: 1620,
         height: 900,
+        mobileWidth: 1170,
+        mobileHeight: 780,
         zoomable: true,
         caption:
           "Balqees · Developing a premium identity inspired by heritage.",

@@ -4,7 +4,7 @@ import { ImageAuditClient } from "./ImageAuditClient";
 import "./image-audit.css";
 
 export const metadata = {
-  title: "Image audit · Dev",
+  title: "Image Manager · Dev",
   robots: {
     index: false,
     follow: false,
@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 /**
- * Developer-only image inventory. Unavailable in production builds.
+ * Developer-only image management tool. Unavailable in production builds.
  */
 export default function ImageAuditPage() {
   if (process.env.NODE_ENV === "production") {
@@ -22,10 +22,6 @@ export default function ImageAuditPage() {
   const audit = buildImageAudit();
 
   return (
-    <ImageAuditClient
-      groups={audit.groups}
-      entries={audit.entries}
-      summary={audit.summary}
-    />
+    <ImageAuditClient entries={audit.entries} summary={audit.summary} />
   );
 }

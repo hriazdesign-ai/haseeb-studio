@@ -92,6 +92,20 @@ export const blocksProjectMotion = {
   },
 } as const;
 
+/**
+ * Shared full-bleed case-study hero motion.
+ * Near-native crop: settles from a barely perceptible overscan to 1.
+ * Kept separate from `blocksProjectMotion.mumsUnited` so homepage cards stay unchanged.
+ */
+export const caseStudyHeroMotion = {
+  imageY: { from: 90, to: -90 },
+  overscan: 140,
+  imageScale: {
+    keyframes: [1.03, 1.015, 1],
+    stops: [0, 0.5, 1],
+  } satisfies ImageScaleKeyframes,
+} as const;
+
 /** CTA uses a dedicated local ref in BlocksWorkSection; kept for reference. */
 export const blocksCtaMotion = {
   opacity: [0, 1] as const,

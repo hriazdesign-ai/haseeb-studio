@@ -64,6 +64,24 @@ export const homeProjects: Project[] = [
 export const studioWorkProjects = homeProjects;
 
 /**
+ * Canonical portfolio order (studio + enterprise).
+ * Used by the case-study “What’s next” carousel; unknown/new project ids
+ * are appended after this list automatically.
+ */
+export const portfolioProjectOrder = [
+  "mums-united",
+  "bright-path-learning",
+  "meridian-and-co",
+  "editorial-experience",
+  "editorial-publications",
+  "digital-editions",
+  "verso-design-system",
+  "onenav",
+  "delivery-drop",
+  "brand-identity",
+] as const;
+
+/**
  * Professional Experience projects.
  * Thumbnails exported from Figma Work page (node 595:18754).
  */

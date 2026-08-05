@@ -1104,7 +1104,77 @@ a {
   max-width: none;
   margin-inline: 0;
   overflow: hidden;
+  border: 0;
   border-radius: 0;
+  box-shadow: none;
+}
+
+.case-study-hero-media__image {
+  object-position: var(--case-study-hero-object-position, center);
+}
+
+/*
+ * Mobile hero — intrinsic flow. No fixed frame, absolute fill, or object-fit.
+ * Height collapses to the rendered bitmap (mobileSrc or src fallback).
+ */
+.case-study-hero-media--intrinsic {
+  overflow: visible;
+  height: auto;
+  min-height: 0;
+  background: transparent;
+}
+
+.case-study-hero-media--intrinsic picture,
+.case-study-hero-media--intrinsic img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: unset;
+  object-position: unset;
+  position: static;
+}
+
+/*
+ * Supporting case-study UI screenshots (galleries, half-width, etc.).
+ * Heroes and Large Features must not use this class.
+ */
+.case-study-media--bordered {
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  box-shadow: none;
+  background: #fff;
+}
+
+/* Large Feature — no border, shadow, or radius. */
+.case-study-large-feature__frame {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/*
+ * Tablet case-study heroes (framed path only): landscape frame.
+ * Mobile uses `.case-study-hero-media--intrinsic` and skips this frame.
+ * Scoped — homepage Mums United keeps 6 / 4.
+ */
+@media (max-width: 1023px) {
+  .home-parallax-page--blocks
+    .case-study-hero-media:not(.case-study-hero-media--intrinsic)
+    .hp-blocks-mums-frame {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+  }
+
+  .case-study-hero-media:not(.case-study-hero-media--intrinsic)
+    .case-study-hero-media__image {
+    object-position: var(
+      --case-study-hero-mobile-object-position,
+      var(--case-study-hero-object-position, center)
+    );
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1122,6 +1192,12 @@ a {
 .case-study-hero__meta {
   grid-column: 1 / -1;
   min-width: 0;
+}
+
+@media (max-width: 1023px) {
+  .case-study-hero__meta {
+    margin-top: 32px;
+  }
 }
 
 .case-study-hero__copy {
@@ -1157,7 +1233,6 @@ a {
   line-height: 13px;
   font-weight: 300;
   letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
   color: inherit;
 }
 
@@ -1231,7 +1306,8 @@ a {
   background: var(--cs-bg);
   color: var(--cs-fg);
   padding-top: var(--stack-gap);
-  padding-bottom: 80px;
+  /* Desktop: match What’s next section vertical rhythm (--csc-section-y) */
+  padding-bottom: 129px;
 }
 
 @media (max-width: 1023px) {

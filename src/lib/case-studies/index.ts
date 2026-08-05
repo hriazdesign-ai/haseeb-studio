@@ -18,6 +18,11 @@ export type {
   CaseStudyTheme,
 } from "./types";
 
+export {
+  ART_DIRECTION_MOBILE_MAX_PX,
+  LARGE_FEATURE_MOBILE_MAX_PX,
+} from "./breakpoints";
+
 export { getCaseStudyTheme, projectThemes, studioTheme } from "@/lib/project-themes";
 export type { ProjectTheme, ProjectThemeId } from "@/lib/project-themes";
 

@@ -66,9 +66,12 @@ export const deliveryDropCaseStudy: CaseStudy = {
       parallax: false,
       image: {
         src: `${base}/category-browsing.png`,
+        mobileSrc: `${base}/category-browsing-mobile.png`,
         alt: "Delivery Drop category tiles and mobile shopping screens",
         width: 3240,
         height: 2072,
+        mobileWidth: 1170,
+        mobileHeight: 780,
         zoomable: true,
         caption:
           "Category browsing · Creating a simple and visual shopping experience.",
@@ -115,9 +118,12 @@ export const deliveryDropCaseStudy: CaseStudy = {
       label: "Illustration system",
       image: {
         src: `${base}/illustration-system.png`,
+        mobileSrc: `${base}/illustration-system-mobile.png`,
         alt: "Delivery Drop brand illustrations including characters and product icons",
         width: 3240,
         height: 2072,
+        mobileWidth: 1170,
+        mobileHeight: 780,
         zoomable: true,
         caption:
           "Illustration system · Creating a friendly and recognisable brand personality.",
@@ -164,9 +170,12 @@ export const deliveryDropCaseStudy: CaseStudy = {
       parallax: false,
       image: {
         src: `${base}/digital-advertising.png`,
+        mobileSrc: `${base}/digital-advertising-mobile.png`,
         alt: "Delivery Drop digital advertising campaign across online channels",
         width: 3240,
         height: 2072,
+        mobileWidth: 1170,
+        mobileHeight: 780,
         zoomable: true,
         caption:
           "Digital advertising · Art directing a campaign across multiple online channels.",

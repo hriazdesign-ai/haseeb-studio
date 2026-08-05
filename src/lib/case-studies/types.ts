@@ -3,6 +3,27 @@ export type CaseStudyImage = {
   alt: string;
   width: number;
   height: number;
+  /**
+   * Optional art-directed mobile asset (heroes, Large Features).
+   * Used below the shared art-direction breakpoint (`max-width: 767px`).
+   * Falls back to `src` when omitted.
+   */
+  mobileSrc?: string;
+  /** Intrinsic width of `mobileSrc` when it differs from desktop. */
+  mobileWidth?: number;
+  /** Intrinsic height of `mobileSrc` when it differs from desktop. */
+  mobileHeight?: number;
+  /**
+   * CSS `object-position` for art-directing crops (esp. case-study heroes).
+   * Examples: `"center"`, `"center top"`, `"center 35%"`, `"center 60%"`.
+   * Defaults to `"center"` when omitted.
+   */
+  objectPosition?: string;
+  /**
+   * Mobile-only `object-position` (below 1024px). Falls back to
+   * `objectPosition`, then `"center"`.
+   */
+  mobileObjectPosition?: string;
   /** Enable zoom-in lightbox for detailed UI screenshots. */
   zoomable?: boolean;
   caption?: string;
@@ -37,8 +58,8 @@ export type CaseStudyBodyBlock =
       image: CaseStudyImage;
       label?: string;
       /**
-       * Scroll parallax for large atmospheric features. Defaults to true.
-       * Set false for detailed UI where cropping would hurt readability.
+       * @deprecated Large Features no longer use scroll parallax (it clipped
+       * exported 6∶4 artwork). Kept for backwards-compatible case-study data.
        */
       parallax?: boolean;
     }

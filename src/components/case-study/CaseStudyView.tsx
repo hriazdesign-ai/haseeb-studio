@@ -1,6 +1,8 @@
 import { CaseStudyHeroHeading } from "@/components/case-study/CaseStudyHeroHeading";
 import { CaseStudyHeroMedia } from "@/components/case-study/CaseStudyHeroMedia";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
+import { CaseStudyProjectCarousel } from "@/components/case-study/CaseStudyProjectCarousel";
+import { LargeFeature } from "@/components/case-study/LargeFeature";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { blocksStatementMotion } from "@/lib/home-parallax-blocks-motion";
@@ -98,27 +100,6 @@ function PullQuoteImage({
   );
 }
 
-function LargeFeature({
-  image,
-  label,
-  parallax = true,
-}: {
-  image: CaseStudyImage;
-  label: string;
-  parallax?: boolean;
-}) {
-  return (
-    <section className="container" aria-label={label}>
-      <CaseStudyMedia
-        image={image}
-        parallax={parallax}
-        frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
-        sizes="100vw"
-      />
-    </section>
-  );
-}
-
 function BodyBlocks({ blocks }: { blocks: CaseStudyBodyBlock[] }) {
   return (
     <>
@@ -139,7 +120,6 @@ function BodyBlocks({ blocks }: { blocks: CaseStudyBodyBlock[] }) {
               key={`feature-${block.image.src}-${index}`}
               image={block.image}
               label={block.label ?? "Featured design"}
-              parallax={block.parallax}
             />
           );
         }
@@ -360,100 +340,104 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
   const usePortfolioHeading = study.heroLayout === "portfolio";
 
   return (
-    <article className="case-study">
-      <header className="case-study__hero">
-        {usePortfolioHeading ? (
-          <>
-            <div className="prototype-page-container case-study-hero">
-              <CaseStudyHeroHeading study={study} />
-            </div>
-            <CaseStudyHeroMedia image={study.hero} />
-          </>
-        ) : (
-          <>
-            <div
-              className="container case-study__hero-inner"
-              style={{ paddingTop: "var(--stack-gap)" }}
-            >
-              <div className="case-study__hero-grid">
-                <div
-                  className="case-study__hero-copy flex flex-col"
-                  style={{ gap: "var(--hero-copy-gap)" }}
-                >
-                  <p className="type-cs-eyebrow">{study.name}</p>
-                  <h1 className="type-cs-title">{study.title}</h1>
-                  {study.disciplines ? (
-                    <p className="type-cs-meta-value">{study.disciplines}</p>
-                  ) : null}
+    <>
+      <article className="case-study">
+        <header className="case-study__hero">
+          {usePortfolioHeading ? (
+            <>
+              <div className="prototype-page-container case-study-hero">
+                <CaseStudyHeroHeading study={study} />
+              </div>
+              <CaseStudyHeroMedia image={study.hero} />
+            </>
+          ) : (
+            <>
+              <div
+                className="container case-study__hero-inner"
+                style={{ paddingTop: "var(--stack-gap)" }}
+              >
+                <div className="case-study__hero-grid">
+                  <div
+                    className="case-study__hero-copy flex flex-col"
+                    style={{ gap: "var(--hero-copy-gap)" }}
+                  >
+                    <p className="type-cs-eyebrow">{study.name}</p>
+                    <h1 className="type-cs-title">{study.title}</h1>
+                    {study.disciplines ? (
+                      <p className="type-cs-meta-value">{study.disciplines}</p>
+                    ) : null}
+                  </div>
+
+                  <dl className="case-study__meta m-0">
+                    {study.meta.map((group) => (
+                      <div key={group.label} className="case-study__meta-group">
+                        <dt className="type-cs-meta-label">{group.label}</dt>
+                        {group.values.map((value) => (
+                          <dd key={value} className="type-cs-meta-value">
+                            {group.label === "Focus:" ||
+                            group.label === "Platform:"
+                              ? `· ${value}`
+                              : value}
+                          </dd>
+                        ))}
+                      </div>
+                    ))}
+                  </dl>
                 </div>
+              </div>
 
-                <dl className="case-study__meta m-0">
-                  {study.meta.map((group) => (
-                    <div key={group.label} className="case-study__meta-group">
-                      <dt className="type-cs-meta-label">{group.label}</dt>
-                      {group.values.map((value) => (
-                        <dd key={value} className="type-cs-meta-value">
-                          {group.label === "Focus:" ||
-                          group.label === "Platform:"
-                            ? `· ${value}`
-                            : value}
-                        </dd>
-                      ))}
-                    </div>
+              <div className="case-study__hero-media">
+                <CaseStudyMedia
+                  image={study.hero}
+                  priority
+                  showCaption={false}
+                  parallax
+                  bordered={false}
+                  frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
+                  sizes="100vw"
+                />
+              </div>
+            </>
+          )}
+        </header>
+
+        <div
+          className="case-study__body stack"
+          style={{ gap: "var(--stack-gap)" }}
+        >
+          <section className="container" aria-label="Introduction">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="hidden lg:block" aria-hidden="true" />
+              <div
+                className="flex max-w-[35.25rem] flex-col"
+                style={{
+                  gap: study.introLabel
+                    ? "var(--hero-copy-gap)"
+                    : undefined,
+                }}
+              >
+                {study.introLabel ? (
+                  <h2 className="type-cs-section">{study.introLabel}</h2>
+                ) : null}
+                <div className="flex flex-col gap-8">
+                  {study.intro.map((paragraph) => (
+                    <p key={paragraph.slice(0, 32)} className="type-cs-body">
+                      {paragraph}
+                    </p>
                   ))}
-                </dl>
+                </div>
               </div>
             </div>
+          </section>
 
-            <div className="case-study__hero-media">
-              <CaseStudyMedia
-                image={study.hero}
-                priority
-                showCaption={false}
-                parallax
-                frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
-                sizes="100vw"
-              />
-            </div>
-          </>
-        )}
-      </header>
-
-      <div
-        className="case-study__body stack"
-        style={{ gap: "var(--stack-gap)" }}
-      >
-        <section className="container" aria-label="Introduction">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="hidden lg:block" aria-hidden="true" />
-            <div
-              className="flex max-w-[35.25rem] flex-col"
-              style={{
-                gap: study.introLabel
-                  ? "var(--hero-copy-gap)"
-                  : undefined,
-              }}
-            >
-              {study.introLabel ? (
-                <h2 className="type-cs-section">{study.introLabel}</h2>
-              ) : null}
-              <div className="flex flex-col gap-8">
-                {study.intro.map((paragraph) => (
-                  <p key={paragraph.slice(0, 32)} className="type-cs-body">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {study.bodyBlocks ? (
-          <BodyBlocks blocks={study.bodyBlocks} />
-        ) : (
-          <StandardBody study={study} />
-        )}
-      </div>
-    </article>
+          {study.bodyBlocks ? (
+            <BodyBlocks blocks={study.bodyBlocks} />
+          ) : (
+            <StandardBody study={study} />
+          )}
+        </div>
+      </article>
+      <CaseStudyProjectCarousel currentSlug={study.slug} />
+    </>
   );
 }

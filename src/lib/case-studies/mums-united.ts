@@ -72,9 +72,12 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   ],
   feature: {
     src: `${base}/programmes-feature.png`,
+    mobileSrc: `${base}/programmes-feature-mobile.png`,
     alt: "Programmes page in a desktop browser mockup on a gold field",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption: "Responsive Design · Support Services Platform",
   },

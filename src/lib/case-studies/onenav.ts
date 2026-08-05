@@ -85,9 +85,12 @@ export const oneNavCaseStudy: CaseStudy = {
   ],
   feature: {
     src: `${base}/responsive-navigation.png`,
+    mobileSrc: `${base}/responsive-navigation-mobile.png`,
     alt: "them. brand desktop and mobile navigation on a purple field",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption: "Responsive navigation · Tablet navigation in context.",
   },
@@ -112,9 +115,12 @@ export const oneNavCaseStudy: CaseStudy = {
   },
   closingFeature: {
     src: `${base}/platform-evolution.png`,
+    mobileSrc: `${base}/platform-evolution-mobile.png`,
     alt: "Annotated platform evolution concepts including adaptive masthead, enhanced search and contextual ribbon",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption:
       "Platform Evolution · Exploring concepts for the next phase of the navigation platform.",

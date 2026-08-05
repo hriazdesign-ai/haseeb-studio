@@ -38,9 +38,12 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   featurePlacement: "beforeChallenge",
   feature: {
     src: `${base}/editorial-system.png`,
+    mobileSrc: `${base}/editorial-system-mobile.png`,
     alt: "Responsive editorial system layouts and typography for digital publishing",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption:
       "Editorial system · Developing responsive layouts and typography for digital publishing.",
@@ -74,9 +77,12 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   ],
   closingFeature: {
     src: `${base}/digital-covers.png`,
+    mobileSrc: `${base}/digital-covers-mobile.png`,
     alt: "Digital edition covers across Condé Nast publications",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption:
       "Digital covers · Preserving the identity of iconic publications across digital editions.",
@@ -91,9 +97,12 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   },
   postResultFeature: {
     src: `${base}/interactive-edition.png`,
+    mobileSrc: `${base}/interactive-edition-mobile.png`,
     alt: "Interactive digital edition reading experience on tablet",
     width: 2304,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
     zoomable: true,
     caption:
       "Interactive edition · Bringing editorial stories to life through responsive reading experiences.",

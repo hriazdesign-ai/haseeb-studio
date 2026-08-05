@@ -1,0 +1,302 @@
+/* -------------------------------------------------------------------------- */
+/* “What's next” carousel — Figma Studio 884:11441                            */
+/*                                                                            */
+/* Architecture: portfolio grid only measures a column-6 anchor. The scroll   */
+/* viewport is a full-bleed sibling (100vw). Track padding uses the measured  */
+/* --carousel-left so the first card starts at that grid line.                */
+/* -------------------------------------------------------------------------- */
+
+.case-study-carousel {
+  /* Figma card frame 884:11722 — unchanged */
+  --csc-card-width: 360px;
+  --csc-card-gap: 8px;
+  --csc-caption-gap: 18px;
+  --csc-caption-max: 296px;
+  --csc-arrow-size: 24px;
+  --csc-arrow-gap: 30px;
+  --csc-section-y: 129px;
+  --csc-title-gap: 60px;
+  --csc-controls-gap: 30px;
+  --portfolio-page-gutter: var(--page-gutter, var(--gutter));
+
+  color: inherit;
+  background: transparent;
+  padding-block: var(--csc-section-y);
+  border-top: 1px solid rgba(131, 81, 252, 0.5);
+  border-bottom: 1px solid rgba(131, 81, 252, 0.5);
+  /* Page-level overflow-x: clip remains on body — do not clip here. */
+  overflow: visible;
+}
+
+.case-study-carousel__grid {
+  align-items: start;
+}
+
+.case-study-carousel__title {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  padding-bottom: var(--csc-title-gap);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.75rem, 7vw, 5.625rem);
+  line-height: 1.11;
+  letter-spacing: -0.04em;
+  color: inherit;
+}
+
+.case-study-carousel__controls {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--csc-arrow-gap);
+  padding-bottom: var(--csc-controls-gap);
+  width: 100%;
+}
+
+.case-study-carousel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--csc-arrow-size);
+  height: var(--csc-arrow-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.case-study-carousel__arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.case-study-carousel__arrow:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+.case-study-carousel__arrow-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.case-study-carousel__arrow--next .case-study-carousel__arrow-icon {
+  transform: scaleX(-1);
+}
+
+/* Invisible grid-column marker — measured for --carousel-left */
+.case-study-carousel__anchor {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Full-browser-width scrollport (sibling of portfolio-container) */
+.case-study-carousel__viewport {
+  width: 100vw;
+  margin-inline-start: calc(50% - 50vw);
+  overflow-x: auto;
+  overflow-y: visible;
+  max-width: none;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* Snapport inset only — layout offset lives on the track padding. */
+  scroll-padding-inline-start: var(--carousel-left, 0px);
+  /* Arrow motion uses rAF — avoid competing CSS smooth scrolling. */
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.case-study-carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.case-study-carousel__viewport.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none;
+}
+
+/* Arrow rAF tween: kill snap / CSS smooth so the end pose doesn’t jump. */
+.case-study-carousel__viewport.is-animating {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.case-study-carousel__track {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  width: max-content;
+  padding-inline-start: var(--carousel-left, 0px);
+  padding-inline-end: var(--portfolio-page-gutter);
+  box-sizing: border-box;
+}
+
+.case-study-carousel__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--csc-caption-gap);
+  flex: 0 0 var(--csc-card-width);
+  flex-shrink: 0;
+  width: var(--csc-card-width);
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.case-study-carousel__card:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+.case-study-carousel__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 360 / 232;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.case-study-carousel__media-hover {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--motion-image-hover-duration)
+    var(--motion-image-hover-ease);
+}
+
+.case-study-carousel__image {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-study-carousel__card:hover .case-study-carousel__media-hover {
+    transform: scale(var(--motion-image-hover-scale));
+  }
+}
+
+.case-study-carousel__card:focus-visible .case-study-carousel__media-hover,
+.case-study-carousel__card:focus-within .case-study-carousel__media-hover {
+  transform: scale(var(--motion-image-hover-scale));
+}
+
+.case-study-carousel__caption {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: fit-content;
+  max-width: var(--csc-caption-max);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.case-study-carousel__caption-text {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.case-study-carousel__caption-arrow {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ---- Desktop (≥1024px) -------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .case-study-carousel {
+    --csc-card-width: 360px;
+  }
+
+  .case-study-carousel__title {
+    grid-column: 1 / 9;
+    grid-row: 1;
+    font-size: 90px;
+    line-height: 100px;
+    letter-spacing: -3.6px;
+  }
+
+  .case-study-carousel__controls {
+    grid-column: 11 / 13;
+    grid-row: 2;
+    justify-self: stretch;
+    justify-content: flex-end;
+  }
+
+  .case-study-carousel__anchor {
+    grid-column: 6 / 7;
+    grid-row: 3;
+    width: 100%;
+    height: 0;
+  }
+}
+
+/* ---- Tablet / mobile ---------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .case-study-carousel {
+    --csc-section-y: clamp(4rem, 12vw, 6rem);
+    --csc-title-gap: 2rem;
+    --csc-controls-gap: 1.25rem;
+    --csc-card-width: min(
+      360px,
+      calc(100vw - var(--portfolio-page-gutter) * 2 - 48px)
+    );
+  }
+
+  .case-study-carousel__title,
+  .case-study-carousel__controls,
+  .case-study-carousel__anchor {
+    grid-column: 1 / -1;
+  }
+
+  .case-study-carousel__viewport {
+    scroll-padding-inline-start: var(--portfolio-page-gutter);
+  }
+
+  .case-study-carousel__track {
+    padding-inline-start: var(--portfolio-page-gutter);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study-carousel__viewport {
+    scroll-behavior: auto;
+  }
+
+  .case-study-carousel__arrow {
+    transition: none;
+  }
+
+  .case-study-carousel__media-hover {
+    transition: none;
+  }
+
+  .case-study-carousel__card:hover .case-study-carousel__media-hover,
+  .case-study-carousel__card:focus-visible .case-study-carousel__media-hover,
+  .case-study-carousel__card:focus-within .case-study-carousel__media-hover {
+    transform: none;
+  }
+}
