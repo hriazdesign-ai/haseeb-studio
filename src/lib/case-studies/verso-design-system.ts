@@ -26,10 +26,15 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2022–2026"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/hero-1.png`,
+    mobileSrc: `${base}/hero-1-mobile.png`,
     alt: "Verso design system component collage on a deep navy field",
-    width: 2560,
+    width: 2880,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   intro: [
     "Verso is Condé Nast's shared design system, created to bring consistency across digital products used by editorial teams around the world.",
@@ -40,7 +45,7 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
   challengeGalleryPlacement: "before",
   challengeGallery: [
     {
-      src: `${base}/system-onboarding.png`,
+      src: `${base}/system-onboarding-1.png`,
       alt: "Verso system onboarding documentation interface",
       width: 1120,
       height: 722,
@@ -48,7 +53,7 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
       caption: "System onboarding · Helping teams adopt shared standards.",
     },
     {
-      src: `${base}/simplifying-system.png`,
+      src: `${base}/simplifying-system-1.png`,
       alt: "Verso component simplification documentation",
       width: 1120,
       height: 722,
@@ -72,7 +77,7 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
   },
   midGallery: [
     {
-      src: `${base}/design-tokens.png`,
+      src: `${base}/design-tokens-1.png`,
       alt: "Verso design tokens documentation in Storybook",
       width: 1120,
       height: 722,
@@ -80,7 +85,7 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
       caption: "Design tokens · Creating a shared design language.",
     },
     {
-      src: `${base}/in-production.png`,
+      src: `${base}/in-production-1.png`,
       alt: "Verso components applied in a live editorial product",
       width: 1120,
       height: 722,
@@ -89,7 +94,7 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
     },
   ],
   feature: {
-    src: `${base}/across-brands.png`,
+    src: `${base}/across-brands-2.png`,
     mobileSrc: `${base}/across-brands-mobile.png`,
     alt: "Verso components supporting multiple editorial brand experiences",
     width: 2304,
@@ -111,8 +116,8 @@ export const versoDesignSystemCaseStudy: CaseStudy = {
     ],
   },
   closingFeature: {
-    src: `${base}/built-for-publishing.png`,
-    mobileSrc: `${base}/built-for-publishing-mobile.png`,
+    src: `${base}/built-for-publishing-1.png`,
+    mobileSrc: `${base}/built-for-publishing-1-mobile.png`,
     alt: "Verso components applied across Condé Nast publishing brands",
     width: 2304,
     height: 1440,

@@ -215,6 +215,11 @@ body:has(.work-motion-page) .site-footer {
   position: absolute;
   inset: 0;
   transform-origin: center center;
+  /*
+   * Never set `transform` in CSS. Framer Motion owns `y` / `scale` and must
+   * compose them (e.g. translateY(...) scale(1)). A CSS transform would
+   * overwrite the scroll-linked translateY.
+   */
 }
 
 .work-media-hover {

@@ -20,8 +20,8 @@ export type CaseStudyImage = {
    */
   objectPosition?: string;
   /**
-   * Mobile-only `object-position` (below 1024px). Falls back to
-   * `objectPosition`, then `"center"`.
+   * Mobile-only `object-position` (below the art-direction breakpoint, 767px).
+   * Falls back to `objectPosition`, then `"center"`.
    */
   mobileObjectPosition?: string;
   /** Enable zoom-in lightbox for detailed UI screenshots. */

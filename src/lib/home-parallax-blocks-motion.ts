@@ -94,16 +94,17 @@ export const blocksProjectMotion = {
 
 /**
  * Shared full-bleed case-study hero motion.
- * Near-native crop: settles from a barely perceptible overscan to 1.
+ * Vertical travel only — scale stays at 1. Overscan covers max travel + margin.
  * Kept separate from `blocksProjectMotion.mumsUnited` so homepage cards stay unchanged.
  */
 export const caseStudyHeroMotion = {
-  imageY: { from: 90, to: -90 },
-  overscan: 140,
-  imageScale: {
-    keyframes: [1.03, 1.015, 1],
-    stops: [0, 0.5, 1],
-  } satisfies ImageScaleKeyframes,
+  /** Desktop travel (px). Tablet uses ±14 in CaseStudyHeroMedia. */
+  imageY: { from: 24, to: -24 },
+  /** Desktop overscan each side (travel + safety). */
+  overscan: 28,
+  /** Tablet travel / overscan (px). */
+  tabletImageY: { from: 14, to: -14 },
+  tabletOverscan: 18,
 } as const;
 
 /** CTA uses a dedicated local ref in BlocksWorkSection; kept for reference. */

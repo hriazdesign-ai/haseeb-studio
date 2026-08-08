@@ -25,10 +25,15 @@ export const digitalEditionsCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2019–2023"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/hero-1.png`,
+    mobileSrc: `${base}/hero-1-mobile.png`,
     alt: "Vogue and Wired digital edition mockups across laptop, tablet and phone",
     width: 2560,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   introLabel: "Overview",
   intro: [
@@ -37,8 +42,8 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   ],
   featurePlacement: "beforeChallenge",
   feature: {
-    src: `${base}/editorial-system.png`,
-    mobileSrc: `${base}/editorial-system-mobile.png`,
+    src: `${base}/editorial-system-1.png`,
+    mobileSrc: `${base}/editorial-system-1-mobile.png`,
     alt: "Responsive editorial system layouts and typography for digital publishing",
     width: 2304,
     height: 1440,
@@ -59,7 +64,7 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   },
   midGallery: [
     {
-      src: `${base}/wired-exploration.png`,
+      src: `${base}/wired-exploration-1.png`,
       alt: "WIRED digital edition system metrics and typography exploration",
       width: 1120,
       height: 722,
@@ -67,7 +72,7 @@ export const digitalEditionsCaseStudy: CaseStudy = {
       caption: "WIRED exploration · Defining a bold digital identity.",
     },
     {
-      src: `${base}/vogue-exploration.png`,
+      src: `${base}/vogue-exploration-1.png`,
       alt: "Vogue digital edition layout and imagery exploration",
       width: 1120,
       height: 722,
@@ -76,8 +81,8 @@ export const digitalEditionsCaseStudy: CaseStudy = {
     },
   ],
   closingFeature: {
-    src: `${base}/digital-covers.png`,
-    mobileSrc: `${base}/digital-covers-mobile.png`,
+    src: `${base}/digital-covers-1.png`,
+    mobileSrc: `${base}/digital-covers-1-mobile.png`,
     alt: "Digital edition covers across Condé Nast publications",
     width: 2304,
     height: 1440,
@@ -96,8 +101,8 @@ export const digitalEditionsCaseStudy: CaseStudy = {
     ],
   },
   postResultFeature: {
-    src: `${base}/interactive-edition.png`,
-    mobileSrc: `${base}/interactive-edition-mobile.png`,
+    src: `${base}/interactive-edition-1.gif`,
+    mobileSrc: `${base}/interactive-edition-1.gif`,
     alt: "Interactive digital edition reading experience on tablet",
     width: 2304,
     height: 1440,

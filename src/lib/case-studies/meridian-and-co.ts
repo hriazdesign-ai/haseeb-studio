@@ -26,9 +26,14 @@ export const meridianAndCoCaseStudy: CaseStudy = {
   ],
   hero: {
     src: `${base}/hero.png`,
+    mobileSrc: `${base}/hero-mobile.png`,
     alt: "Tablet mockup showing the Meridian & Co. website on a desk",
     width: 2560,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   intro: [
     "Meridian & Co. is a modern accountancy practice supporting individuals, freelancers and small businesses with accounting, tax and financial planning services.",

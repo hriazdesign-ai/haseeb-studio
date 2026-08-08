@@ -65,8 +65,8 @@ export const studioWorkProjects = homeProjects;
 
 /**
  * Canonical portfolio order (studio + enterprise).
- * Used by the case-study “What’s next” carousel; unknown/new project ids
- * are appended after this list automatically.
+ * Used by the case-study “What’s next” carousel and Image Manager;
+ * unknown/new project ids are appended after this list automatically.
  */
 export const portfolioProjectOrder = [
   "mums-united",
@@ -91,10 +91,10 @@ export const experienceProjects: Project[] = [
     name: "Verso Design System",
     title: "A shared design system for Condé Nast's global brands.",
     image: {
-      src: "/images/work/verso-design-system/cover-1.png",
+      src: "/images/work/verso-design-system/cover-2.png",
       alt: "Verso design system UI collage with navigation and content components",
       width: 3000,
-      height: 3000,
+      height: 2000,
     },
     size: "experience",
     href: "/work/verso-design-system",
@@ -104,7 +104,7 @@ export const experienceProjects: Project[] = [
     name: "OneNav",
     title: "A scalable navigation system built across multiple brands.",
     image: {
-      src: "/images/work/onenav/cover-1.png",
+      src: "/images/work/onenav/cover-5.png",
       alt: "OneNav mobile navigation system shown beside a WIRED article",
       width: 3000,
       height: 3000,
@@ -117,7 +117,7 @@ export const experienceProjects: Project[] = [
     name: "Editorial Experience",
     title: "Simplifying publishing tools used across Condé Nast.",
     image: {
-      src: "/images/work/editorial-experience/cover-3.png",
+      src: "/images/work/editorial-experience/cover-4.png",
       alt: "Editorial highlight box tooling beside a British Vogue mobile preview",
       width: 3000,
       height: 3000,
@@ -144,7 +144,7 @@ export const experienceProjects: Project[] = [
     name: "Editorial & Publications",
     title: "Typography, layout and storytelling across print.",
     image: {
-      src: "/images/work/editorial-publications/cover-1.png",
+      src: "/images/work/editorial-publications/cover-2.png",
       alt: "Geometric editorial print layout with EALA mark",
       width: 3000,
       height: 3000,
@@ -180,3 +180,30 @@ export const experienceProjects: Project[] = [
     href: "/work/delivery-drop",
   },
 ];
+
+/**
+ * Every portfolio project in canonical order (studio + experience).
+ * Prefer this over maintaining a separate Image Manager project list.
+ */
+export function getPortfolioProjects(): Project[] {
+  const byId = new Map(
+    [...studioWorkProjects, ...experienceProjects].map((project) => [
+      project.id,
+      project,
+    ]),
+  );
+  const ordered: Project[] = [];
+
+  for (const id of portfolioProjectOrder) {
+    const project = byId.get(id);
+    if (!project) continue;
+    ordered.push(project);
+    byId.delete(id);
+  }
+
+  for (const project of byId.values()) {
+    ordered.push(project);
+  }
+
+  return ordered;
+}

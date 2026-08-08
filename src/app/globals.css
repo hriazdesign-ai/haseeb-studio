@@ -32,6 +32,8 @@ html[data-theme="light"] {
   /* Brand accents (shared across themes) */
   --muted: #a89c7a;
   --accent: #a89c7a;
+  /* Neutral rule used by portfolio footer / carousel dividers */
+  --color-divider: #dddddd;
 
   /* Layout — Figma desktop gutters are 64px; nav switches at 1024px */
   --content-max: 1300px;
@@ -1114,6 +1116,18 @@ a {
 }
 
 /*
+ * Fill layer inside the overscan shell. Framer Motion owns `y` only.
+ * Do not set transform here — it would override the scroll-linked motion.
+ */
+.case-study-hero-media__parallax {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+/*
  * Mobile hero — intrinsic flow. No fixed frame, absolute fill, or object-fit.
  * Height collapses to the rendered bitmap (mobileSrc or src fallback).
  */
@@ -1140,7 +1154,7 @@ a {
  * Heroes and Large Features must not use this class.
  */
 .case-study-media--bordered {
-  border: 1px solid #dddddd;
+  border: 1px solid var(--color-divider);
   border-radius: 0;
   box-shadow: none;
   background: #fff;
@@ -1151,7 +1165,8 @@ a {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-  background: transparent;
+  /* Match article surface so subtle y travel never shows a foreign band. */
+  background: var(--cs-bg, var(--background, transparent));
 }
 
 /*
@@ -1174,18 +1189,6 @@ a {
       --case-study-hero-mobile-object-position,
       var(--case-study-hero-object-position, center)
     );
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .case-study-hero-media .homepage-parallax-frame:hover .hp-blocks-hover-scale {
-    transform: scale(var(--motion-image-hover-scale));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .case-study-hero-media .homepage-parallax-frame:hover .hp-blocks-hover-scale {
-    transform: none;
   }
 }
 

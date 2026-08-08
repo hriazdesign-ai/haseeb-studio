@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,6 +19,7 @@ import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionB
 import { resolveScaleKeyframes } from "@/lib/home-parallax-blocks-motion";
 import { progressInRange, sectionReveal } from "@/lib/motion";
 import {
+  versoImageParallax,
   workMotionPresets,
   workProjectParallaxSpring,
   workProjectScrollOffset,
@@ -115,6 +116,8 @@ export function WorkMotionProject({
   cardY,
 }: WorkMotionProjectProps) {
   const isPaired = cardY !== undefined;
+  /** Verso: image pans inside a fixed frame; card/frame never translate. */
+  const isVersoImageParallax = item.id === "verso-design-system";
   const projectRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -129,7 +132,7 @@ export function WorkMotionProject({
     offset: workProjectScrollOffset as unknown as ["start 95%", "end 10%"],
   });
 
-  /** Image scale tracks the fixed frame (independent of whole-card y). */
+  /** Frame-linked scroll for image scale (other cards) / Verso image y. */
   const { scrollYProgress: frameProgress } = useScroll({
     target: frameRef,
     offset: ["start 95%", "end 10%"],
@@ -148,20 +151,76 @@ export function WorkMotionProject({
         ? blockRange.to * 0.6
         : blockRange.to;
 
-  const travelRef = useRef({ fromY, toY, motionDisabled, isPaired });
-  travelRef.current = { fromY, toY, motionDisabled, isPaired };
+  const travelRef = useRef({
+    fromY,
+    toY,
+    motionDisabled,
+    isPaired,
+    isVersoImageParallax,
+  });
+
+  const versoRange =
+    breakpoint === "mobile"
+      ? versoImageParallax.mobile
+      : breakpoint === "tablet"
+        ? versoImageParallax.tablet
+        : versoImageParallax.desktop;
+
+  const versoTravelRef = useRef({
+    from: versoRange.from,
+    to: versoRange.to,
+    motionDisabled,
+    active: isVersoImageParallax,
+  });
+
+  useEffect(() => {
+    travelRef.current = {
+      fromY,
+      toY,
+      motionDisabled,
+      isPaired,
+      isVersoImageParallax,
+    };
+    versoTravelRef.current = {
+      from: versoRange.from,
+      to: versoRange.to,
+      motionDisabled,
+      active: isVersoImageParallax,
+    };
+  }, [
+    fromY,
+    toY,
+    motionDisabled,
+    isPaired,
+    isVersoImageParallax,
+    versoRange.from,
+    versoRange.to,
+  ]);
 
   const soloRawY = useTransform(soloProgress, (progress) => {
     const travel = travelRef.current;
-    if (travel.motionDisabled || travel.isPaired) return 0;
+    if (
+      travel.motionDisabled ||
+      travel.isPaired ||
+      travel.isVersoImageParallax
+    ) {
+      return 0;
+    }
     return travel.fromY + (travel.toY - travel.fromY) * progress;
   });
 
   const soloY = useSpring(soloRawY, workProjectParallaxSpring);
   const wholeCardY = isPaired ? cardY : soloY;
 
+  const versoImageRawY = useTransform(frameProgress, (progress) => {
+    const travel = versoTravelRef.current;
+    if (travel.motionDisabled || !travel.active) return 0;
+    return travel.from + (travel.to - travel.from) * progress;
+  });
+  const versoImageY = useSpring(versoImageRawY, workProjectParallaxSpring);
+
   const imageScale = useTransform(frameProgress, (progress) => {
-    if (motionDisabled) return 1;
+    if (motionDisabled || isVersoImageParallax) return 1;
     const [a, b, c] = resolveScaleKeyframes(
       preset.imageScale.keyframes,
       scaleStrength,
@@ -179,6 +238,7 @@ export function WorkMotionProject({
   });
 
   const frameClass = ["work-media-frame", mediaRoleClass(item.role)].join(" ");
+  const overscan = versoImageParallax.overscan;
 
   return (
     <article className="work-project-grid-item work-motion-pair__item">
@@ -186,8 +246,13 @@ export function WorkMotionProject({
         ref={projectRef}
         className="work-project-parallax"
         style={{
-          y: motionDisabled ? 0 : wholeCardY,
-          willChange: motionDisabled ? undefined : "transform",
+          // Verso: card stays put. Other solo cards keep whole-card y.
+          y:
+            motionDisabled || isVersoImageParallax
+              ? 0
+              : wholeCardY,
+          willChange:
+            motionDisabled || isVersoImageParallax ? undefined : "transform",
         }}
       >
         <MotionLink
@@ -205,12 +270,25 @@ export function WorkMotionProject({
           <div ref={frameRef} className={frameClass}>
             <motion.div
               className="work-media-scale"
-              style={{
-                scale: (motionDisabled ? 1 : imageScale) as
-                  | number
-                  | MotionValue<number>,
-                transformOrigin: "center center",
-              }}
+              style={
+                isVersoImageParallax
+                  ? {
+                      y: motionDisabled ? 0 : versoImageY,
+                      scale: 1,
+                      transformOrigin: "center center",
+                      // Vertical overscan so translateY is clipped, not gapped.
+                      top: -overscan,
+                      bottom: -overscan,
+                      left: 0,
+                      right: 0,
+                    }
+                  : {
+                      scale: (motionDisabled ? 1 : imageScale) as
+                        | number
+                        | MotionValue<number>,
+                      transformOrigin: "center center",
+                    }
+              }
             >
               <div className="work-media-hover">
                 <Image

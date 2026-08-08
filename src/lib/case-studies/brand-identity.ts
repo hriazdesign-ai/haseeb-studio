@@ -25,10 +25,15 @@ export const brandIdentityCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2011–2021"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/hero-1.png`,
+    mobileSrc: `${base}/hero-1-mobile.png`,
     alt: "Mikado Power Tools brand identity with neon-lit tools on a dark field",
     width: 1620,
     height: 911,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   introLabel: "Overview",
   intro: [
@@ -63,8 +68,8 @@ export const brandIdentityCaseStudy: CaseStudy = {
       type: "feature",
       label: "Street Foods",
       image: {
-        src: `${base}/street-foods.png`,
-        mobileSrc: `${base}/street-foods-mobile.png`,
+        src: `${base}/street-foods-1.png`,
+        mobileSrc: `${base}/street-foods-1-mobile.png`,
         alt: "BMÔH Street Foods stencilled logo on a textured wall",
         width: 1920,
         height: 1080,
@@ -149,8 +154,8 @@ export const brandIdentityCaseStudy: CaseStudy = {
       type: "feature",
       label: "Balqees",
       image: {
-        src: `${base}/balqees-logo.png`,
-        mobileSrc: `${base}/balqees-logo-mobile.png`,
+        src: `${base}/balqees-logo-1.png`,
+        mobileSrc: `${base}/balqees-logo-1-mobile.png`,
         alt: "Balqees geometric gold honey bee logo on a deep maroon patterned field",
         width: 1620,
         height: 900,

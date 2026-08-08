@@ -26,10 +26,15 @@ export const oneNavCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2023–2026"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/hero-3.png`,
+    mobileSrc: `${base}/hero-mobile-1.png`,
     alt: "WIRED desktop side navigation beside a mobile navigation mockup",
     width: 2560,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   intro: [
     "As Condé Nast's digital products continued to evolve, navigation became an increasingly important part of the overall user experience. Different products had developed their own approaches over time, making it harder to create consistent journeys while increasing the effort required to maintain and extend navigation across teams.",
@@ -39,7 +44,7 @@ export const oneNavCaseStudy: CaseStudy = {
   challengeGalleryPlacement: "before",
   challengeGallery: [
     {
-      src: `${base}/navigation-patterns.png`,
+      src: `${base}/navigation-patterns-1.png`,
       alt: "OneNav responsive navigation pattern variations",
       width: 1120,
       height: 722,
@@ -47,7 +52,7 @@ export const oneNavCaseStudy: CaseStudy = {
       caption: "Navigation patterns · Responsive layout exploration.",
     },
     {
-      src: `${base}/navigation-architecture.png`,
+      src: `${base}/navigation-architecture-1.png`,
       alt: "Annotated OneNav component architecture with spacing rules",
       width: 1120,
       height: 722,
@@ -67,7 +72,7 @@ export const oneNavCaseStudy: CaseStudy = {
   },
   midGallery: [
     {
-      src: `${base}/cross-brand-rollout.png`,
+      src: `${base}/cross-brand-rollout-1.png`,
       alt: "OneNav patterns applied across multiple editorial brand navigation bars",
       width: 1120,
       height: 722,
@@ -75,7 +80,7 @@ export const oneNavCaseStudy: CaseStudy = {
       caption: "Cross-brand rollout · Shared patterns across editorial brands.",
     },
     {
-      src: `${base}/cross-device-navigation.png`,
+      src: `${base}/cross-device-navigation-1.png`,
       alt: "Desktop, tablet and mobile OneNav adaptations",
       width: 1120,
       height: 722,
@@ -84,8 +89,8 @@ export const oneNavCaseStudy: CaseStudy = {
     },
   ],
   feature: {
-    src: `${base}/responsive-navigation.png`,
-    mobileSrc: `${base}/responsive-navigation-mobile.png`,
+    src: `${base}/responsive-navigation-1.png`,
+    mobileSrc: `${base}/responsive-navigation-1-mobile.png`,
     alt: "them. brand desktop and mobile navigation on a purple field",
     width: 2304,
     height: 1440,
@@ -114,8 +119,8 @@ export const oneNavCaseStudy: CaseStudy = {
     ],
   },
   closingFeature: {
-    src: `${base}/platform-evolution.png`,
-    mobileSrc: `${base}/platform-evolution-mobile.png`,
+    src: `${base}/platform-evolution-1.png`,
+    mobileSrc: `${base}/platform-evolution-1-mobile.png`,
     alt: "Annotated platform evolution concepts including adaptive masthead, enhanced search and contextual ribbon",
     width: 2304,
     height: 1440,

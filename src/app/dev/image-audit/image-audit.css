@@ -118,22 +118,31 @@ body:has(.dev-image-audit) .site-footer {
   font-size: 0.9rem;
 }
 
-.dev-image-audit__project-summary-grid {
+.dev-image-audit__project-summary-grid,
+.dev-image-audit__overview-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
 @media (max-width: 720px) {
-  .dev-image-audit__project-summary-grid {
+  .dev-image-audit__project-summary-grid,
+  .dev-image-audit__overview-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.dev-image-audit__project-summary-grid p {
+.dev-image-audit__project-summary-grid p,
+.dev-image-audit__overview-grid p {
   margin: 0.15rem 0 0;
   font-size: 0.9rem;
   line-height: 1.4;
+}
+
+@media (min-width: 721px) and (max-width: 960px) {
+  .dev-image-audit__overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .dev-image-audit__dashboard {
@@ -218,6 +227,92 @@ body:has(.dev-image-audit) .site-footer {
   border: 1px solid var(--dia-line);
   border-radius: 12px;
   background: var(--dia-card);
+}
+
+.dev-image-audit__card--metadata-warn {
+  border-color: #e2b66d;
+  box-shadow: inset 0 0 0 1px rgba(138, 90, 0, 0.12);
+}
+
+.dev-image-audit__status-stack {
+  display: grid;
+  justify-items: end;
+  gap: 0.15rem;
+  text-align: right;
+}
+
+.dev-image-audit__badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.dev-image-audit__badge--warn {
+  background: #fff1d6;
+  color: var(--dia-warn);
+}
+
+.dev-image-audit__code-meta {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--dia-line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.dev-image-audit__code-meta--warn {
+  border-color: #e2b66d;
+  background: #fffaf0;
+}
+
+.dev-image-audit__code-meta-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+}
+
+.dev-image-audit__code-meta-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dev-image-audit__metadata-warning {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.dev-image-audit__metadata-warning p {
+  margin: 0;
+  color: var(--dia-warn);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.dev-image-audit__meta-row--warn dd {
+  color: var(--dia-bad);
+  font-weight: 500;
+}
+
+.dev-image-audit__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .dev-image-audit__card-heading {

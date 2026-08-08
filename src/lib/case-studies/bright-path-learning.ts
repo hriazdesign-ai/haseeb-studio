@@ -26,9 +26,14 @@ export const brightPathLearningCaseStudy: CaseStudy = {
   ],
   hero: {
     src: `${base}/hero.png`,
+    mobileSrc: `${base}/hero-mobile.png`,
     alt: "Bright Path Learning website homepage in a desktop browser mockup",
     width: 2560,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   intro: [
     "Bright Path Learning is a tutoring website designed to feel calm, clear and reassuring. The goal was to help parents quickly understand the support available, feel confident in the service, and take the next step without confusion.",

@@ -139,6 +139,18 @@ export const workProjectScrollOffset = ["start 95%", "end 10%"] as const;
 export const workProjectParallaxSpring = cardParallax.soloSpring;
 
 /**
+ * Verso cover — internal image y inside a fixed, overflow-hidden frame.
+ * Card/frame stay stationary; only `.work-media-scale` translates.
+ */
+export const versoImageParallax = {
+  desktop: { from: -24, to: 24 },
+  tablet: { from: -16, to: 16 },
+  mobile: { from: -12, to: 12 },
+  /** Extra px each side so translateY never reveals the frame background. */
+  overscan: 28,
+} as const;
+
+/**
  * Whole-card y travel (px) — single projects only.
  * Paired projects use `workPairAlignMotion` instead.
  */

@@ -9,10 +9,11 @@ import type {
   ImageAuditSummary,
 } from "@/lib/dev/image-audit-shared";
 import {
-  AUDIT_PROJECT_OPTIONS,
+  buildAuditProjectOptions,
   AUDIT_ROLE_FILTER_OPTIONS,
   AUDIT_ROLE_SECTIONS,
   computeProjectStats,
+  isArtDirectedAuditRole,
   matchesRoleFilter,
   roleSectionFor,
 } from "@/lib/dev/image-audit-shared";
@@ -26,20 +27,16 @@ type ImageAuditClientProps = {
 const ROLE_RANK: Record<AuditRoleKind, number> = {
   Hero: 0,
   "Large Feature": 1,
-  Gallery: 2,
-  Quote: 3,
-  "Phone Mockup": 4,
-  "Browser Mockup": 5,
-  Diagram: 6,
-  Cover: 7,
-  Thumbnail: 8,
-  Other: 9,
+  "Closing Feature": 2,
+  Gallery: 3,
+  Quote: 4,
+  "Phone Mockup": 5,
+  "Browser Mockup": 6,
+  Diagram: 7,
+  Cover: 8,
+  Thumbnail: 9,
+  Other: 10,
 };
-
-function resolveFilterSlug(projectParam: string): string {
-  const option = AUDIT_PROJECT_OPTIONS.find((item) => item.slug === projectParam);
-  return option?.filterSlug ?? "";
-}
 
 function AssetThumb({
   src,
@@ -76,31 +73,121 @@ function AssetThumb({
   );
 }
 
-function MetaRow({ label, value }: { label: string; value: string }) {
+function MetaRow({
+  label,
+  value,
+  warn = false,
+}: {
+  label: string;
+  value: string;
+  warn?: boolean;
+}) {
   return (
-    <div className="dev-image-audit__meta-row">
+    <div
+      className={[
+        "dev-image-audit__meta-row",
+        warn ? "dev-image-audit__meta-row--warn" : null,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <dt>{label}</dt>
       <dd>{value}</dd>
     </div>
   );
 }
 
-function isArtDirectedRole(role: ImageAuditEntry["role"]) {
-  return role === "Hero" || role === "Large Feature";
+function CodeMetadataBlock({
+  width,
+  height,
+  mismatch,
+  correctSnippet,
+  variant,
+}: {
+  width: number | null;
+  height: number | null;
+  mismatch: boolean;
+  correctSnippet: string;
+  variant: "desktop" | "mobile";
+}) {
+  return (
+    <div
+      className={[
+        "dev-image-audit__code-meta",
+        mismatch ? "dev-image-audit__code-meta--warn" : null,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      <div className="dev-image-audit__code-meta-header">
+        <h5 className="dev-image-audit__code-meta-title">Code Metadata</h5>
+        {mismatch ? (
+          <span className="dev-image-audit__badge dev-image-audit__badge--warn">
+            ⚠ Mismatch
+          </span>
+        ) : null}
+      </div>
+
+      <dl className="dev-image-audit__meta">
+        <MetaRow
+          label="Width"
+          value={width != null ? String(width) : "—"}
+          warn={mismatch}
+        />
+        <MetaRow
+          label="Height"
+          value={height != null ? String(height) : "—"}
+          warn={mismatch}
+        />
+      </dl>
+
+      {mismatch ? (
+        <div className="dev-image-audit__metadata-warning">
+          <p>⚠ Code dimensions do not match the exported image.</p>
+          <CopyButton
+            label="Copy Correct Metadata"
+            value={correctSnippet}
+            variant="secondary"
+          />
+        </div>
+      ) : null}
+
+      <p className="dev-image-audit__sr-only">
+        {variant} TypeScript width and height
+      </p>
+    </div>
+  );
 }
 
 function DesktopAssetCard({ entry }: { entry: ImageAuditEntry }) {
-  const focused = isArtDirectedRole(entry.role);
+  const intrinsicLabel =
+    entry.intrinsicWidth != null && entry.intrinsicHeight != null
+      ? `${entry.intrinsicWidth} × ${entry.intrinsicHeight}`
+      : "—";
 
   return (
     <section className="dev-image-audit__asset-card">
       <header className="dev-image-audit__asset-card-header">
         <h4 className="dev-image-audit__asset-card-title">Desktop</h4>
-        <span
-          className={`dev-image-audit__status dev-image-audit__status--${entry.status}`}
-        >
-          {entry.statusLabel}
-        </span>
+        <div className="dev-image-audit__status-stack">
+          <span
+            className={`dev-image-audit__status dev-image-audit__status--${entry.status}`}
+          >
+            {entry.fileExists ? "✓ Desktop artwork exists" : "⚠ Missing Desktop"}
+          </span>
+          <span
+            className={[
+              "dev-image-audit__status",
+              entry.metadataMismatch
+                ? "dev-image-audit__status--too-small"
+                : entry.metadataStatus === "correct"
+                  ? "dev-image-audit__status--ideal"
+                  : "dev-image-audit__status--unused",
+            ].join(" ")}
+          >
+            {entry.metadataStatusLabel}
+          </span>
+        </div>
       </header>
 
       <AssetThumb
@@ -125,28 +212,24 @@ function DesktopAssetCard({ entry }: { entry: ImageAuditEntry }) {
       </div>
 
       <dl className="dev-image-audit__meta">
+        <MetaRow label="Image Role" value={entry.role} />
+        <MetaRow label="Desktop / Mobile" value="Desktop" />
         <MetaRow label="Source filename" value={entry.filename} />
         <MetaRow label="Image path" value={entry.publicPath} />
-        <MetaRow label="Export size" value={entry.recommendedExport} />
-        <MetaRow label="Aspect ratio" value={entry.aspectRatioLabel} />
-        {!focused ? (
-          <>
-            <MetaRow
-              label="Intrinsic size"
-              value={
-                entry.intrinsicWidth != null && entry.intrinsicHeight != null
-                  ? `${entry.intrinsicWidth} × ${entry.intrinsicHeight}`
-                  : "—"
-              }
-            />
-            <MetaRow label="objectPosition" value={entry.objectPosition} />
-            <MetaRow
-              label="Source TS file"
-              value={entry.sourceFile || "—"}
-            />
-          </>
-        ) : null}
+        <MetaRow label="Export Size" value={entry.recommendedExport} />
+        <MetaRow label="Intrinsic Size" value={intrinsicLabel} />
+        <MetaRow label="Aspect Ratio" value={entry.aspectRatioLabel} />
+        <MetaRow label="Object Position" value={entry.objectPosition} />
+        <MetaRow label="Source TS file" value={entry.sourceFile || "—"} />
       </dl>
+
+      <CodeMetadataBlock
+        width={entry.dataWidth}
+        height={entry.dataHeight}
+        mismatch={entry.metadataMismatch}
+        correctSnippet={entry.correctMetadataSnippet}
+        variant="desktop"
+      />
     </section>
   );
 }
@@ -154,25 +237,46 @@ function DesktopAssetCard({ entry }: { entry: ImageAuditEntry }) {
 function MobileAssetCard({ entry }: { entry: ImageAuditEntry }) {
   const declared = Boolean(entry.mobileSrc);
   const hasMobile = declared && entry.mobileFileExists;
-  const isLargeFeature = entry.role === "Large Feature";
-  const focused = isArtDirectedRole(entry.role);
+  const focused = isArtDirectedAuditRole(entry.role);
   const mobilePath = entry.mobilePublicPath;
   const mobileFilename = entry.mobileFilename;
   const thumbSrc = hasMobile ? entry.mobileSrc : null;
+  const intrinsicLabel =
+    entry.mobileIntrinsicWidth != null && entry.mobileIntrinsicHeight != null
+      ? `${entry.mobileIntrinsicWidth} × ${entry.mobileIntrinsicHeight}`
+      : "—";
 
   return (
     <section className="dev-image-audit__asset-card">
       <header className="dev-image-audit__asset-card-header">
         <h4 className="dev-image-audit__asset-card-title">Mobile</h4>
-        <span
-          className={`dev-image-audit__status ${
-            hasMobile
-              ? "dev-image-audit__status--ideal"
-              : "dev-image-audit__status--too-small"
-          }`}
-        >
-          {entry.mobileStatusLabel}
-        </span>
+        <div className="dev-image-audit__status-stack">
+          <span
+            className={`dev-image-audit__status ${
+              hasMobile
+                ? "dev-image-audit__status--ideal"
+                : entry.requiresMobile
+                  ? "dev-image-audit__status--too-small"
+                  : "dev-image-audit__status--unused"
+            }`}
+          >
+            {entry.mobileStatusLabel}
+          </span>
+          {declared ? (
+            <span
+              className={[
+                "dev-image-audit__status",
+                entry.mobileMetadataMismatch
+                  ? "dev-image-audit__status--too-small"
+                  : entry.mobileMetadataStatus === "correct"
+                    ? "dev-image-audit__status--ideal"
+                    : "dev-image-audit__status--unused",
+              ].join(" ")}
+            >
+              {entry.mobileMetadataStatusLabel}
+            </span>
+          ) : null}
+        </div>
       </header>
 
       <AssetThumb
@@ -184,19 +288,19 @@ function MobileAssetCard({ entry }: { entry: ImageAuditEntry }) {
         }
         objectPosition={entry.mobileObjectPosition}
         missing={!hasMobile}
-        missingLabel="Missing Mobile Artwork"
+        missingLabel={declared ? "Artwork missing" : "Missing mobileSrc config"}
       />
 
       {!hasMobile ? (
         <div className="dev-image-audit__missing-mobile">
           <p className="dev-image-audit__missing-mobile-title">
-            Missing Mobile Artwork
+            {declared ? "Artwork missing" : "Missing mobileSrc config"}
           </p>
-          {isLargeFeature ? (
+          {focused ? (
             <p>
               {declared
-                ? "mobileSrc is declared in case-study data, but the file was not found on disk."
-                : "This Large Feature has not yet been provided with a mobile image (mobileSrc)."}
+                ? "✓ mobileSrc is configured in case-study data. ✕ Export the file to disk to complete this pair."
+                : "Add mobileSrc (and mobileWidth / mobileHeight) to the case-study data for this image."}
             </p>
           ) : null}
           {declared ? (
@@ -232,36 +336,56 @@ function MobileAssetCard({ entry }: { entry: ImageAuditEntry }) {
       ) : null}
 
       <dl className="dev-image-audit__meta">
-        {declared ? (
-          <>
-            <MetaRow label="Source filename" value={mobileFilename} />
-            <MetaRow label="Image path" value={mobilePath} />
-            <MetaRow
-              label="Export size"
-              value={entry.mobileRecommendedExport}
-            />
-            <MetaRow
-              label="Aspect ratio"
-              value={entry.mobileAspectRatioLabel}
-            />
-          </>
-        ) : null}
-        {!focused ? (
-          <MetaRow
-            label="mobileSrc"
-            value={entry.mobileSrc ?? "— (not set)"}
-          />
-        ) : null}
+        <MetaRow label="Image Role" value={entry.role} />
+        <MetaRow label="Desktop / Mobile" value="Mobile" />
+        <MetaRow
+          label="Source filename"
+          value={declared ? mobileFilename : "—"}
+        />
+        <MetaRow label="Image path" value={declared ? mobilePath : "—"} />
+        <MetaRow
+          label="Export Size"
+          value={declared ? entry.mobileRecommendedExport : "—"}
+        />
+        <MetaRow label="Intrinsic Size" value={hasMobile ? intrinsicLabel : "—"} />
+        <MetaRow
+          label="Aspect Ratio"
+          value={declared ? entry.mobileAspectRatioLabel : "—"}
+        />
+        <MetaRow
+          label="Object Position"
+          value={entry.mobileObjectPosition}
+        />
+        <MetaRow label="Source TS file" value={entry.sourceFile || "—"} />
       </dl>
+
+      {declared ? (
+        <CodeMetadataBlock
+          width={entry.mobileDataWidth}
+          height={entry.mobileDataHeight}
+          mismatch={entry.mobileMetadataMismatch}
+          correctSnippet={entry.mobileCorrectMetadataSnippet}
+          variant="mobile"
+        />
+      ) : null}
     </section>
   );
 }
 
 function AuditCard({ entry }: { entry: ImageAuditEntry }) {
-  const showMobilePair = isArtDirectedRole(entry.role);
+  const showMobilePair = isArtDirectedAuditRole(entry.role);
 
   return (
-    <article className="dev-image-audit__card">
+    <article
+      className={[
+        "dev-image-audit__card",
+        entry.metadataMismatch || entry.mobileMetadataMismatch
+          ? "dev-image-audit__card--metadata-warn"
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div className="dev-image-audit__card-heading">
         <span className="dev-image-audit__role-chip">{entry.role}</span>
         <h3 className="dev-image-audit__filename">{entry.filename}</h3>
@@ -292,7 +416,7 @@ function AuditCard({ entry }: { entry: ImageAuditEntry }) {
   );
 }
 
-function ProjectSummary({
+function AuditOverview({
   title,
   entries,
 }: {
@@ -305,34 +429,43 @@ function ProjectSummary({
     <div className="dev-image-audit__project-summary">
       <h2 className="dev-image-audit__project-summary-title">{title}</h2>
       <p className="dev-image-audit__project-summary-count">
-        Images: {stats.total}
+        Images Audited: {stats.total}
       </p>
-      <div className="dev-image-audit__project-summary-grid">
+      <div className="dev-image-audit__overview-grid">
         <div>
-          <p className="dev-image-audit__toolbar-label">Desktop</p>
+          <p className="dev-image-audit__toolbar-label">Desktop Images</p>
           <p className="dev-image-audit__summary-ideal">
-            ✓ {stats.desktopComplete} Complete
+            ✓ {stats.desktopPresent} Present
           </p>
         </div>
         <div>
-          <p className="dev-image-audit__toolbar-label">Mobile</p>
+          <p className="dev-image-audit__toolbar-label">Mobile Images</p>
           <p className="dev-image-audit__summary-ideal">
             ✓ {stats.mobilePresent} Present
           </p>
-          <p className="dev-image-audit__summary-too-small">
-            ⚠ {stats.mobileMissing} Missing
+        </div>
+        <div>
+          <p className="dev-image-audit__toolbar-label">Metadata Correct</p>
+          <p className="dev-image-audit__summary-ideal">
+            ✓ {stats.metadataCorrect}
           </p>
         </div>
         <div>
-          <p className="dev-image-audit__toolbar-label">Quality</p>
-          <p>
-            Ideal <strong>{stats.ideal}</strong>
+          <p className="dev-image-audit__toolbar-label">Metadata Incorrect</p>
+          <p className="dev-image-audit__summary-too-small">
+            ⚠ {stats.metadataIncorrect}
           </p>
-          <p>
-            Good <strong>{stats.good}</strong>
+        </div>
+        <div>
+          <p className="dev-image-audit__toolbar-label">Missing Desktop</p>
+          <p className="dev-image-audit__summary-too-small">
+            ⚠ {stats.desktopMissing}
           </p>
-          <p>
-            Needs attention <strong>{stats.needsAttention}</strong>
+        </div>
+        <div>
+          <p className="dev-image-audit__toolbar-label">Missing Mobile</p>
+          <p className="dev-image-audit__summary-too-small">
+            ⚠ {stats.mobileMissing}
           </p>
         </div>
       </div>
@@ -393,10 +526,15 @@ function ImageAuditDashboard({ entries }: ImageAuditClientProps) {
   const searchParams = useSearchParams();
   const projectParam = searchParams.get("project") ?? "";
   const roleParam = (searchParams.get("role") ?? "") as AuditRoleFilter;
+
+  const projectOptions = useMemo(
+    () => buildAuditProjectOptions(entries),
+    [entries],
+  );
   const selectedOption =
-    AUDIT_PROJECT_OPTIONS.find((item) => item.slug === projectParam) ??
-    AUDIT_PROJECT_OPTIONS[0];
-  const filterSlug = resolveFilterSlug(selectedOption.slug);
+    projectOptions.find((item) => item.slug === projectParam) ??
+    projectOptions[0];
+  const filterSlug = selectedOption.filterSlug;
   const roleFilter: AuditRoleFilter =
     AUDIT_ROLE_FILTER_OPTIONS.some((item) => item.id === roleParam)
       ? roleParam
@@ -448,8 +586,8 @@ function ImageAuditDashboard({ entries }: ImageAuditClientProps) {
           <p className="dev-image-audit__eyebrow">Developer only</p>
           <h1 className="dev-image-audit__title">Image Manager</h1>
           <p className="dev-image-audit__lede">
-            Replace portfolio images quickly. Desktop and mobile assets are
-            listed separately with exact export sizes and expected filenames.
+            Single source of truth for portfolio imagery — missing files,
+            incorrect paths, metadata mismatches, and required mobile artwork.
           </p>
 
           <div className="dev-image-audit__filters">
@@ -460,7 +598,7 @@ function ImageAuditDashboard({ entries }: ImageAuditClientProps) {
                 onChange={(event) => setParam("project", event.target.value)}
                 aria-label="Filter by project"
               >
-                {AUDIT_PROJECT_OPTIONS.map((option) => (
+                {projectOptions.map((option) => (
                   <option key={option.slug || "all"} value={option.slug}>
                     {option.label}
                   </option>
@@ -487,10 +625,7 @@ function ImageAuditDashboard({ entries }: ImageAuditClientProps) {
           </div>
 
           <div className="dev-image-audit__overview">
-            <ProjectSummary
-              title={selectedOption.label}
-              entries={filtered}
-            />
+            <AuditOverview title={selectedOption.label} entries={filtered} />
           </div>
         </header>
 

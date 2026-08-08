@@ -25,10 +25,15 @@ export const editorialPublicationsCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2009–2026"] },
   ],
   hero: {
-    src: `${base}/hero.png`,
+    src: `${base}/hero-2.png`,
+    mobileSrc: `${base}/hero-2-mobile.png`,
     alt: "Close-up of an EALA editorial brochure cover with geometric colour blocks",
     width: 1620,
     height: 911,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   introLabel: "Overview",
   intro: [

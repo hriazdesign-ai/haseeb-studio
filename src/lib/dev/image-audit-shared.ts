@@ -3,6 +3,11 @@
  * Must never import Node built-ins — imported by Client Components.
  */
 
+import {
+  getPortfolioProjects,
+  portfolioProjectOrder,
+} from "@/lib/projects";
+
 export type AuditGroup =
   | "Homepage"
   | "Work"
@@ -24,6 +29,7 @@ export type AuditStatus =
 export type AuditRoleKind =
   | "Hero"
   | "Large Feature"
+  | "Closing Feature"
   | "Gallery"
   | "Phone Mockup"
   | "Browser Mockup"
@@ -33,12 +39,75 @@ export type AuditRoleKind =
   | "Cover"
   | "Other";
 
+/** Roles that pair a desktop asset with an optional art-directed mobileSrc. */
+export function isArtDirectedAuditRole(role: AuditRoleKind): boolean {
+  return (
+    role === "Hero" ||
+    role === "Large Feature" ||
+    role === "Closing Feature"
+  );
+}
+
+/**
+ * Roles that must declare + ship mobile artwork.
+ * Gallery / Cover / Thumbnail never require mobile.
+ */
+export function requiresMobileArtwork(role: AuditRoleKind): boolean {
+  return isArtDirectedAuditRole(role);
+}
+
+export type MetadataStatus = "correct" | "incorrect" | "unknown";
+
+export function resolveMetadataStatus(
+  dataWidth: number | null,
+  dataHeight: number | null,
+  intrinsicWidth: number | null,
+  intrinsicHeight: number | null,
+  fileExists: boolean,
+  intrinsicFromFile: boolean,
+): MetadataStatus {
+  if (
+    !fileExists ||
+    !intrinsicFromFile ||
+    dataWidth == null ||
+    dataHeight == null ||
+    intrinsicWidth == null ||
+    intrinsicHeight == null
+  ) {
+    return "unknown";
+  }
+  return dataWidth === intrinsicWidth && dataHeight === intrinsicHeight
+    ? "correct"
+    : "incorrect";
+}
+
+export function metadataStatusLabel(status: MetadataStatus): string {
+  if (status === "correct") return "✓ Metadata Correct";
+  if (status === "incorrect") return "⚠ Metadata Incorrect";
+  return "— Metadata unverified";
+}
+
+/** Clipboard payload for fixing TS width/height from intrinsic pixels. */
+export function correctMetadataSnippet(
+  width: number | null,
+  height: number | null,
+  keys: { width: string; height: string } = {
+    width: "width",
+    height: "height",
+  },
+): string {
+  if (width == null || height == null) return "";
+  return `${keys.width}: ${width},\n${keys.height}: ${height},`;
+}
+
 /** Role filter options shown in the management UI. */
 export type AuditRoleFilter =
   | ""
   | "Hero"
   | "Large Feature"
+  | "Closing Feature"
   | "Gallery"
+  | "Cover"
   | "Split"
   | "Mobile"
   | "Device Mockup";
@@ -94,11 +163,21 @@ export type ImageAuditEntry = {
   dataHeight: number | null;
   /** True when intrinsic dims came from the on-disk file header. */
   intrinsicFromFile: boolean;
+  /** Desktop TS dims vs on-disk PNG dims. */
+  metadataStatus: MetadataStatus;
+  metadataStatusLabel: string;
+  metadataMismatch: boolean;
+  /** `width: N,\nheight: N,` from intrinsic pixels when mismatching. */
+  correctMetadataSnippet: string;
   status: AuditStatus;
   statusLabel: string;
   /** Short explanation of the size grade. */
   statusNote: string;
   fileExists: boolean;
+  /** Hero / Large Feature / Closing Feature require mobile artwork. */
+  requiresMobile: boolean;
+  /** Required mobile is missing config or missing on disk. */
+  mobileRequiredMissing: boolean;
   duplicateUsage: string;
   duplicateCount: number;
   notes: string[];
@@ -122,9 +201,14 @@ export type ImageAuditEntry = {
   mobileFilename: string;
   /** True when declared `mobileSrc` exists on disk. */
   mobileFileExists: boolean;
+  /** Declared mobileWidth / mobileHeight from TS data. */
+  mobileDataWidth: number | null;
+  mobileDataHeight: number | null;
   /** Intrinsic pixels of the mobile asset (file header, else data). */
   mobileIntrinsicWidth: number | null;
   mobileIntrinsicHeight: number | null;
+  /** True when mobile intrinsic dims came from the on-disk file header. */
+  mobileIntrinsicFromFile: boolean;
   mobileAspectRatioLabel: string;
   mobileRenderedWidth: number;
   mobileRenderedHeight: number;
@@ -132,6 +216,10 @@ export type ImageAuditEntry = {
   mobileRecommendedWidth: number;
   mobileRecommendedHeight: number;
   mobileStatusLabel: string;
+  mobileMetadataStatus: MetadataStatus | "not-applicable";
+  mobileMetadataStatusLabel: string;
+  mobileMetadataMismatch: boolean;
+  mobileCorrectMetadataSnippet: string;
 };
 
 export type ImageAuditSummary = {
@@ -143,44 +231,90 @@ export type ImageAuditSummary = {
   unusedOnDisk: number;
   duplicates: number;
   heroes: number;
+  desktopPresent: number;
+  desktopMissing: number;
   mobilePresent: number;
+  /** Required mobile missing (config or artwork). */
   mobileMissing: number;
+  /** mobileSrc declared but file not on disk. */
+  mobileArtworkMissing: number;
+  /** Art-directed role with no mobileSrc in data. */
+  mobileUnconfigured: number;
+  metadataCorrect: number;
+  metadataIncorrect: number;
+};
+
+export type AuditProjectOption = {
+  /** URL `?project=` value (empty = All Projects). */
+  slug: string;
+  /** Display label in the Project dropdown. */
+  label: string;
+  /** Matches `ImageAuditEntry.projectSlug`. */
+  filterSlug: string;
 };
 
 /**
- * Primary project navigation for `/dev/image-audit`.
- * `filterSlug` is the entry `projectSlug` to match.
+ * Build Project filter options from the shared portfolio + live audit records.
+ * Every portfolio project appears even before it has audit entries.
+ * Order follows `portfolioProjectOrder`; unknown audit slugs append alphabetically.
  */
-export const AUDIT_PROJECT_OPTIONS = [
-  { slug: "", label: "All Projects", filterSlug: "" },
-  {
-    slug: "editorial-experience",
-    label: "Editorial Experience",
-    filterSlug: "editorial-experience",
-  },
-  {
-    slug: "editorial-publications",
-    label: "Editorial Publications",
-    filterSlug: "editorial-publications",
-  },
-  {
-    slug: "verso-design-system",
-    label: "Verso",
-    filterSlug: "verso-design-system",
-  },
-  { slug: "onenav", label: "OneNav", filterSlug: "onenav" },
-  { slug: "mums-united", label: "Mums United", filterSlug: "mums-united" },
-  {
-    slug: "bright-path-learning",
-    label: "Bright Path",
-    filterSlug: "bright-path-learning",
-  },
-  {
-    slug: "meridian-and-co",
-    label: "Meridian",
-    filterSlug: "meridian-and-co",
-  },
-] as const;
+export function buildAuditProjectOptions(
+  entries: ImageAuditEntry[],
+): AuditProjectOption[] {
+  const portfolio = getPortfolioProjects();
+  const slugToLabel = new Map(
+    portfolio.map((project) => [project.id, project.name]),
+  );
+
+  for (const entry of entries) {
+    if (!entry.projectSlug) continue;
+    if (slugToLabel.has(entry.projectSlug)) continue;
+    slugToLabel.set(
+      entry.projectSlug,
+      entry.project && entry.project !== "—"
+        ? entry.project
+        : entry.projectSlug,
+    );
+  }
+
+  const options: AuditProjectOption[] = [
+    { slug: "", label: "All Projects", filterSlug: "" },
+  ];
+  const seen = new Set<string>();
+
+  for (const id of portfolioProjectOrder) {
+    const label = slugToLabel.get(id);
+    if (!label) continue;
+    options.push({ slug: id, label, filterSlug: id });
+    seen.add(id);
+  }
+
+  for (const project of portfolio) {
+    if (seen.has(project.id)) continue;
+    options.push({
+      slug: project.id,
+      label: project.name,
+      filterSlug: project.id,
+    });
+    seen.add(project.id);
+  }
+
+  const remaining = [...slugToLabel.keys()]
+    .filter((id) => !seen.has(id))
+    .sort((a, b) =>
+      (slugToLabel.get(a) ?? a).localeCompare(slugToLabel.get(b) ?? b),
+    );
+
+  for (const id of remaining) {
+    options.push({
+      slug: id,
+      label: slugToLabel.get(id) ?? id,
+      filterSlug: id,
+    });
+  }
+
+  return options;
+}
 
 export const AUDIT_ROLE_FILTER_OPTIONS: Array<{
   id: AuditRoleFilter;
@@ -189,7 +323,9 @@ export const AUDIT_ROLE_FILTER_OPTIONS: Array<{
   { id: "", label: "All" },
   { id: "Hero", label: "Hero" },
   { id: "Large Feature", label: "Large Feature" },
+  { id: "Closing Feature", label: "Closing Feature" },
   { id: "Gallery", label: "Gallery" },
+  { id: "Cover", label: "Cover" },
   { id: "Split", label: "Split" },
   { id: "Mobile", label: "Mobile" },
   { id: "Device Mockup", label: "Device Mockup" },
@@ -198,14 +334,18 @@ export const AUDIT_ROLE_FILTER_OPTIONS: Array<{
 export type AuditRoleSection =
   | "Hero"
   | "Large Feature"
+  | "Closing Feature"
   | "Gallery"
+  | "Cover"
   | "Mockups"
   | "Other";
 
 export const AUDIT_ROLE_SECTIONS: AuditRoleSection[] = [
   "Hero",
   "Large Feature",
+  "Closing Feature",
   "Gallery",
+  "Cover",
   "Mockups",
   "Other",
 ];
@@ -213,7 +353,9 @@ export const AUDIT_ROLE_SECTIONS: AuditRoleSection[] = [
 export function roleSectionFor(role: AuditRoleKind): AuditRoleSection {
   if (role === "Hero") return "Hero";
   if (role === "Large Feature") return "Large Feature";
+  if (role === "Closing Feature") return "Closing Feature";
   if (role === "Gallery") return "Gallery";
+  if (role === "Cover" || role === "Thumbnail") return "Cover";
   if (role === "Phone Mockup" || role === "Browser Mockup") return "Mockups";
   return "Other";
 }
@@ -249,9 +391,13 @@ export function matchesRoleFilter(
   if (!filter) return true;
   if (filter === "Hero") return role === "Hero";
   if (filter === "Large Feature") return role === "Large Feature";
+  if (filter === "Closing Feature") return role === "Closing Feature";
   if (filter === "Gallery") return role === "Gallery";
+  if (filter === "Cover") return role === "Cover" || role === "Thumbnail";
   if (filter === "Split") return role === "Quote";
-  if (filter === "Mobile") return role === "Phone Mockup";
+  if (filter === "Mobile") {
+    return role === "Phone Mockup" || isArtDirectedAuditRole(role);
+  }
   if (filter === "Device Mockup") {
     return role === "Browser Mockup" || role === "Phone Mockup";
   }
@@ -260,28 +406,55 @@ export function matchesRoleFilter(
 
 export type ProjectAuditStats = {
   total: number;
-  desktopComplete: number;
+  desktopPresent: number;
+  desktopMissing: number;
   mobilePresent: number;
   mobileMissing: number;
+  metadataCorrect: number;
+  metadataIncorrect: number;
   ideal: number;
   good: number;
   needsAttention: number;
 };
 
+function entryHasMetadataIncorrect(entry: ImageAuditEntry): boolean {
+  return entry.metadataMismatch || entry.mobileMetadataMismatch;
+}
+
+function entryHasMetadataCorrect(entry: ImageAuditEntry): boolean {
+  if (entryHasMetadataIncorrect(entry)) return false;
+  return (
+    entry.metadataStatus === "correct" &&
+    (entry.mobileMetadataStatus === "correct" ||
+      entry.mobileMetadataStatus === "not-applicable" ||
+      entry.mobileMetadataStatus === "unknown")
+  );
+}
+
 export function computeProjectStats(
   entries: ImageAuditEntry[],
 ): ProjectAuditStats {
-  let desktopComplete = 0;
+  let desktopPresent = 0;
+  let desktopMissing = 0;
   let mobilePresent = 0;
   let mobileMissing = 0;
+  let metadataCorrect = 0;
+  let metadataIncorrect = 0;
   let ideal = 0;
   let good = 0;
   let needsAttention = 0;
 
   for (const entry of entries) {
-    if (entry.fileExists && entry.status !== "missing") desktopComplete += 1;
-    if (entry.mobileSrc && entry.mobileFileExists) mobilePresent += 1;
-    else mobileMissing += 1;
+    if (entry.fileExists) desktopPresent += 1;
+    else desktopMissing += 1;
+
+    if (entry.requiresMobile) {
+      if (entry.mobileSrc && entry.mobileFileExists) mobilePresent += 1;
+      else mobileMissing += 1;
+    }
+
+    if (entryHasMetadataIncorrect(entry)) metadataIncorrect += 1;
+    else if (entryHasMetadataCorrect(entry)) metadataCorrect += 1;
 
     if (entry.status === "ideal") ideal += 1;
     else if (entry.status === "good") good += 1;
@@ -292,9 +465,12 @@ export function computeProjectStats(
 
   return {
     total: entries.length,
-    desktopComplete,
+    desktopPresent,
+    desktopMissing,
     mobilePresent,
     mobileMissing,
+    metadataCorrect,
+    metadataIncorrect,
     ideal,
     good,
     needsAttention,

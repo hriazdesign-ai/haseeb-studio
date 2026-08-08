@@ -6,10 +6,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { caseStudies, type CaseStudy, type CaseStudyImage } from "@/lib/case-studies";
 import {
+  correctMetadataSnippet,
   expectedMobileFilenameFrom,
   expectedMobileSrcFrom,
   filenameFromSrc,
+  isArtDirectedAuditRole,
+  metadataStatusLabel,
   publicPathFromSrc,
+  requiresMobileArtwork,
+  resolveMetadataStatus,
   type AuditGroup,
   type AuditPreviewAspects,
   type AuditRoleKind,
@@ -18,11 +23,7 @@ import {
   type ImageAuditSummary,
 } from "@/lib/dev/image-audit-shared";
 import { homeParallaxProjects } from "@/lib/home-parallax";
-import {
-  experienceProjects,
-  studioWorkProjects,
-  type Project,
-} from "@/lib/projects";
+import { getPortfolioProjects, type Project } from "@/lib/projects";
 import { workMotionItems, type WorkMotionMediaRole } from "@/lib/work-motion";
 
 export type {
@@ -36,13 +37,18 @@ export type {
 } from "@/lib/dev/image-audit-shared";
 
 export {
-  AUDIT_PROJECT_OPTIONS,
+  buildAuditProjectOptions,
   AUDIT_ROLE_FILTER_OPTIONS,
   AUDIT_ROLE_SECTIONS,
   computeProjectStats,
+  correctMetadataSnippet,
   expectedMobileFilenameFrom,
   expectedMobileSrcFrom,
+  isArtDirectedAuditRole,
   matchesRoleFilter,
+  metadataStatusLabel,
+  requiresMobileArtwork,
+  resolveMetadataStatus,
   roleSectionFor,
 } from "@/lib/dev/image-audit-shared";
 
@@ -82,13 +88,15 @@ const ROLE_WHY: Record<AuditRoleKind, string> = {
     "Full-width image with subtle motion. Optional mobileSrc for art-directed mobile composition.",
   "Large Feature":
     "Fixed 6∶4 landscape on desktop, tablet and mobile (2× export). Optional mobileSrc for art-directed composition within the same frame.",
+  "Closing Feature":
+    "Closing Large Feature — same 6∶4 frame and optional mobileSrc as other Large Features.",
   Gallery: "Supports lightbox viewing.",
   "Phone Mockup": "Matches device rendering.",
   "Browser Mockup": "Matches browser chrome framing.",
   Diagram: "Preserves fine detail and labels.",
   Quote: "Atmospheric crop beside editorial quote.",
-  Thumbnail: "Card cover at list density.",
-  Cover: "Project card cover.",
+  Thumbnail: "Smaller list / motion thumbnail density.",
+  Cover: "Work / homepage project card cover.",
   Other: "Supports Retina displays.",
 };
 
@@ -110,13 +118,20 @@ function inferRoleKind(input: {
   if (technical === "hero" || hint === "featured") return "Hero";
   if (technical.includes("pullquote")) return "Quote";
   if (technical.includes("gallery")) return "Gallery";
+  if (technical.includes("closingfeature")) return "Closing Feature";
   if (
     technical === "feature" ||
-    technical.includes("closingfeature") ||
     technical.includes("postresultfeature") ||
     technical.includes(".feature")
   ) {
     return "Large Feature";
+  }
+  /** Work / cover metadata wins over filename heuristics (e.g. “laptop” in alt). */
+  if (input.group === "Work" || technical.includes("cover")) {
+    return "Cover";
+  }
+  if (input.group === "Homepage") {
+    return hint === "secondary" || hint === "primary" ? "Cover" : "Hero";
   }
   if (
     blob.includes("phone") ||
@@ -134,14 +149,6 @@ function inferRoleKind(input: {
   }
   if (blob.includes("diagram") || blob.includes("flowchart")) {
     return "Diagram";
-  }
-  if (input.group === "Work" || technical.includes("cover")) {
-    return technical.includes("cover") || input.group === "Work"
-      ? "Thumbnail"
-      : "Cover";
-  }
-  if (input.group === "Homepage") {
-    return hint === "secondary" || hint === "primary" ? "Cover" : "Hero";
   }
   return "Other";
 }
@@ -164,6 +171,7 @@ function previewAspectsFor(
         mobile: "16 / 9",
       };
     case "Large Feature":
+    case "Closing Feature":
       /** Same 6∶4 landscape frame at every breakpoint. */
       return {
         desktop: "6 / 4",
@@ -251,7 +259,7 @@ function mobileRenderedFor(
   desktopW: number,
   desktopH: number,
 ): { w: number; h: number; aspectLabel: string } {
-  if (role === "Large Feature") {
+  if (role === "Large Feature" || role === "Closing Feature") {
     const rendered = largeFeatureMobileRendered();
     return { ...rendered, aspectLabel: "6:4" };
   }
@@ -299,7 +307,7 @@ function desktopAspectLabel(
   renderedWidth: number,
   renderedHeight: number,
 ): string {
-  if (role === "Large Feature") return "6:4";
+  if (role === "Large Feature" || role === "Closing Feature") return "6:4";
   if (role === "Hero") return "16:9";
   return simplifyAspect(renderedWidth, renderedHeight);
 }
@@ -678,47 +686,17 @@ function buildUsageDrafts(): UsageDraft[] {
     });
   }
 
-  for (const project of studioWorkProjects) {
-    if (!project.image) continue;
-    const rendered = workCardRendered(project.size);
-    const technicalRole = `studio cover · ${project.size}`;
-    const filename = filenameFromSrc(project.image.src);
-    const role = inferRoleKind({
-      technicalRole,
-      filename,
-      alt: project.image.alt,
-      group: "Work",
-    });
-
-    drafts.push({
-      group: "Work",
-      src: project.image.src,
-      project: project.name,
-      projectSlug: project.id,
-      pages: ["/work"],
-      component: "WorkCard",
-      role,
-      technicalRole,
-      sizes: workCardSizes(project.size),
-      priority: project.size === "featured",
-      sourceFile: SOURCE_PROJECTS,
-      renderedWidth: rendered.w,
-      renderedHeight: rendered.h,
-      intrinsicWidth: project.image.width,
-      intrinsicHeight: project.image.height,
-      alt: project.image.alt,
-    });
-  }
-
-  for (const project of experienceProjects) {
+  for (const project of getPortfolioProjects()) {
     if (!project.image) continue;
     const rendered = workCardRendered(project.size);
     const motion = Object.values(workMotionItems).find(
       (item) => item.id === project.id,
     );
+    const coverKind =
+      project.size === "experience" ? "experience cover" : "studio cover";
     const technicalRole = motion
-      ? `experience cover · ${project.size} · motion ${motion.role}`
-      : `experience cover · ${project.size}`;
+      ? `${coverKind} · ${project.size} · motion ${motion.role}`
+      : `${coverKind} · ${project.size}`;
     const filename = filenameFromSrc(project.image.src);
     const role = inferRoleKind({
       technicalRole,
@@ -739,7 +717,8 @@ function buildUsageDrafts(): UsageDraft[] {
       sizes: motion
         ? `WorkCard: ${workCardSizes(project.size)} · WorkMotion: ${workMotionSizes(motion.role)}`
         : workCardSizes(project.size),
-      priority: motion?.id === "verso-design-system",
+      priority:
+        project.size === "featured" || motion?.id === "verso-design-system",
       sourceFile: SOURCE_PROJECTS,
       renderedWidth: motion
         ? Math.max(rendered.w, workMotionRendered(motion.role).w)
@@ -761,6 +740,10 @@ function buildUsageDrafts(): UsageDraft[] {
     });
   }
 
+  const portfolioNameById = new Map(
+    getPortfolioProjects().map((project) => [project.id, project.name]),
+  );
+
   for (const study of caseStudies) {
     for (const entry of collectCaseStudyImages(study)) {
       const filename = filenameFromSrc(entry.image.src);
@@ -774,7 +757,7 @@ function buildUsageDrafts(): UsageDraft[] {
       drafts.push({
         group: "Case Studies",
         src: entry.image.src,
-        project: study.name,
+        project: portfolioNameById.get(study.slug) ?? study.name,
         projectSlug: study.slug,
         pages: [`/work/${study.slug}`],
         component:
@@ -923,11 +906,10 @@ export function buildImageAudit(): {
       draft.mobileObjectPosition ?? draft.objectPosition ?? "center";
 
     /**
-     * Large Features: height:auto from source ratio at 1172px content width.
-     * Prefer on-disk pixels so the audit matches what will actually paint.
+     * Large / Closing Features: fixed 6∶4 frame at 1172px content width.
      */
     const rendered =
-      draft.role === "Large Feature"
+      draft.role === "Large Feature" || draft.role === "Closing Feature"
         ? largeFeatureRendered()
         : {
             w: draft.renderedWidth,
@@ -968,13 +950,13 @@ export function buildImageAudit(): {
 
     const filename = filenameFromSrc(draft.src);
     /**
-     * Large Feature / Hero: only use paths declared in case-study data.
+     * Art-directed roles: only use paths declared in case-study data.
      * Do not invent `*-mobile` filenames when `mobileSrc` is absent.
      */
     const declaredMobileSrc = draft.mobileSrc ?? null;
     const expectedMobileSrc = declaredMobileSrc
       ? declaredMobileSrc
-      : draft.role === "Large Feature" || draft.role === "Hero"
+      : isArtDirectedAuditRole(draft.role)
         ? ""
         : expectedMobileSrcFrom(draft.src);
     const expectedMobileFilename = declaredMobileSrc
@@ -992,10 +974,13 @@ export function buildImageAudit(): {
       declaredMobileSrc && mobileFileExists
         ? readFileDimensions(declaredMobileSrc)
         : null;
+    const mobileIntrinsicFromFile = mobileFileDims != null;
+    const mobileDataWidth = draft.mobileWidth ?? null;
+    const mobileDataHeight = draft.mobileHeight ?? null;
     const mobileIntrinsicWidth =
-      mobileFileDims?.width ?? draft.mobileWidth ?? null;
+      mobileFileDims?.width ?? mobileDataWidth;
     const mobileIntrinsicHeight =
-      mobileFileDims?.height ?? draft.mobileHeight ?? null;
+      mobileFileDims?.height ?? mobileDataHeight;
     const mobileFrame = mobileRenderedFor(
       draft.role,
       renderedWidth,
@@ -1011,6 +996,32 @@ export function buildImageAudit(): {
         : mobileFrame.w > 0
           ? recommend(mobileFrame.w, mobileFrame.h)
           : { width: 0, height: 0 };
+
+    const dataWidth = draft.intrinsicWidth;
+    const dataHeight = draft.intrinsicHeight;
+    const metadataStatus = resolveMetadataStatus(
+      dataWidth,
+      dataHeight,
+      intrinsicWidth,
+      intrinsicHeight,
+      exists,
+      intrinsicFromFile,
+    );
+    const requiresMobile = requiresMobileArtwork(draft.role);
+    const mobileRequiredMissing =
+      requiresMobile && !(declaredMobileSrc && mobileFileExists);
+
+    const mobileMetadataStatus = !declaredMobileSrc
+      ? ("not-applicable" as const)
+      : resolveMetadataStatus(
+          mobileDataWidth,
+          mobileDataHeight,
+          mobileFileDims?.width ?? null,
+          mobileFileDims?.height ?? null,
+          mobileFileExists,
+          mobileIntrinsicFromFile,
+        );
+    const mobileMetadataMismatch = mobileMetadataStatus === "incorrect";
 
     return {
       id: `${draft.group}-${index}-${draft.src}`,
@@ -1047,13 +1058,22 @@ export function buildImageAudit(): {
       recommendedHeight: rec.height,
       intrinsicWidth,
       intrinsicHeight,
-      dataWidth: draft.intrinsicWidth,
-      dataHeight: draft.intrinsicHeight,
+      dataWidth,
+      dataHeight,
       intrinsicFromFile,
+      metadataStatus,
+      metadataStatusLabel: metadataStatusLabel(metadataStatus),
+      metadataMismatch: metadataStatus === "incorrect",
+      correctMetadataSnippet: correctMetadataSnippet(
+        intrinsicFromFile ? intrinsicWidth : null,
+        intrinsicFromFile ? intrinsicHeight : null,
+      ),
       status,
       statusLabel,
       statusNote,
       fileExists: exists,
+      requiresMobile,
+      mobileRequiredMissing,
       duplicateUsage:
         duplicateCount > 1
           ? `Yes · used across ${pageCount} page${pageCount === 1 ? "" : "s"}`
@@ -1078,8 +1098,11 @@ export function buildImageAudit(): {
         ? filenameFromSrc(declaredMobileSrc)
         : expectedMobileFilename,
       mobileFileExists,
+      mobileDataWidth,
+      mobileDataHeight,
       mobileIntrinsicWidth,
       mobileIntrinsicHeight,
+      mobileIntrinsicFromFile,
       mobileAspectRatioLabel:
         mobileIntrinsicWidth != null && mobileIntrinsicHeight != null
           ? simplifyAspect(mobileIntrinsicWidth, mobileIntrinsicHeight)
@@ -1095,17 +1118,47 @@ export function buildImageAudit(): {
       mobileStatusLabel:
         declaredMobileSrc && mobileFileExists
           ? "✓ Present"
-          : draft.role === "Large Feature"
-            ? "⚠ Missing Mobile Artwork"
-            : draft.role === "Hero"
-              ? "⚠ Missing Mobile Image"
-              : "⚠ No mobile version",
+          : declaredMobileSrc
+            ? "✕ Artwork missing"
+            : requiresMobile
+              ? "⚠ Missing mobileSrc config"
+              : "— Not required",
+      mobileMetadataStatus,
+      mobileMetadataStatusLabel:
+        mobileMetadataStatus === "not-applicable"
+          ? "— Not applicable"
+          : metadataStatusLabel(mobileMetadataStatus),
+      mobileMetadataMismatch,
+      mobileCorrectMetadataSnippet: correctMetadataSnippet(
+        mobileIntrinsicFromFile ? (mobileFileDims?.width ?? null) : null,
+        mobileIntrinsicFromFile ? (mobileFileDims?.height ?? null) : null,
+        { width: "mobileWidth", height: "mobileHeight" },
+      ),
     };
   });
 
   const duplicateSrcs = new Set(
     entries.filter((e) => e.duplicateCount > 1).map((e) => e.src),
   );
+  const stats = {
+    desktopPresent: entries.filter((e) => e.fileExists).length,
+    desktopMissing: entries.filter((e) => !e.fileExists).length,
+    mobilePresent: entries.filter(
+      (e) => e.requiresMobile && e.mobileSrc && e.mobileFileExists,
+    ).length,
+    mobileMissing: entries.filter((e) => e.mobileRequiredMissing).length,
+    metadataCorrect: entries.filter(
+      (e) =>
+        e.metadataStatus === "correct" &&
+        !e.mobileMetadataMismatch &&
+        (e.mobileMetadataStatus === "correct" ||
+          e.mobileMetadataStatus === "not-applicable" ||
+          e.mobileMetadataStatus === "unknown"),
+    ).length,
+    metadataIncorrect: entries.filter(
+      (e) => e.metadataMismatch || e.mobileMetadataMismatch,
+    ).length,
+  };
 
   const summary = {
     total: entries.length,
@@ -1116,10 +1169,18 @@ export function buildImageAudit(): {
     unusedOnDisk: unused.length,
     duplicates: duplicateSrcs.size,
     heroes: entries.filter((e) => e.role === "Hero").length,
-    mobilePresent: entries.filter((e) => e.mobileSrc && e.mobileFileExists)
-      .length,
-    mobileMissing: entries.filter((e) => !(e.mobileSrc && e.mobileFileExists))
-      .length,
+    desktopPresent: stats.desktopPresent,
+    desktopMissing: stats.desktopMissing,
+    mobilePresent: stats.mobilePresent,
+    mobileMissing: stats.mobileMissing,
+    mobileArtworkMissing: entries.filter(
+      (e) => e.mobileSrc && !e.mobileFileExists,
+    ).length,
+    mobileUnconfigured: entries.filter(
+      (e) => e.requiresMobile && !e.mobileSrc,
+    ).length,
+    metadataCorrect: stats.metadataCorrect,
+    metadataIncorrect: stats.metadataIncorrect,
   };
 
   return {

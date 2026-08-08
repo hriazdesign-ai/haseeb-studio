@@ -25,8 +25,8 @@ export const editorialExperienceCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2024–2026"] },
   ],
   hero: {
-    src: `${base}/hero-4.png`,
-    mobileSrc: `${base}/hero-5-mobile.png`,
+    src: `${base}/hero-6.png`,
+    mobileSrc: `${base}/hero-4a-mobile.png`,
     alt: "Highlight Box editorial tooling beside a British Vogue mobile preview",
     width: 2880,
     height: 1440,
@@ -51,7 +51,7 @@ export const editorialExperienceCaseStudy: CaseStudy = {
       caption: "Content Planner · Optimising planning and daily workflows.",
     },
     {
-      src: `${base}/storytelling-desktop-mobile-1-mobile.png`,
+      src: `${base}/expressive-storytelling.png`,
       alt: "Expressive storytelling layout controls in the editorial platform",
       width: 1120,
       height: 722,
@@ -75,8 +75,8 @@ export const editorialExperienceCaseStudy: CaseStudy = {
   },
   featurePlacement: "beforeMidGallery",
   feature: {
-    src: `${base}/global-publishing-2.png`,
-    mobileSrc: `${base}/global-publishing-2-mobile.png`,
+    src: `${base}/global-publishing-3.png`,
+    mobileSrc: `${base}/global-publishing-3-mobile.png`,
     alt: "RTL editorial Copilot interface with Arabic mobile preview",
     width: 2344,
     height: 1563,
@@ -115,8 +115,8 @@ export const editorialExperienceCaseStudy: CaseStudy = {
     ],
   },
   closingFeature: {
-    src: `${base}/storytelling-desktop-mobile-1.png`,
-    mobileSrc: `${base}/storytelling-desktop-mobile-1-mobile.png`,
+    src: `${base}/storytelling-desktop-mobile-3.png`,
+    mobileSrc: `${base}/storytelling-desktop-mobile-3-mobile.png`,
     alt: "Expressive storytelling controls with real-time desktop and mobile previews",
     width: 2304,
     height: 1440,

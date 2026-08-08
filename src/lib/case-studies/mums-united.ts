@@ -26,9 +26,14 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   ],
   hero: {
     src: `${base}/mu-hero.jpg`,
+    mobileSrc: `${base}/mu-hero-mobile.jpg`,
     alt: "Mums United website homepage in a desktop browser mockup",
     width: 2560,
     height: 1440,
+    mobileWidth: 1170,
+    mobileHeight: 780,
+    objectPosition: "center center",
+    mobileObjectPosition: "center center",
   },
   intro: [
     "Mums United supports mothers, young people and families across Sheffield through mentoring, community programmes and practical support.",

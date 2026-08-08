@@ -22,8 +22,8 @@
   color: inherit;
   background: transparent;
   padding-block: var(--csc-section-y);
-  border-top: 1px solid rgba(131, 81, 252, 0.5);
-  border-bottom: 1px solid rgba(131, 81, 252, 0.5);
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
   /* Page-level overflow-x: clip remains on body — do not clip here. */
   overflow: visible;
 }

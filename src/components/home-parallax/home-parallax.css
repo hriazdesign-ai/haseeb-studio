@@ -812,7 +812,7 @@ body:has(.home-parallax-page) .site-footer {
 .hp-footer {
   background: var(--hp-bg-light);
   color: var(--hp-fg-dark);
-  border-top: 0.25px solid var(--hp-accent-strong);
+  border-top: 1px solid var(--color-divider);
   padding: var(--hp-gutter);
 }
 
