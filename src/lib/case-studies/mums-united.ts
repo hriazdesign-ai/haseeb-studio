@@ -25,13 +25,13 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2026"] },
   ],
   hero: {
-    src: `${base}/mu-hero.jpg`,
-    mobileSrc: `${base}/mu-hero-mobile.jpg`,
+    src: `${base}/mu-hero-4.png`,
+    mobileSrc: `${base}/mu-hero-4-mobile.png`,
     alt: "Mums United website homepage in a desktop browser mockup",
-    width: 2560,
+    width: 2880,
     height: 1440,
-    mobileWidth: 1170,
-    mobileHeight: 780,
+    mobileWidth: 1560,
+    mobileHeight: 1006,
     objectPosition: "center center",
     mobileObjectPosition: "center center",
   },
@@ -39,24 +39,12 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     "Mums United supports mothers, young people and families across Sheffield through mentoring, community programmes and practical support.",
     "The goal was to create a digital presence that better reflected the organisation's impact while making support, information and programmes easier to find and understand.",
   ],
-  pullQuote: {
-    image: {
-      src: `${base}/pull-quote.png`,
-      alt: "Young person training with boxing gloves and a punching bag",
-      width: 2560,
-      height: 1440,
-    },
-    text: "Every programme, service and conversation begins with trust.",
-  },
-  challenge: {
-    id: "challenge",
-    label: "The Challenge",
-    align: "left",
-    paragraphs: [
-      "Parents and families often arrive looking for support during difficult circumstances. They need clear information, reassurance and confidence that the organisation can help.",
-      "The existing website contained valuable information and programmes, but much of it was difficult to navigate and did not fully communicate the scale of Mums United's work.",
-    ],
-  },
+  /**
+   * Open with the 2-up + large feature cluster after intro; pull-quote image
+   * moves to after The Challenge (where the cluster previously sat).
+   */
+  challengeGalleryPlacement: "before",
+  featurePlacement: "beforeChallenge",
   challengeGallery: [
     {
       src: `${base}/service-overview.png`,
@@ -86,6 +74,24 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     zoomable: true,
     caption: "Responsive Design · Support Services Platform",
   },
+  pullQuote: {
+    image: {
+      src: `${base}/pull-quote.png`,
+      alt: "Young person training with boxing gloves and a punching bag",
+      width: 2560,
+      height: 1440,
+    },
+    text: "Every programme, service and conversation begins with trust.",
+  },
+  challenge: {
+    id: "challenge",
+    label: "The Challenge",
+    align: "left",
+    paragraphs: [
+      "Parents and families often arrive looking for support during difficult circumstances. They need clear information, reassurance and confidence that the organisation can help.",
+      "The existing website contained valuable information and programmes, but much of it was difficult to navigate and did not fully communicate the scale of Mums United's work.",
+    ],
+  },
   solution: {
     id: "solution",
     label: "The Solution",
@@ -113,6 +119,56 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       caption: "Impact Snapshot · Building Trust Through Transparency",
     },
   ],
+  extension: {
+    label: "Beyond the website",
+    heading: "A consistent presence across every touchpoint.",
+    paragraphs: [
+      "The identity extended beyond the digital experience into Mums United's everyday communications. I created campaign and outreach materials that helped the charity present a more consistent, recognisable and professional presence across community events, programmes and public-facing activity.",
+      "From printed collateral to campaign graphics, each piece used the same visual language established across the wider brand, helping different initiatives feel connected while still allowing individual programmes to have their own character.",
+    ],
+    gallery: [
+      {
+        src: `${base}/mums-campaigns.png`,
+        alt: "Mums United campaign and outreach communications across community programmes",
+        width: 1120,
+        height: 722,
+        caption:
+          "Campaign & Outreach · Creating distinctive communications across community programmes.",
+      },
+      {
+        src: `${base}/mums-events.png`,
+        alt: "Mums United events and physical community activity with brand identity applied",
+        width: 1120,
+        height: 722,
+        caption:
+          "Events · Extending the identity into physical spaces and community activity.",
+      },
+    ],
+    features: [
+      {
+        src: `${base}/steel-champs-identity.png`,
+        mobileSrc: `${base}/steel-champs-identity-mobile.png`,
+        alt: "Steel Champs Academy identity for a community boxing programme",
+        width: 2344,
+        height: 1563,
+        mobileWidth: 2340,
+        mobileHeight: 1560,
+        caption:
+          "Steel Champs Academy · Developing a distinctive identity for a community boxing programme.",
+      },
+      {
+        src: `${base}/steel-champs-environment.png`,
+        mobileSrc: `${base}/steel-champs-environment-mobile.png`,
+        alt: "Steel Champs environmental graphics in a physical training space",
+        width: 2344,
+        height: 1563,
+        mobileWidth: 2340,
+        mobileHeight: 1560,
+        caption:
+          "Environmental Graphics · Taking the Steel Champs identity into the physical environment.",
+      },
+    ],
+  },
   result: {
     id: "result",
     label: "The Result",

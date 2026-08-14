@@ -51,7 +51,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Making Bright Path Learning's educational support clearer, easier to navigate and more accessible.",
     image: {
-      src: "/images/home-parallax/bright-path-1.png",
+      src: "/images/home-parallax/bright-path-3.png",
       alt: "Bright Path Learning mobile app on a teal field",
       width: 566,
       height: 566,
@@ -68,7 +68,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Creating a clearer, more considered digital experience for Meridian & Co. and its clients.",
     image: {
-      src: "/images/home-parallax/meridian-1.png",
+      src: "/images/home-parallax/meridian-2.png",
       alt: "Meridian & Co. tablet interface held by a person",
       width: 2400,
       height: 3000,

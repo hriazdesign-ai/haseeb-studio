@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,6 +19,7 @@ import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionB
 import { resolveScaleKeyframes } from "@/lib/home-parallax-blocks-motion";
 import { progressInRange, sectionReveal } from "@/lib/motion";
 import {
+  isSmallWorkMotionRole,
   versoImageParallax,
   workMotionPresets,
   workProjectParallaxSpring,
@@ -27,6 +28,58 @@ import {
 } from "@/lib/work-motion";
 
 const MotionLink = motion.create(Link);
+
+/**
+ * Small cards prefer `smallSrc` when the PNG exists; otherwise keep `src`.
+ * Starts on `src` (never broken), upgrades after a successful probe.
+ * Remount via `key` when the project image identity changes.
+ */
+function WorkCardMediaImage({
+  image,
+  preferSmall,
+  priority,
+  sizes,
+}: {
+  image: WorkMotionItem["image"];
+  preferSmall: boolean;
+  priority: boolean;
+  sizes: string;
+}) {
+  const fallbackSrc = image.src;
+  const smallSrc = preferSmall ? image.smallSrc : undefined;
+  const [src, setSrc] = useState(fallbackSrc);
+
+  useEffect(() => {
+    if (!smallSrc || smallSrc === fallbackSrc) return;
+
+    let cancelled = false;
+    const probe = new window.Image();
+    probe.onload = () => {
+      if (!cancelled) setSrc(smallSrc);
+    };
+    probe.onerror = () => {
+      /* keep fallback — configured path not exported yet */
+    };
+    probe.src = smallSrc;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [smallSrc, fallbackSrc]);
+
+  return (
+    <Image
+      src={src}
+      alt={image.alt}
+      fill
+      priority={priority}
+      sizes={sizes}
+      onError={() => {
+        if (src !== fallbackSrc) setSrc(fallbackSrc);
+      }}
+    />
+  );
+}
 
 function ProjectCaption({ children }: { children: string }) {
   const captionRef = useRef<HTMLParagraphElement>(null);
@@ -238,7 +291,7 @@ export function WorkMotionProject({
   });
 
   const frameClass = ["work-media-frame", mediaRoleClass(item.role)].join(" ");
-  const overscan = versoImageParallax.overscan;
+  const preferSmall = isSmallWorkMotionRole(item.role);
 
   return (
     <article className="work-project-grid-item work-motion-pair__item">
@@ -273,14 +326,10 @@ export function WorkMotionProject({
               style={
                 isVersoImageParallax
                   ? {
+                      // Same frame box as CSS `inset: 0` — no taller overscan.
                       y: motionDisabled ? 0 : versoImageY,
                       scale: 1,
                       transformOrigin: "center center",
-                      // Vertical overscan so translateY is clipped, not gapped.
-                      top: -overscan,
-                      bottom: -overscan,
-                      left: 0,
-                      right: 0,
                     }
                   : {
                       scale: (motionDisabled ? 1 : imageScale) as
@@ -291,10 +340,10 @@ export function WorkMotionProject({
               }
             >
               <div className="work-media-hover">
-                <Image
-                  src={item.image.src}
-                  alt={item.image.alt}
-                  fill
+                <WorkCardMediaImage
+                  key={`${item.id}:${item.image.src}:${item.image.smallSrc ?? ""}:${preferSmall}`}
+                  image={item.image}
+                  preferSmall={preferSmall}
                   priority={priority}
                   sizes={sizesForRole(item.role)}
                 />

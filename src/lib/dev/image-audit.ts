@@ -21,10 +21,22 @@ import {
   type AuditStatus,
   type ImageAuditEntry,
   type ImageAuditSummary,
+  type WorkCoverAudit,
+  type WorkCoverUsagePanel,
 } from "@/lib/dev/image-audit-shared";
 import { homeParallaxProjects } from "@/lib/home-parallax";
-import { getPortfolioProjects, type Project } from "@/lib/projects";
-import { workMotionItems, type WorkMotionMediaRole } from "@/lib/work-motion";
+import {
+  expectedSmallCoverFilename,
+  expectedSmallCoverSrc,
+  getPortfolioProjects,
+  type Project,
+} from "@/lib/projects";
+import {
+  isSmallWorkMotionRole,
+  workMotionItems,
+  type WorkMotionMediaRole,
+} from "@/lib/work-motion";
+import { projectsMotionItems } from "@/lib/projects-motion";
 
 export type {
   AuditGroup,
@@ -34,6 +46,8 @@ export type {
   AuditStatus,
   ImageAuditEntry,
   ImageAuditSummary,
+  WorkCoverAudit,
+  WorkCoverUsagePanel,
 } from "@/lib/dev/image-audit-shared";
 
 export {
@@ -78,6 +92,15 @@ type UsageDraft = {
   mobileWidth?: number;
   mobileHeight?: number;
   alt?: string;
+  /** Work cover dual-frame audit (Large + Small). */
+  workCover?: {
+    smallSrc?: string;
+    smallWidth?: number;
+    smallHeight?: number;
+    /** Rendered reference for the small 6∶4 frame on this layout. */
+    smallRenderedWidth: number;
+    smallRenderedHeight: number;
+  };
 };
 
 const SOURCE_HOME_PARALLAX = "src/lib/home-parallax.ts";
@@ -96,7 +119,10 @@ const ROLE_WHY: Record<AuditRoleKind, string> = {
   Diagram: "Preserves fine detail and labels.",
   Quote: "Atmospheric crop beside editorial quote.",
   Thumbnail: "Smaller list / motion thumbnail density.",
-  Cover: "Work / homepage project card cover.",
+  Cover:
+    "Work / Case Studies cover — audited for LARGE (featured) and SMALL (6∶4) card frames separately.",
+  "Work Card":
+    "Smaller Work-page card — fixed 6∶4 landscape frame. Export at 2400 × 1600. Prefer dedicated smallSrc when the large cover ratio differs.",
   Other: "Supports Retina displays.",
 };
 
@@ -128,6 +154,13 @@ function inferRoleKind(input: {
   }
   /** Work / cover metadata wins over filename heuristics (e.g. “laptop” in alt). */
   if (input.group === "Work" || technical.includes("cover")) {
+    /** Smaller WorkMotion cards (not the full-width featured Verso). */
+    if (
+      technical.includes("motion") &&
+      !technical.includes("feature-landscape")
+    ) {
+      return "Work Card";
+    }
     return "Cover";
   }
   if (input.group === "Homepage") {
@@ -172,6 +205,7 @@ function previewAspectsFor(
       };
     case "Large Feature":
     case "Closing Feature":
+    case "Work Card":
       /** Same 6∶4 landscape frame at every breakpoint. */
       return {
         desktop: "6 / 4",
@@ -307,7 +341,13 @@ function desktopAspectLabel(
   renderedWidth: number,
   renderedHeight: number,
 ): string {
-  if (role === "Large Feature" || role === "Closing Feature") return "6:4";
+  if (
+    role === "Large Feature" ||
+    role === "Closing Feature" ||
+    role === "Work Card"
+  ) {
+    return "6:4";
+  }
   if (role === "Hero") return "16:9";
   return simplifyAspect(renderedWidth, renderedHeight);
 }
@@ -491,20 +531,146 @@ function workMotionSizes(role: WorkMotionMediaRole): string {
   }
 }
 
+/**
+ * WorkMotion CSS display size (1×) from Figma rail (1240 content / 1440 max).
+ * Smaller cards use a fixed 6∶4 frame; featured Verso keeps 1280∶690.
+ */
 function workMotionRendered(role: WorkMotionMediaRole): { w: number; h: number } {
   const max = Math.min(VIEWPORT, 1440);
+  /** Figma content rail inside 20px side padding. */
+  const rail = Math.min(1240, max - 40);
+  const landscape64 = (w: number) => ({ w, h: w * (4 / 6) });
+
   switch (role) {
     case "feature-landscape":
       return { w: max, h: max * (690 / 1280) };
     case "offset-landscape":
-      return { w: max * 0.5, h: max * 0.5 * (517 / 800) };
+      return landscape64(rail * (800 / 1240));
     case "offset-square":
-      return { w: max * 0.65, h: max * 0.65 };
+      return landscape64(rail * (416 / 1240));
     case "square-pair":
-      return { w: max * 0.28, h: max * 0.28 };
+      return landscape64(rail * (392 / 1240));
     case "pair-landscape":
-      return { w: max * 0.5, h: max * 0.5 * (392 / 608) };
+      return landscape64(rail * (608 / 1240));
   }
+}
+
+const LARGE_WORK_RATIO = 1280 / 690;
+const SMALL_WORK_RATIO = 6 / 4;
+const RATIO_TOLERANCE = 0.025;
+/** Featured Work cover 2× export (matches approved Verso asset). */
+const LARGE_WORK_EXPORT = { width: 2880, height: 1553 };
+/** Standard small Work card 2× export. */
+const SMALL_WORK_EXPORT = { width: 2400, height: 1600 };
+
+function ratioMatches(
+  width: number | null,
+  height: number | null,
+  targetRatio: number,
+): boolean {
+  if (width == null || height == null || width <= 0 || height <= 0) {
+    return false;
+  }
+  return Math.abs(width / height - targetRatio) < RATIO_TOLERANCE;
+}
+
+function buildWorkCoverAudit(input: {
+  desktopSrc: string;
+  largeRendered: { w: number; h: number };
+  smallRendered: { w: number; h: number };
+  srcWidth: number | null;
+  srcHeight: number | null;
+  declaredSmallSrc: string | null;
+  smallFileExists: boolean;
+  smallWidth: number | null;
+  smallHeight: number | null;
+}): WorkCoverAudit {
+  const largeOk = ratioMatches(
+    input.srcWidth,
+    input.srcHeight,
+    LARGE_WORK_RATIO,
+  );
+  const large: WorkCoverUsagePanel = {
+    title: "LARGE WORK CARD",
+    frameRatioLabel: "1280:690",
+    renderedReference: `~${formatDims(input.largeRendered.w, input.largeRendered.h)}`,
+    recommendedExport: formatDims(
+      LARGE_WORK_EXPORT.width,
+      LARGE_WORK_EXPORT.height,
+    ),
+    status: largeOk ? "correct" : "warn",
+    statusLabel: largeOk
+      ? "✓ Correct ratio"
+      : "⚠ Source artwork does not match large Work frame",
+    guidance: largeOk
+      ? null
+      : "Large Work card uses ~1280∶690. Keep src sized for the featured frame.",
+    expectedFilename: null,
+    artworkSrc: null,
+    artworkPresent: null,
+    artworkLabel: null,
+    smallSrcConfigured: null,
+    smallSrcConfiguredLabel: null,
+  };
+
+  const configured = Boolean(input.declaredSmallSrc);
+  const expectedFilename = configured
+    ? filenameFromSrc(input.declaredSmallSrc!)
+    : expectedSmallCoverFilename(filenameFromSrc(input.desktopSrc));
+  const expectedSrc = configured
+    ? input.declaredSmallSrc!
+    : expectedSmallCoverSrc(input.desktopSrc);
+
+  /**
+   * Ratio: use on-disk small artwork when present; otherwise fall back to
+   * desktop src (live cards also fall back until the PNG is exported).
+   */
+  const ratioW = input.smallFileExists ? input.smallWidth : input.srcWidth;
+  const ratioH = input.smallFileExists ? input.smallHeight : input.srcHeight;
+  const smallOk = ratioMatches(ratioW, ratioH, SMALL_WORK_RATIO);
+
+  let statusLabel: string;
+  let guidance: string | null = null;
+
+  if (configured && !input.smallFileExists) {
+    statusLabel = "⚠ Small artwork file missing";
+    guidance =
+      "Export a dedicated 6:4 cover (2400 × 1600) to the expected path. Live cards fall back to src until the file exists.";
+  } else if (configured && input.smallFileExists && smallOk) {
+    statusLabel = "✓ Correct ratio";
+  } else if (configured && input.smallFileExists && !smallOk) {
+    statusLabel = "⚠ Source artwork does not match 6:4";
+    guidance = "Export a dedicated 6:4 cover to avoid banding/cropping.";
+  } else if (!configured && smallOk) {
+    statusLabel = "✓ Correct ratio (via src)";
+    guidance = `Add smallSrc (“${expectedFilename}”) so the expected path is configured in code.`;
+  } else {
+    statusLabel = "⚠ Source artwork does not match 6:4";
+    guidance =
+      "Export a dedicated 6:4 cover to avoid banding/cropping. Add smallSrc in project data first.";
+  }
+
+  const small: WorkCoverUsagePanel = {
+    title: "SMALL WORK CARD",
+    frameRatioLabel: "6:4",
+    renderedReference: `~${formatDims(input.smallRendered.w, input.smallRendered.h)}`,
+    recommendedExport: formatDims(
+      SMALL_WORK_EXPORT.width,
+      SMALL_WORK_EXPORT.height,
+    ),
+    status:
+      configured && input.smallFileExists && smallOk ? "correct" : "warn",
+    statusLabel,
+    guidance,
+    expectedFilename,
+    artworkSrc: expectedSrc,
+    artworkPresent: input.smallFileExists,
+    artworkLabel: input.smallFileExists ? "Present" : "Missing",
+    smallSrcConfigured: configured,
+    smallSrcConfiguredLabel: configured ? "YES" : "NO",
+  };
+
+  return { large, small };
 }
 
 function collectCaseStudyImages(study: CaseStudy): Array<{
@@ -617,6 +783,18 @@ function collectCaseStudyImages(study: CaseStudy): Array<{
     );
   });
   pushFeature(study.closingFeature, "closingFeature");
+  study.extension?.gallery.forEach((image, i) => {
+    push(
+      image,
+      `extension.gallery[${i}]`,
+      "(max-width: 1023px) 100vw, 50vw",
+      false,
+      gallery,
+    );
+  });
+  study.extension?.features.forEach((image, i) => {
+    pushFeature(image, `extension.features[${i}]`);
+  });
   pushFeature(study.postResultFeature, "postResultFeature");
 
   return out;
@@ -686,16 +864,22 @@ function buildUsageDrafts(): UsageDraft[] {
     });
   }
 
+  const projectsMotionById = new Map(
+    Object.values(projectsMotionItems).map((item) => [item.id, item]),
+  );
+
   for (const project of getPortfolioProjects()) {
     if (!project.image) continue;
     const rendered = workCardRendered(project.size);
     const motion = Object.values(workMotionItems).find(
       (item) => item.id === project.id,
     );
+    const projectsMotion = projectsMotionById.get(project.id);
     const coverKind =
       project.size === "experience" ? "experience cover" : "studio cover";
-    const technicalRole = motion
-      ? `${coverKind} · ${project.size} · motion ${motion.role}`
+    const motionRole = motion?.role ?? projectsMotion?.role;
+    const technicalRole = motionRole
+      ? `${coverKind} · ${project.size} · motion ${motionRole}`
       : `${coverKind} · ${project.size}`;
     const filename = filenameFromSrc(project.image.src);
     const role = inferRoleKind({
@@ -705,38 +889,65 @@ function buildUsageDrafts(): UsageDraft[] {
       group: "Work",
     });
 
+    const pages = new Set<string>(["/work"]);
+    if (motion) {
+      pages.add("/work");
+      pages.add("/work-motion-test");
+    }
+    if (projectsMotion) {
+      pages.add("/projects-motion-test");
+    }
+
+    const largeRendered = workMotionRendered("feature-landscape");
+    const smallRole: WorkMotionMediaRole =
+      motionRole && isSmallWorkMotionRole(motionRole)
+        ? motionRole
+        : "offset-landscape";
+    const smallRendered = workMotionRendered(smallRole);
+
     drafts.push({
       group: "Work",
       src: project.image.src,
       project: project.name,
       projectSlug: project.id,
-      pages: motion ? ["/work", "/work-motion-test"] : ["/work"],
-      component: motion ? "WorkCard + WorkMotionProject" : "WorkCard",
+      pages: [...pages],
+      component:
+        motion || projectsMotion
+          ? "WorkMotionProject"
+          : "WorkCard",
       role,
       technicalRole,
-      sizes: motion
-        ? `WorkCard: ${workCardSizes(project.size)} · WorkMotion: ${workMotionSizes(motion.role)}`
+      sizes: motionRole
+        ? workMotionSizes(motionRole)
         : workCardSizes(project.size),
       priority:
-        project.size === "featured" || motion?.id === "verso-design-system",
+        project.size === "featured" || project.id === "verso-design-system",
       sourceFile: SOURCE_PROJECTS,
-      renderedWidth: motion
-        ? Math.max(rendered.w, workMotionRendered(motion.role).w)
+      renderedWidth: motionRole
+        ? workMotionRendered(motionRole).w
         : rendered.w,
-      renderedHeight: motion
-        ? Math.max(rendered.h, workMotionRendered(motion.role).h)
+      renderedHeight: motionRole
+        ? workMotionRendered(motionRole).h
         : rendered.h,
       intrinsicWidth: project.image.width,
       intrinsicHeight: project.image.height,
-      objectPosition: motion?.objectPosition,
-      mobileObjectPosition: motion?.mobileObjectPosition,
+      objectPosition:
+        motion?.objectPosition ?? projectsMotion?.objectPosition,
+      mobileObjectPosition:
+        motion?.mobileObjectPosition ?? projectsMotion?.mobileObjectPosition,
       alt: project.image.alt,
-      notes: motion
-        ? [
-            `WorkMotion largest frame ~${formatDims(workMotionRendered(motion.role).w, workMotionRendered(motion.role).h)}`,
-            `WorkCard frame ~${formatDims(rendered.w, rendered.h)}`,
-          ]
-        : undefined,
+      workCover: {
+        smallSrc: project.image.smallSrc,
+        smallWidth: project.image.smallWidth,
+        smallHeight: project.image.smallHeight,
+        smallRenderedWidth: smallRendered.w,
+        smallRenderedHeight: smallRendered.h,
+      },
+      notes: [
+        "Image Manager audits LARGE + SMALL Work card frames for this cover.",
+        `Large frame ~${formatDims(largeRendered.w, largeRendered.h)} · export ${formatDims(LARGE_WORK_EXPORT.width, LARGE_WORK_EXPORT.height)}`,
+        `Small frame 6∶4 · export ${formatDims(SMALL_WORK_EXPORT.width, SMALL_WORK_EXPORT.height)}`,
+      ],
     });
   }
 
@@ -1023,6 +1234,33 @@ export function buildImageAudit(): {
         );
     const mobileMetadataMismatch = mobileMetadataStatus === "incorrect";
 
+    const declaredSmallSrc = draft.workCover?.smallSrc ?? null;
+    const smallFileExists = declaredSmallSrc
+      ? fileExists(declaredSmallSrc)
+      : false;
+    const smallFileDims =
+      declaredSmallSrc && smallFileExists
+        ? readFileDimensions(declaredSmallSrc)
+        : null;
+    const workCoverAudit = draft.workCover
+      ? buildWorkCoverAudit({
+          desktopSrc: draft.src,
+          largeRendered: workMotionRendered("feature-landscape"),
+          smallRendered: {
+            w: draft.workCover.smallRenderedWidth,
+            h: draft.workCover.smallRenderedHeight,
+          },
+          srcWidth: intrinsicWidth,
+          srcHeight: intrinsicHeight,
+          declaredSmallSrc,
+          smallFileExists,
+          smallWidth:
+            smallFileDims?.width ?? draft.workCover.smallWidth ?? null,
+          smallHeight:
+            smallFileDims?.height ?? draft.workCover.smallHeight ?? null,
+        })
+      : null;
+
     return {
       id: `${draft.group}-${index}-${draft.src}`,
       group: draft.group,
@@ -1134,6 +1372,7 @@ export function buildImageAudit(): {
         mobileIntrinsicFromFile ? (mobileFileDims?.height ?? null) : null,
         { width: "mobileWidth", height: "mobileHeight" },
       ),
+      workCoverAudit,
     };
   });
 

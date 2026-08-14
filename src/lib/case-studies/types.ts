@@ -27,6 +27,11 @@ export type CaseStudyImage = {
   /** Enable zoom-in lightbox for detailed UI screenshots. */
   zoomable?: boolean;
   caption?: string;
+  /**
+   * Optional looping video that replaces the framed fill image.
+   * `src` remains the static fallback (e.g. prefers-reduced-motion / poster).
+   */
+  videoSrc?: string;
 };
 
 export type CaseStudyMetaGroup = {
@@ -132,6 +137,10 @@ export type CaseStudy = {
    * Placement for `feature` relative to challenge / midGallery.
    * Defaults to `afterMidGallery`.
    * Prefer this over the legacy `featureBeforeMidGallery` boolean.
+   *
+   * `beforeChallenge` — immediately before The Challenge narrative. When
+   * `challengeGalleryPlacement` is `"before"`, the paired gallery renders
+   * first, then this feature (2-up + large cluster).
    */
   featurePlacement?: "beforeChallenge" | "beforeMidGallery" | "afterMidGallery";
   /**
@@ -149,6 +158,18 @@ export type CaseStudy = {
   solutionGallery?: [CaseStudyImage, CaseStudyImage];
   /** Optional large feature before the result (Verso / OneNav / Digital covers). */
   closingFeature?: CaseStudyImage;
+  /**
+   * Optional post-solution touchpoint story (Mums United “Beyond the website”).
+   * Renders after solution / closing media and before Result / Outcome.
+   * Hierarchy: copy → 2-up gallery → large feature → large feature.
+   */
+  extension?: {
+    label: string;
+    heading: string;
+    paragraphs: string[];
+    gallery: [CaseStudyImage, CaseStudyImage];
+    features: [CaseStudyImage, CaseStudyImage];
+  };
   /** Required for the standard flow; omit when using `bodyBlocks`. */
   result?: CaseStudyNarrative;
   /** Optional outcome list beside the result. Omit when unused (Digital Editions). */

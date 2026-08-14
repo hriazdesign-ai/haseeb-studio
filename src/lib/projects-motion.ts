@@ -52,7 +52,16 @@ function item(
     id: project.id,
     caption,
     href: project.href!,
-    image,
+    /**
+     * Preserve shared `smallSrc` from portfolio project data even when Case
+     * Studies overrides the large/homepage `src` (e.g. home-parallax art).
+     */
+    image: {
+      ...image,
+      smallSrc: image.smallSrc ?? project.image?.smallSrc,
+      smallWidth: image.smallWidth ?? project.image?.smallWidth,
+      smallHeight: image.smallHeight ?? project.image?.smallHeight,
+    },
     role,
     preset,
     objectPosition: positions?.objectPosition ?? "50% 50%",
@@ -99,8 +108,12 @@ export const projectsMotionItems = {
     "Bright Path Learning",
     "pair-landscape",
     "A",
-    homeImage("bright-path-learning"),
-    { objectPosition: "50% 50%", mobileObjectPosition: "50% 50%" },
+    {
+      src: "/images/home-parallax/bright-path-3.png",
+      alt: "Bright Path Learning",
+      width: 566,
+      height: 566,
+    },
   ),
   meridian: item(
     studioById("meridian-and-co"),

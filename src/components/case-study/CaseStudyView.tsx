@@ -3,6 +3,7 @@ import { CaseStudyHeroMedia } from "@/components/case-study/CaseStudyHeroMedia";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
 import { CaseStudyProjectCarousel } from "@/components/case-study/CaseStudyProjectCarousel";
 import { LargeFeature } from "@/components/case-study/LargeFeature";
+import { PendingCaseStudyMedia } from "@/components/case-study/PendingCaseStudyMedia";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { blocksStatementMotion } from "@/lib/home-parallax-blocks-motion";
@@ -165,10 +166,6 @@ function StandardBody({ study }: { study: CaseStudy }) {
 
   return (
     <>
-      {featurePlacement === "beforeChallenge" && study.feature ? (
-        <LargeFeature image={study.feature} label="Featured design" />
-      ) : null}
-
       {galleryBeforeChallenge && challengeGallery ? (
         <PairedGallery
           images={challengeGallery}
@@ -176,6 +173,15 @@ function StandardBody({ study }: { study: CaseStudy }) {
         />
       ) : hasPullQuoteImage && pullQuote?.image ? (
         <PullQuoteImage image={pullQuote.image} text={pullQuote.text} />
+      ) : null}
+
+      {/*
+       * After an early challenge gallery when present, so studies can open with
+       * the 2-up + large feature cluster (e.g. Mums United) before The Challenge.
+       * Studies without an early gallery still get the feature first (Digital Editions).
+       */}
+      {featurePlacement === "beforeChallenge" && study.feature ? (
+        <LargeFeature image={study.feature} label="Featured design" />
       ) : null}
 
       <section className="container">
@@ -272,6 +278,88 @@ function StandardBody({ study }: { study: CaseStudy }) {
           image={study.closingFeature}
           label="Closing feature"
         />
+      ) : null}
+
+      {study.extension ? (
+        <>
+          <section
+            className="container"
+            aria-labelledby="extension-heading"
+          >
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="lg:col-start-1">
+                <div
+                  className="flex max-w-[35.25rem] flex-col"
+                  style={{ gap: "var(--hero-copy-gap)" }}
+                >
+                  {study.extension.label ? (
+                    <h2 className="type-cs-section">
+                      {study.extension.label}
+                    </h2>
+                  ) : null}
+                  <h3
+                    id="extension-heading"
+                    className="type-cs-title"
+                  >
+                    {study.extension.heading}
+                  </h3>
+                  <div className="flex flex-col gap-8">
+                    {study.extension.paragraphs.map((paragraph) => (
+                      <p
+                        key={paragraph.slice(0, 32)}
+                        className="type-cs-body"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            className="container"
+            aria-label={`${study.extension.label} gallery`}
+          >
+            <div
+              className="grid grid-cols-1 lg:grid-cols-2"
+              style={{ gap: "2rem" }}
+            >
+              {study.extension.gallery.map((image) => (
+                <PendingCaseStudyMedia
+                  key={`pending-gallery:${image.src}`}
+                  src={image.src}
+                  caption={image.caption}
+                  placeholderClassName="aspect-[560/361]"
+                >
+                  <CaseStudyMedia
+                    image={image}
+                    frameClassName="aspect-[560/361]"
+                    sizes="(max-width: 1023px) 100vw, 50vw"
+                    artDirectMobile={false}
+                  />
+                </PendingCaseStudyMedia>
+              ))}
+            </div>
+          </section>
+
+          {study.extension.features.map((image, index) => (
+            <PendingCaseStudyMedia
+              key={`pending-feature:${image.src}`}
+              src={image.src}
+              caption={image.caption}
+              layout="feature"
+              label={image.caption ?? `Extension feature ${index + 1}`}
+              placeholderClassName="aspect-[6/4] min-h-[14rem]"
+            >
+              <LargeFeature
+                image={image}
+                label={image.caption ?? `Extension feature ${index + 1}`}
+              />
+            </PendingCaseStudyMedia>
+          ))}
+        </>
       ) : null}
 
       <section

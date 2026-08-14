@@ -1,5 +1,6 @@
 import { ArtDirectedFillImage } from "@/components/case-study/ArtDirectedFillImage";
 import { ArtDirectedIntrinsicImage } from "@/components/case-study/ArtDirectedIntrinsicImage";
+import { CaseStudyFillVideo } from "@/components/case-study/CaseStudyFillVideo";
 import { ImageLightbox } from "@/components/case-study/ImageLightbox";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
 import type { CaseStudyImage } from "@/lib/case-studies";
@@ -84,6 +85,15 @@ export function CaseStudyMedia({
             alt={image.alt}
             sizes={sizes}
             priority={priority}
+          />
+        ) : image.videoSrc ? (
+          <CaseStudyFillVideo
+            src={image.src}
+            videoSrc={image.videoSrc}
+            alt={image.alt}
+            sizes={sizes}
+            priority={priority}
+            objectFit={objectFit}
           />
         ) : (
           <ArtDirectedFillImage

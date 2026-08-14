@@ -7,6 +7,7 @@ import type {
   AuditRoleKind,
   ImageAuditEntry,
   ImageAuditSummary,
+  WorkCoverUsagePanel,
 } from "@/lib/dev/image-audit-shared";
 import {
   buildAuditProjectOptions,
@@ -34,8 +35,9 @@ const ROLE_RANK: Record<AuditRoleKind, number> = {
   "Browser Mockup": 6,
   Diagram: 7,
   Cover: 8,
-  Thumbnail: 9,
-  Other: 10,
+  "Work Card": 9,
+  Thumbnail: 10,
+  Other: 11,
 };
 
 function AssetThumb({
@@ -159,6 +161,150 @@ function CodeMetadataBlock({
   );
 }
 
+function WorkCoverUsageBlock({ panel }: { panel: WorkCoverUsagePanel }) {
+  return (
+    <section
+      className={[
+        "dev-image-audit__usage-panel",
+        panel.status === "warn"
+          ? "dev-image-audit__usage-panel--warn"
+          : "dev-image-audit__usage-panel--ok",
+      ].join(" ")}
+    >
+      <header className="dev-image-audit__usage-panel-header">
+        <h5 className="dev-image-audit__usage-panel-title">{panel.title}</h5>
+        <span
+          className={[
+            "dev-image-audit__status",
+            panel.status === "warn"
+              ? "dev-image-audit__status--too-small"
+              : "dev-image-audit__status--ideal",
+          ].join(" ")}
+        >
+          {panel.statusLabel}
+        </span>
+      </header>
+      <dl className="dev-image-audit__meta">
+        <MetaRow label="Frame ratio" value={panel.frameRatioLabel} />
+        <MetaRow label="Rendered reference" value={panel.renderedReference} />
+        <MetaRow label="Recommended export" value={panel.recommendedExport} />
+        {panel.expectedFilename ? (
+          <MetaRow label="Expected" value={panel.expectedFilename} />
+        ) : null}
+        {panel.smallSrcConfiguredLabel ? (
+          <MetaRow
+            label="smallSrc configured"
+            value={panel.smallSrcConfiguredLabel}
+            warn={panel.smallSrcConfigured === false}
+          />
+        ) : null}
+        {panel.artworkLabel ? (
+          <MetaRow
+            label="Artwork"
+            value={panel.artworkLabel}
+            warn={panel.artworkPresent === false}
+          />
+        ) : null}
+        {panel.artworkSrc ? (
+          <MetaRow label="Small image path" value={publicPathHint(panel.artworkSrc)} />
+        ) : null}
+      </dl>
+      {panel.guidance ? (
+        <p className="dev-image-audit__usage-guidance">{panel.guidance}</p>
+      ) : null}
+    </section>
+  );
+}
+
+function publicPathHint(src: string): string {
+  return src.startsWith("/") ? `public${src}` : `public/${src}`;
+}
+
+function WorkCoverSourceCard({ entry }: { entry: ImageAuditEntry }) {
+  const intrinsicLabel =
+    entry.intrinsicWidth != null && entry.intrinsicHeight != null
+      ? `${entry.intrinsicWidth} × ${entry.intrinsicHeight}`
+      : "—";
+  const audit = entry.workCoverAudit!;
+
+  return (
+    <section className="dev-image-audit__asset-card dev-image-audit__asset-card--cover">
+      <header className="dev-image-audit__asset-card-header">
+        <h4 className="dev-image-audit__asset-card-title">Source Artwork</h4>
+        <div className="dev-image-audit__status-stack">
+          <span
+            className={`dev-image-audit__status dev-image-audit__status--${entry.status}`}
+          >
+            {entry.fileExists ? "✓ Desktop artwork exists" : "⚠ Missing Desktop"}
+          </span>
+          <span
+            className={[
+              "dev-image-audit__status",
+              entry.metadataMismatch
+                ? "dev-image-audit__status--too-small"
+                : entry.metadataStatus === "correct"
+                  ? "dev-image-audit__status--ideal"
+                  : "dev-image-audit__status--unused",
+            ].join(" ")}
+          >
+            {entry.metadataStatusLabel}
+          </span>
+        </div>
+      </header>
+
+      <AssetThumb
+        src={entry.src}
+        aspect={entry.previewAspects.desktop}
+        objectPosition={entry.objectPosition}
+        missing={!entry.fileExists}
+        missingLabel="File missing"
+      />
+
+      <div
+        className="dev-image-audit__actions"
+        role="group"
+        aria-label="Source artwork copy actions"
+      >
+        <CopyButton label="Copy image path" value={entry.publicPath} />
+        <CopyButton
+          label="Copy filename"
+          value={entry.filename}
+          variant="secondary"
+        />
+        {audit.small.expectedFilename ? (
+          <CopyButton
+            label="Copy expected small filename"
+            value={audit.small.expectedFilename}
+            variant="secondary"
+          />
+        ) : null}
+      </div>
+
+      <dl className="dev-image-audit__meta">
+        <MetaRow label="Image Role" value={entry.role} />
+        <MetaRow label="Source filename" value={entry.filename} />
+        <MetaRow label="Image path" value={entry.publicPath} />
+        <MetaRow label="Intrinsic Size" value={intrinsicLabel} />
+        <MetaRow label="Object Position" value={entry.objectPosition} />
+        <MetaRow label="Source TS file" value={entry.sourceFile || "—"} />
+      </dl>
+
+      <CodeMetadataBlock
+        width={entry.dataWidth}
+        height={entry.dataHeight}
+        mismatch={entry.metadataMismatch}
+        correctSnippet={entry.correctMetadataSnippet}
+        variant="desktop"
+      />
+
+      <div className="dev-image-audit__usage-grid">
+        <WorkCoverUsageBlock panel={audit.large} />
+        <WorkCoverUsageBlock panel={audit.small} />
+      </div>
+    </section>
+  );
+}
+
 function DesktopAssetCard({ entry }: { entry: ImageAuditEntry }) {
   const intrinsicLabel =
     entry.intrinsicWidth != null && entry.intrinsicHeight != null
@@ -216,7 +362,7 @@ function DesktopAssetCard({ entry }: { entry: ImageAuditEntry }) {
         <MetaRow label="Desktop / Mobile" value="Desktop" />
         <MetaRow label="Source filename" value={entry.filename} />
         <MetaRow label="Image path" value={entry.publicPath} />
-        <MetaRow label="Export Size" value={entry.recommendedExport} />
+        <MetaRow label="Recommended Export" value={entry.recommendedExport} />
         <MetaRow label="Intrinsic Size" value={intrinsicLabel} />
         <MetaRow label="Aspect Ratio" value={entry.aspectRatioLabel} />
         <MetaRow label="Object Position" value={entry.objectPosition} />
@@ -374,6 +520,7 @@ function MobileAssetCard({ entry }: { entry: ImageAuditEntry }) {
 
 function AuditCard({ entry }: { entry: ImageAuditEntry }) {
   const showMobilePair = isArtDirectedAuditRole(entry.role);
+  const showWorkCover = entry.workCoverAudit != null;
 
   return (
     <article
@@ -382,6 +529,7 @@ function AuditCard({ entry }: { entry: ImageAuditEntry }) {
         entry.metadataMismatch || entry.mobileMetadataMismatch
           ? "dev-image-audit__card--metadata-warn"
           : null,
+        showWorkCover ? "dev-image-audit__card--work-cover" : null,
       ]
         .filter(Boolean)
         .join(" ")}
@@ -394,7 +542,11 @@ function AuditCard({ entry }: { entry: ImageAuditEntry }) {
         ) : null}
       </div>
 
-      {showMobilePair ? (
+      {showWorkCover ? (
+        <div className="dev-image-audit__asset-grid dev-image-audit__asset-grid--single">
+          <WorkCoverSourceCard entry={entry} />
+        </div>
+      ) : showMobilePair ? (
         <div className="dev-image-audit__asset-grid">
           <DesktopAssetCard entry={entry} />
           <MobileAssetCard entry={entry} />

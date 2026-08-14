@@ -330,6 +330,66 @@ body:has(.dev-image-audit) .site-footer {
   max-width: 36rem;
 }
 
+.dev-image-audit__usage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 720px) {
+  .dev-image-audit__usage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dev-image-audit__usage-panel {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--dia-line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.dev-image-audit__usage-panel--ok {
+  border-color: #9ec9a8;
+  background: #f4faf5;
+}
+
+.dev-image-audit__usage-panel--warn {
+  border-color: #e2b66d;
+  background: #fffaf0;
+}
+
+.dev-image-audit__usage-panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+}
+
+.dev-image-audit__usage-panel-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dev-image-audit__usage-guidance {
+  margin: 0;
+  color: var(--dia-bad);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.dev-image-audit__card--work-cover .dev-image-audit__asset-grid--single {
+  max-width: 52rem;
+}
+
 @media (max-width: 820px) {
   .dev-image-audit__asset-grid {
     grid-template-columns: 1fr;

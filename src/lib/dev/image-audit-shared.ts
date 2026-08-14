@@ -37,6 +37,7 @@ export type AuditRoleKind =
   | "Quote"
   | "Thumbnail"
   | "Cover"
+  | "Work Card"
   | "Other";
 
 /** Roles that pair a desktop asset with an optional art-directed mobileSrc. */
@@ -50,7 +51,7 @@ export function isArtDirectedAuditRole(role: AuditRoleKind): boolean {
 
 /**
  * Roles that must declare + ship mobile artwork.
- * Gallery / Cover / Thumbnail never require mobile.
+ * Gallery / Cover / Thumbnail / Work Card never require mobile.
  */
 export function requiresMobileArtwork(role: AuditRoleKind): boolean {
   return isArtDirectedAuditRole(role);
@@ -108,6 +109,7 @@ export type AuditRoleFilter =
   | "Closing Feature"
   | "Gallery"
   | "Cover"
+  | "Work Card"
   | "Split"
   | "Mobile"
   | "Device Mockup";
@@ -116,6 +118,34 @@ export type AuditPreviewAspects = {
   desktop: string;
   tablet: string;
   mobile: string;
+};
+
+/** Dual-frame audit for Work / Case Studies cover assets. */
+export type WorkCoverUsageStatus = "correct" | "warn";
+
+export type WorkCoverUsagePanel = {
+  title: "LARGE WORK CARD" | "SMALL WORK CARD";
+  frameRatioLabel: string;
+  /** CSS rendered reference, e.g. `~1440 × 776`. */
+  renderedReference: string;
+  recommendedExport: string;
+  status: WorkCoverUsageStatus;
+  statusLabel: string;
+  guidance: string | null;
+  /** Small panel only — expected `*-small` filename. */
+  expectedFilename: string | null;
+  /** Small panel — declared `smallSrc` or expected path. */
+  artworkSrc: string | null;
+  artworkPresent: boolean | null;
+  artworkLabel: string | null;
+  /** Small panel — `smallSrc` key present in project data. */
+  smallSrcConfigured: boolean | null;
+  smallSrcConfiguredLabel: string | null;
+};
+
+export type WorkCoverAudit = {
+  large: WorkCoverUsagePanel;
+  small: WorkCoverUsagePanel;
 };
 
 export type ImageAuditEntry = {
@@ -220,6 +250,11 @@ export type ImageAuditEntry = {
   mobileMetadataStatusLabel: string;
   mobileMetadataMismatch: boolean;
   mobileCorrectMetadataSnippet: string;
+  /**
+   * When set, Image Manager shows LARGE + SMALL Work card usage panels
+   * instead of a single generic Cover recommendation.
+   */
+  workCoverAudit: WorkCoverAudit | null;
 };
 
 export type ImageAuditSummary = {
@@ -326,6 +361,7 @@ export const AUDIT_ROLE_FILTER_OPTIONS: Array<{
   { id: "Closing Feature", label: "Closing Feature" },
   { id: "Gallery", label: "Gallery" },
   { id: "Cover", label: "Cover" },
+  { id: "Work Card", label: "Work Card" },
   { id: "Split", label: "Split" },
   { id: "Mobile", label: "Mobile" },
   { id: "Device Mockup", label: "Device Mockup" },
@@ -355,7 +391,10 @@ export function roleSectionFor(role: AuditRoleKind): AuditRoleSection {
   if (role === "Large Feature") return "Large Feature";
   if (role === "Closing Feature") return "Closing Feature";
   if (role === "Gallery") return "Gallery";
-  if (role === "Cover" || role === "Thumbnail") return "Cover";
+  /** Work Card covers share the Cover section (dual Large/Small panels). */
+  if (role === "Cover" || role === "Thumbnail" || role === "Work Card") {
+    return "Cover";
+  }
   if (role === "Phone Mockup" || role === "Browser Mockup") return "Mockups";
   return "Other";
 }
@@ -393,7 +432,10 @@ export function matchesRoleFilter(
   if (filter === "Large Feature") return role === "Large Feature";
   if (filter === "Closing Feature") return role === "Closing Feature";
   if (filter === "Gallery") return role === "Gallery";
-  if (filter === "Cover") return role === "Cover" || role === "Thumbnail";
+  if (filter === "Cover") {
+    return role === "Cover" || role === "Thumbnail" || role === "Work Card";
+  }
+  if (filter === "Work Card") return role === "Work Card" || role === "Cover";
   if (filter === "Split") return role === "Quote";
   if (filter === "Mobile") {
     return role === "Phone Mockup" || isArtDirectedAuditRole(role);

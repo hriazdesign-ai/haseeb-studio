@@ -28,6 +28,9 @@ export type WorkMotionItem = {
     alt: string;
     width: number;
     height: number;
+    smallSrc?: string;
+    smallWidth?: number;
+    smallHeight?: number;
   };
   role: WorkMotionMediaRole;
   preset: WorkMotionPresetId;
@@ -36,6 +39,11 @@ export type WorkMotionItem = {
   /** Focal point when cropped to 6:4 below desktop */
   mobileObjectPosition?: string;
 };
+
+/** Featured Verso (and any full-bleed feature) uses `src`; all other roles prefer `smallSrc`. */
+export function isSmallWorkMotionRole(role: WorkMotionMediaRole): boolean {
+  return role !== "feature-landscape";
+}
 
 function projectById(id: string) {
   const project = experienceProjects.find((item) => item.id === id);
@@ -141,13 +149,14 @@ export const workProjectParallaxSpring = cardParallax.soloSpring;
 /**
  * Verso cover — internal image y inside a fixed, overflow-hidden frame.
  * Card/frame stay stationary; only `.work-media-scale` translates.
+ * No vertical overscan/inset on the scale layer (that distorted aspect and
+ * caused banding with object-fit: contain). Travel kept modest so edges
+ * stay covered while the image pans.
  */
 export const versoImageParallax = {
-  desktop: { from: -24, to: 24 },
-  tablet: { from: -16, to: 16 },
-  mobile: { from: -12, to: 12 },
-  /** Extra px each side so translateY never reveals the frame background. */
-  overscan: 28,
+  desktop: { from: -18, to: 18 },
+  tablet: { from: -12, to: 12 },
+  mobile: { from: -9, to: 9 },
 } as const;
 
 /**
