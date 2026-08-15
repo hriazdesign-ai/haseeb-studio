@@ -142,13 +142,13 @@ body:has(.home-parallax-page) .site-footer {
  *
  * Do NOT zero container padding-inline on desktop — that shifted grid line 1
  * relative to the hero. `--hp-blocks-editorial-inset` remains for the
- * Bright Path / Meridian pair only.
+ * homepage secondary/primary pair only.
  * --------------------------------------------------------------------------
  */
 .home-parallax-page--blocks {
   --hp-blocks-editorial-inset: 164px;
-  /* Tunable Meridian static vertical offset (large desktop). */
-  --hp-blocks-meridian-offset: 120px;
+  /* Tunable primary-slot static vertical offset (large desktop). */
+  --hp-blocks-primary-offset: 120px;
 }
 
 .home-parallax-page--blocks .hp-intro__inner {
@@ -190,9 +190,9 @@ body:has(.home-parallax-page) .site-footer {
   }
 
   /*
-   * Bright Path + Meridian — same 1440 / 164 outer rails as before.
+   * Homepage secondary + primary pair — same 1440 / 164 outer rails as before.
    * One outer inset on `.hp-work__constrained` only (no nested pair padding).
-   * Internal 12-col grid: Bright Path 1–5, gap col 6, Meridian 7–12.
+   * Internal 12-col grid: secondary 1–6, primary 7–12.
    */
   .home-parallax-page--blocks .hp-work__constrained {
     padding-inline: var(--hp-blocks-editorial-inset);
@@ -225,7 +225,7 @@ body:has(.home-parallax-page) .site-footer {
     width: 100%;
     max-width: none;
     min-width: 0;
-    margin-top: var(--hp-blocks-meridian-offset);
+    margin-top: var(--hp-blocks-primary-offset);
     padding-top: 0; /* supersedes 11.25rem pair rule at this breakpoint */
   }
 
@@ -238,9 +238,9 @@ body:has(.home-parallax-page) .site-footer {
     max-width: none;
   }
 
-  /* Bright Path — static layout offset (not on the motion.article). */
+  /* Secondary slot — static layout offset (not on the motion.article). */
   .home-parallax-page--blocks
-    .hp-project-block__layout-offset--bright-path {
+    .hp-project-block__layout-offset--secondary {
     margin-top: 32px;
   }
 }
@@ -456,7 +456,7 @@ body:has(.home-parallax-page) .site-footer {
 }
 
 /*
- * Bright Path / Meridian — fixed frame + oversized scale layer.
+ * Secondary / primary pair — fixed frame + oversized scale layer.
  * inset -10% keeps under-scale from revealing the frame background.
  */
 .hp-blocks-media-frame {
@@ -562,7 +562,7 @@ body:has(.home-parallax-page) .site-footer {
     height: clamp(560px, 58vw, 690px);
   }
 
-  /* Desktop Bright Path / Meridian — designed asymmetric ratios */
+  /* Desktop secondary / primary — designed asymmetric ratios */
   .home-parallax-page--blocks .hp-project--secondary .homepage-parallax-frame {
     aspect-ratio: 1 / 1;
     height: auto;

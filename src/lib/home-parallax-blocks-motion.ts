@@ -48,12 +48,13 @@ export const blocksMotionMultipliers = {
 export type BlocksMotionBreakpoint = keyof typeof blocksMotionMultipliers;
 
 export const blocksProjectMotion = {
-  mumsUnited: {
+  /** Large full-bleed homepage slot (first card). */
+  featured: {
     /** Inner image y only — never applied to the article or frame. */
     imageY: { from: 90, to: -90 },
     /** Fixed vertical overscan on the y layer (each side). */
     overscan: 140,
-    /** Crop raised slightly so the volunteer centres in the frame. */
+    /** Crop raised slightly so the subject centres in the frame. */
     objectPosition: "50% 38%",
     /** Never scales below 1 — prevents black gaps. Softened ~15% from prior peak. */
     imageScale: {
@@ -66,7 +67,8 @@ export const blocksProjectMotion = {
       range: [0.18, 0.4] as const,
     },
   },
-  brightPath: {
+  /** Left card in the homepage pair. */
+  secondary: {
     blockY: { from: 90, to: -90 },
     imageScale: {
       keyframes: [0.92, 1.16, 1.02],
@@ -78,7 +80,8 @@ export const blocksProjectMotion = {
       range: [0.2, 0.44] as const,
     },
   },
-  meridian: {
+  /** Right card in the homepage pair. */
+  primary: {
     blockY: { from: -50, to: 70 },
     imageScale: {
       keyframes: [0.93, 1.18, 1.03],
@@ -95,7 +98,7 @@ export const blocksProjectMotion = {
 /**
  * Shared full-bleed case-study hero motion.
  * Vertical travel only — scale stays at 1. Overscan covers max travel + margin.
- * Kept separate from `blocksProjectMotion.mumsUnited` so homepage cards stay unchanged.
+ * Kept separate from `blocksProjectMotion.featured` so homepage cards stay unchanged.
  */
 export const caseStudyHeroMotion = {
   /** Desktop travel (px). Tablet uses ±14 in CaseStudyHeroMedia. */

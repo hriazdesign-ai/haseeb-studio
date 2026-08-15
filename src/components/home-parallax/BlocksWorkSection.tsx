@@ -27,9 +27,9 @@ import { progressInRange, sectionReveal } from "@/lib/motion";
 const MotionLink = motion.create(Link);
 
 type BlocksWorkSectionProps = {
-  mumsUnited: HomeParallaxProject;
-  brightPath: HomeParallaxProject;
-  meridian: HomeParallaxProject;
+  featured: HomeParallaxProject;
+  secondary: HomeParallaxProject;
+  primary: HomeParallaxProject;
 };
 
 /** Strip trailing Unicode arrows so we render a single shared contact-style arrow. */
@@ -126,11 +126,15 @@ function BlocksWorkCta() {
 }
 
 /**
- * Mums United — layout-static article.
+ * Large featured homepage slot — layout-static article.
  * Frame clips; y + scale live on separate inner layers only.
  */
-function MumsUnitedProject({ project }: { project: HomeParallaxProject }) {
-  const config = blocksProjectMotion.mumsUnited;
+function FeaturedHomepageProject({
+  project,
+}: {
+  project: HomeParallaxProject;
+}) {
+  const config = blocksProjectMotion.featured;
   const frameRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const { internalTravel, scaleStrength } = useBlocksMotionMultipliers();
@@ -276,35 +280,37 @@ function BlockProjectLink({
 
 /**
  * Hybrid work section for `/home-parallax-blocks`:
- * - Mums: static article + overscanned inner y + inner scale
- * - Bright Path / Meridian: article translateY + fixed frame + oversized scale layer
+ * - Featured: static article + overscanned inner y + inner scale
+ * - Secondary / primary pair: article translateY + fixed frame + oversized scale layer
+ *
+ * Motion configs are slot-scoped (`featured` / `secondary` / `primary`).
  */
 export function BlocksWorkSection({
-  mumsUnited,
-  brightPath,
-  meridian,
+  featured,
+  secondary,
+  primary,
 }: BlocksWorkSectionProps) {
-  const bright = blocksProjectMotion.brightPath;
-  const merid = blocksProjectMotion.meridian;
+  const secondaryMotion = blocksProjectMotion.secondary;
+  const primaryMotion = blocksProjectMotion.primary;
 
   return (
     <section className="hp-work hp-work--blocks" aria-label="Selected work">
-      <MumsUnitedProject project={mumsUnited} />
+      <FeaturedHomepageProject project={featured} />
 
       <div className="prototype-page-container hp-work__constrained">
         <div className="hp-work__pair">
           <ScrollProjectReveal
-            config={bright}
-            layoutOffsetClassName="hp-project-block__layout-offset hp-project-block__layout-offset--bright-path"
+            config={secondaryMotion}
+            layoutOffsetClassName="hp-project-block__layout-offset hp-project-block__layout-offset--secondary"
           >
             {({ imageStyle }) => (
-              <BlockProjectLink project={brightPath} imageStyle={imageStyle} />
+              <BlockProjectLink project={secondary} imageStyle={imageStyle} />
             )}
           </ScrollProjectReveal>
 
-          <ScrollProjectReveal config={merid}>
+          <ScrollProjectReveal config={primaryMotion}>
             {({ imageStyle }) => (
-              <BlockProjectLink project={meridian} imageStyle={imageStyle} />
+              <BlockProjectLink project={primary} imageStyle={imageStyle} />
             )}
           </ScrollProjectReveal>
         </div>

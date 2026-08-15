@@ -33,7 +33,7 @@ export function FeaturedProject({
       : "(max-width: 1023px) 100vw, 50vw";
 
   if (motionMode === "block") {
-    const blockMotion = homeParallaxBlockMotion[project.id];
+    const blockMotion = homeParallaxBlockMotion[project.layout];
 
     return (
       <ProjectBlockParallax from={blockMotion.from} to={blockMotion.to}>

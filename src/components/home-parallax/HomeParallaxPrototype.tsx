@@ -12,7 +12,7 @@ import {
 } from "@/lib/home-parallax";
 import "./home-parallax.css";
 
-const [mumsUnited, brightPath, meridian] = homeParallaxProjects;
+const [onenav, mumsUnited, verso] = homeParallaxProjects;
 
 type HomeParallaxPrototypeProps = {
   /**
@@ -73,9 +73,9 @@ export function HomeParallaxPrototype({
         {isBlockMode ? (
           <>
             <BlocksWorkSection
-              mumsUnited={mumsUnited}
-              brightPath={brightPath}
-              meridian={meridian}
+              featured={onenav}
+              secondary={mumsUnited}
+              primary={verso}
             />
             <BlocksIntroSection />
             <BlocksContactSection />
@@ -83,11 +83,11 @@ export function HomeParallaxPrototype({
         ) : (
           <>
             <section className="hp-work" aria-label="Selected work">
-              <FeaturedProject project={mumsUnited} priority />
+              <FeaturedProject project={onenav} priority />
 
               <div className="hp-work__pair">
-                <FeaturedProject project={brightPath} />
-                <FeaturedProject project={meridian} />
+                <FeaturedProject project={mumsUnited} />
+                <FeaturedProject project={verso} />
               </div>
 
               <div className="hp-work__cta-wrap">

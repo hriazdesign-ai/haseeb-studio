@@ -1,12 +1,17 @@
 /**
- * Prototype-only homepage project data for `/home-parallax`.
+ * Homepage featured project data (`/` / `/home-parallax-blocks`).
  * Travel and object-position are tuned here during the parallax pass.
+ *
+ * Work / Case Studies pages use their own slot data — do not treat this
+ * list as the global portfolio order.
  */
 
 export type HomeParallaxProjectId =
+  | "onenav"
   | "mums-united"
-  | "bright-path-learning"
-  | "meridian-and-co";
+  | "verso-design-system";
+
+export type HomeParallaxLayout = "featured" | "secondary" | "primary";
 
 export type HomeParallaxProject = {
   id: HomeParallaxProjectId;
@@ -19,25 +24,25 @@ export type HomeParallaxProject = {
     width: number;
     height: number;
   };
-  /** Desktop parallax travel in px. */
+  /** Desktop parallax travel in px (image-mode / Test A). */
   travel: number;
   objectPosition: string;
-  /** Layout role in the featured grid. */
-  layout: "featured" | "secondary" | "primary";
+  /** Layout role in the featured grid — motion keys off this slot. */
+  layout: HomeParallaxLayout;
 };
 
 export const homeParallaxProjects: HomeParallaxProject[] = [
   {
-    id: "mums-united",
-    name: "Mums United",
-    href: "/work/mums-united",
+    id: "onenav",
+    name: "OneNav",
+    href: "/work/onenav",
     caption:
-      "Helping Mums United communicate its impact, services and community support with greater clarity.",
+      "A scalable navigation system built across multiple global brands.",
     image: {
-      src: "/images/work/mums-united/mu-cover-2.png",
-      alt: "Mums United volunteer packing boxes for community support",
-      width: 3000,
-      height: 1800,
+      src: "/images/work/onenav/homepage.png",
+      alt: "OneNav navigation patterns across Condé Nast mobile brands",
+      width: 2880,
+      height: 1553,
     },
     // Diagnostic travel — intentionally strong; refine after motion is confirmed.
     travel: 180,
@@ -45,16 +50,16 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     layout: "featured",
   },
   {
-    id: "bright-path-learning",
-    name: "Bright Path Learning",
-    href: "/work/bright-path-learning",
+    id: "mums-united",
+    name: "Mums United",
+    href: "/work/mums-united",
     caption:
-      "Making Bright Path Learning's educational support clearer, easier to navigate and more accessible.",
+      "Helping Mums United communicate its impact, services and community support with greater clarity.",
     image: {
-      src: "/images/work/bright-path-learning/bright-path-4.png",
-      alt: "Bright Path Learning mobile app on a teal field",
-      width: 566,
-      height: 566,
+      src: "/images/work/mums-united/homepage.png",
+      alt: "Mums United volunteer packing boxes for community support",
+      width: 2400,
+      height: 1600,
     },
     // Diagnostic travel — intentionally strong; refine after motion is confirmed.
     travel: 140,
@@ -62,16 +67,16 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     layout: "secondary",
   },
   {
-    id: "meridian-and-co",
-    name: "Meridian & Co.",
-    href: "/work/meridian-and-co",
+    id: "verso-design-system",
+    name: "Verso Design System",
+    href: "/work/verso-design-system",
     caption:
-      "Creating a clearer, more considered digital experience for Meridian & Co. and its clients.",
+      "A shared design system bringing consistency and flexibility across global brands.",
     image: {
-      src: "/images/work/meridian-and-co/meridian-2.png",
-      alt: "Meridian & Co. tablet interface held by a person",
+      src: "/images/work/verso-design-system/homepage.png",
+      alt: "Verso design system UI collage with navigation and content components",
       width: 2400,
-      height: 3000,
+      height: 1600,
     },
     // Diagnostic travel — intentionally strong; refine after motion is confirmed.
     travel: 160,
@@ -81,16 +86,16 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
 ];
 
 /**
- * Whole-block parallax ranges for `/home-parallax-blocks` only.
- * `from` = y at scroll progress 0 · `to` = y at scroll progress 1.
+ * Whole-block parallax ranges for `/home-parallax` Test A (image mode).
+ * Keyed by layout slot so motion stays with the homepage frame, not a project id.
  */
 export const homeParallaxBlockMotion: Record<
-  HomeParallaxProjectId,
+  HomeParallaxLayout,
   { from: number; to: number }
 > = {
-  "mums-united": { from: 35, to: -35 },
-  "bright-path-learning": { from: 70, to: -70 },
-  "meridian-and-co": { from: -30, to: 50 },
+  featured: { from: 35, to: -35 },
+  secondary: { from: 70, to: -70 },
+  primary: { from: -30, to: 50 },
 };
 
 export type HomeParallaxMotionMode = "image" | "block";

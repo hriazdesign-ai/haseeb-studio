@@ -1,4 +1,3 @@
-import { homeParallaxProjects } from "@/lib/home-parallax";
 import {
   experienceProjects,
   studioWorkProjects,
@@ -7,8 +6,8 @@ import {
 import type { WorkMotionItem, WorkMotionPresetId } from "@/lib/work-motion";
 
 /**
- * Projects page layout (Figma Studio Projects 709:4223).
- * Reuses project images/hrefs from `experienceProjects` + `studioWorkProjects`.
+ * Case Studies page display order and slot roles (Figma 709:4223).
+ * Independent from homepage `homeParallaxProjects` and Work-page `workMotionItems`.
  */
 
 export const projectsMotionHero = {
@@ -30,14 +29,6 @@ function studioById(id: string): Project {
     throw new Error(`Missing studio project data for "${id}"`);
   }
   return project;
-}
-
-function homeImage(id: string) {
-  const project = homeParallaxProjects.find((item) => item.id === id);
-  if (!project) {
-    throw new Error(`Missing home-parallax image for "${id}"`);
-  }
-  return project.image;
 }
 
 function item(
@@ -115,7 +106,12 @@ export const projectsMotionItems = {
     "Transforming Mums United online",
     "pair-landscape",
     "A",
-    homeImage("mums-united"),
+    {
+      src: "/images/work/mums-united/mu-cover-2.png",
+      alt: "Mums United volunteer packing boxes for community support",
+      width: 3000,
+      height: 1800,
+    },
     { objectPosition: "50% 50%", mobileObjectPosition: "50% 45%" },
   ),
   /** Case Studies only — landscape-pair slot (with Mums United); 6∶4 cover. */
