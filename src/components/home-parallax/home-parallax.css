@@ -381,6 +381,11 @@ body:has(.home-parallax-page) .site-footer {
   letter-spacing: -0.02em;
 }
 
+/* Keeps final word + ↗ on one line; caption text still wraps earlier. */
+.hp-project__caption-end {
+  white-space: nowrap;
+}
+
 /*
  * Caption arrow layout only — opacity/x/y owned by Framer Motion AnimatedArrow.
  * Stays in flow (no display:none) so caption width does not jump.
@@ -410,6 +415,15 @@ body:has(.home-parallax-page) .site-footer {
   background: #1a1a1a;
   /* Frame must never translate or scale. */
   transform: none;
+}
+
+/*
+ * Contained homepage pair cards (Mums / Verso) — standalone media radius.
+ * Clipping comes from `.homepage-parallax-frame`. Featured OneNav uses
+ * `.hp-blocks-mums-frame` and stays square as full-bleed media.
+ */
+.hp-work--blocks .hp-blocks-media-frame {
+  border-radius: var(--radius-media);
 }
 
 /*
@@ -457,7 +471,8 @@ body:has(.home-parallax-page) .site-footer {
 
 /*
  * Secondary / primary pair — fixed frame + oversized scale layer.
- * inset -10% keeps under-scale from revealing the frame background.
+ * Scroll scale stays ≥ 1 (see blocksProjectMotion) so the image fills the frame
+ * at progress 0; inset stays 0 (no CSS under-scale compensation needed).
  */
 .hp-blocks-media-frame {
   padding: 0;
@@ -890,5 +905,36 @@ body:has(.home-parallax-page) .site-footer {
   .home-parallax-page--blocks .hp-footer__status {
     padding-inline: 0.75rem; /* 12px — tighten for single-row mobile */
     padding-block: 0.875rem;
+  }
+
+  /* Mobile contact rail — 22px page gutter. */
+  .home-parallax-page--blocks .hp-contact .prototype-page-container {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  /*
+   * Footer stacks so the availability pill and copyright never collide.
+   * Horizontal 22px gutters align with contact; pill sits on its own
+   * full-width row above the copyright.
+   *
+   * Vertical rhythm (mobile only):
+   *   44px top → label → 40px gap → copyright → 64px bottom
+   */
+  .home-parallax-page--blocks .hp-footer {
+    padding-top: 44px;
+    padding-bottom: 64px;
+  }
+
+  .home-parallax-page--blocks .hp-footer__inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .home-parallax-page--blocks .hp-footer__status {
+    order: -1;
   }
 }

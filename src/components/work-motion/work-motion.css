@@ -188,6 +188,7 @@ body:has(.work-motion-page) .site-footer {
   width: 100%;
   background: #1a1a1a;
   transform: none;
+  border-radius: var(--radius-media);
 }
 
 /* Desktop roles */
@@ -340,7 +341,6 @@ body:has(.work-motion-page) .site-footer {
   .work-media--pair-landscape,
   .work-media--square-pair {
     aspect-ratio: var(--work-mobile-ratio); /* 6 / 4 */
-    border-radius: 0;
     height: auto;
   }
 

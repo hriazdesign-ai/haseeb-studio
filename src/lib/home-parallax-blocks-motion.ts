@@ -70,8 +70,9 @@ export const blocksProjectMotion = {
   /** Left card in the homepage pair. */
   secondary: {
     blockY: { from: 90, to: -90 },
+    /** Never scales below 1 — prevents inset gaps at progress 0 (matches featured). */
     imageScale: {
-      keyframes: [0.92, 1.16, 1.02],
+      keyframes: [1.02, 1.16, 1.02],
       stops: [0, 0.5, 1],
     } satisfies ImageScaleKeyframes,
     caption: {
@@ -83,8 +84,9 @@ export const blocksProjectMotion = {
   /** Right card in the homepage pair. */
   primary: {
     blockY: { from: -50, to: 70 },
+    /** Never scales below 1 — prevents inset gaps at progress 0 (matches featured). */
     imageScale: {
-      keyframes: [0.93, 1.18, 1.03],
+      keyframes: [1.03, 1.18, 1.03],
       stops: [0, 0.5, 1],
     } satisfies ImageScaleKeyframes,
     caption: {

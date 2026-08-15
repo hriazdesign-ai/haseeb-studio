@@ -37,7 +37,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     name: "OneNav",
     href: "/work/onenav",
     caption:
-      "A scalable navigation system built across multiple global brands.",
+      "OneNav brings scalable navigation across global brands.",
     image: {
       src: "/images/work/onenav/homepage.png",
       alt: "OneNav navigation patterns across Condé Nast mobile brands",
@@ -71,7 +71,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     name: "Verso Design System",
     href: "/work/verso-design-system",
     caption:
-      "A shared design system bringing consistency and flexibility across global brands.",
+      "Verso brings consistency and flexibility to digital experiences across global brands.",
     image: {
       src: "/images/work/verso-design-system/homepage.png",
       alt: "Verso design system UI collage with navigation and content components",

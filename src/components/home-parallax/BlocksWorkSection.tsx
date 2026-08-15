@@ -40,6 +40,7 @@ function plainCaption(caption: string) {
 /**
  * Caption-local fade-and-rise with the same Unicode ↗ used in the contact links.
  * Hover opacity is CSS-only and separate from this scroll MotionValue.
+ * Last word + arrow share a nowrap glue so the arrow never wraps alone.
  */
 function ProjectCaption({ children }: { children: string }) {
   const captionRef = useRef<HTMLParagraphElement>(null);
@@ -62,6 +63,11 @@ function ProjectCaption({ children }: { children: string }) {
     [sectionReveal.homeCaptionY, 0],
   );
 
+  const text = children.trimEnd();
+  const lastSpace = text.lastIndexOf(" ");
+  const head = lastSpace === -1 ? "" : text.slice(0, lastSpace + 1);
+  const lastWord = lastSpace === -1 ? text : text.slice(lastSpace + 1);
+
   return (
     <motion.p
       ref={captionRef}
@@ -71,10 +77,13 @@ function ProjectCaption({ children }: { children: string }) {
         y: reducedMotion ? 0 : captionY,
       }}
     >
-      <span className="hp-project__caption-text">{children}</span>
-      <AnimatedArrow className="hp-project__caption-arrow" kind="caption">
-        ↗
-      </AnimatedArrow>
+      {head}
+      <span className="hp-project__caption-end">
+        {lastWord}
+        <AnimatedArrow className="hp-project__caption-arrow" kind="caption">
+          ↗
+        </AnimatedArrow>
+      </span>
     </motion.p>
   );
 }

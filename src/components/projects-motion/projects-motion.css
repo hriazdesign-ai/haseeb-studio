@@ -132,13 +132,6 @@ body:has(.projects-motion-page) .site-footer {
   gap: var(--projects-pair-gap);
 }
 
-/* Meridian — Figma rounded media only */
-.projects-motion-page
-  .projects-col--5-13
-  .work-media--offset-landscape {
-  border-radius: 8px;
-}
-
 /* Captions inherit white from page; keep Work typography (20/24) */
 
 @media (max-width: 1023px) {

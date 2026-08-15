@@ -171,12 +171,12 @@ export const experienceProjects: Project[] = [
     id: "onenav",
     name: "OneNav",
     title: "A scalable navigation system built across multiple brands.",
-    image: withSmallCoverFields({
+    image: {
       src: "/images/work/onenav/cover-5.png",
       alt: "OneNav mobile navigation system shown beside a WIRED article",
       width: 1872,
       height: 1872,
-    }),
+    },
     size: "experience",
     href: "/work/onenav",
   },
@@ -198,12 +198,12 @@ export const experienceProjects: Project[] = [
     name: "Digital Editions",
     title:
       "Bringing distinctive editorial identities to responsive digital experiences.",
-    image: withSmallCoverFields({
+    image: {
       src: "/images/work/digital-editions/cover-new-3.png",
       alt: "Vogue digital edition layouts across cover and device mockups",
       width: 3000,
       height: 3000,
-    }),
+    },
     size: "experience",
     href: "/work/digital-editions",
   },
@@ -225,12 +225,12 @@ export const experienceProjects: Project[] = [
     name: "Brand Identity",
     title:
       "Building distinctive identities across physical and digital touchpoints.",
-    image: withSmallCoverFields({
+    image: {
       src: "/images/work/brand-identity/cover-1.png",
       alt: "Mikado brand identity with power tools on a deep blue field",
       width: 3000,
       height: 3000,
-    }),
+    },
     size: "experience",
     href: "/work/brand-identity",
   },
@@ -238,12 +238,12 @@ export const experienceProjects: Project[] = [
     id: "delivery-drop",
     name: "Delivery Drop",
     title: "A clear, intuitive digital product and brand experience.",
-    image: withSmallCoverFields({
+    image: {
       src: "/images/work/delivery-drop/cover-1.png",
       alt: "Delivery Drop brand collage with food and product elements",
       width: 3000,
       height: 3000,
-    }),
+    },
     size: "experience",
     href: "/work/delivery-drop",
   },
