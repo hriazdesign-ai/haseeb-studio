@@ -19,7 +19,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     { label: "Role:", values: ["Product Designer & Developer"] },
     {
       label: "Focus:",
-      values: ["UI/UX", "Responsive Design", "Design System"],
+      values: ["UI/UX", "Responsive Design", "Visual Design"],
     },
     { label: "Platform:", values: ["Web", "Mobile"] },
     { label: "Year:", values: ["2026"] },
@@ -56,7 +56,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/mu-2.png`,
-      alt: "Programme directory UI with community activity cards",
+      alt: "Mums United About page showing the organisation's story and purpose",
       width: 1120,
       height: 722,
       zoomable: true,
@@ -66,7 +66,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   feature: {
     src: `${base}/mu-lf-2.png`,
     videoSrc: `/videos/mums-united/mu-lf-2.webm`,
-    alt: "Programmes page in a desktop browser mockup on a gold field",
+    alt: "Mums United homepage scrolling inside a desktop browser mockup",
     width: 2304,
     height: 1440,
     zoomable: true,
@@ -96,7 +96,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     align: "right",
     paragraphs: [
       "The design uses a calm visual system, structured page layouts and clear messaging to guide users through the service.",
-      "Key areas were separated into simple journeys: services, student support, programmes and contact. This helped make the site feel easier to understand and more useful for parents comparing education options.",
+      "Key areas were organised into clear journeys around support services, programmes, community impact and contact. This made the organisation’s work easier to understand and helped families find relevant support more quickly.",
     ],
   },
   solutionGallery: [
@@ -110,7 +110,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/mu-4.png`,
-      alt: "Impact statistic card reading 600+ young people engaged",
+      alt: "Mums United mobile screens showing the mission and donation experience",
       width: 1120,
       height: 722,
       zoomable: true,
@@ -163,7 +163,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
         mobileWidth: 2340,
         mobileHeight: 1560,
         caption:
-          "Environmental Graphics · Taking the Steel Champs identity into the physical environment.",
+          "Environmental Graphics · Bringing The Steel Champs Identity Into The Physical Space",
       },
     ],
   },

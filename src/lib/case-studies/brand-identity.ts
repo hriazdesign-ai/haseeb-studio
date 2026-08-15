@@ -38,7 +38,7 @@ export const brandIdentityCaseStudy: CaseStudy = {
   introLabel: "Overview",
   intro: [
     "Brand Identity brings together a selection of identity projects created across hospitality, retail and commercial organisations. Each project established a distinctive visual language that could be applied consistently across every customer touchpoint.",
-    "Working as a Creative Designer, I developed logos, typography, colour palettes and supporting brand assets before applying them across packaging, printed communications, marketing materials and digital experiences. The focus was always on creating identities that were both memorable and practical to use.",
+    "Working as a Senior Designer, I developed logos, typography, colour palettes and supporting brand assets before applying them across packaging, printed communications, marketing materials and digital experiences. The focus was always on creating identities that were both memorable and practical to use.",
   ],
   bodyBlocks: [
     {

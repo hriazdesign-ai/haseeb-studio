@@ -33,7 +33,9 @@ export function SiteFooter() {
             </nav>
 
             <ul className="flex flex-col gap-2">
-              {socialLinks.map((item) => (
+              {socialLinks
+                .filter((item) => !item.hidden)
+                .map((item) => (
                 <li key={item.label}>
                   {/* TODO: Replace with a link when social destinations are available. */}
                   <span className="type-body-lg">{item.label}</span>

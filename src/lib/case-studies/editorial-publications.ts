@@ -37,7 +37,7 @@ export const editorialPublicationsCaseStudy: CaseStudy = {
   },
   introLabel: "Overview",
   intro: [
-    "Publication Design brought together a wide range of printed and digital publications, from brochures and annual reports to magazines, marketing collateral and educational resources. Each project required balancing editorial storytelling with clear communication while reflecting the identity of the organisation behind it.",
+    "Editorial & Publications brings together a wide range of printed and digital work, from brochures and annual reports to magazines, marketing collateral and educational resources. Each project required balancing editorial storytelling with clear communication while reflecting the identity of the organisation behind it.",
     "As Senior Designer, I worked across the full design process, creating layouts, information graphics, typography systems and production-ready artwork. Whether producing a small brochure or a multi-page publication, the focus was always on making complex information accessible through thoughtful editorial design.",
   ],
   bodyBlocks: [

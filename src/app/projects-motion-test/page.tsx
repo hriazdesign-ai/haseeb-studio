@@ -3,9 +3,9 @@ import { ProjectsMotionPage } from "@/components/projects-motion/ProjectsMotionP
 import { PageTheme } from "@/components/theme/PageTheme";
 
 export const metadata: Metadata = {
-  title: "Case Studies (motion test) — Haseeb Riaz Studio",
+  title: "Case Studies — Haseeb Riaz",
   description:
-    "Test route for the Studio Case Studies editorial grid and scroll-linked motion.",
+    "A closer look at the thinking behind selected product, design system and digital experience work.",
 };
 
 /**

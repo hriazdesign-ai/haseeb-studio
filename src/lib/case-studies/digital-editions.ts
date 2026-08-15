@@ -27,7 +27,7 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   hero: {
     src: `${base}/hero-1.png`,
     mobileSrc: `${base}/hero-1-mobile.png`,
-    alt: "Vogue and Wired digital edition mockups across laptop, tablet and phone",
+    alt: "Vogue and WIRED digital edition mockups across laptop, tablet and phone",
     width: 2560,
     height: 1440,
     mobileWidth: 1170,
@@ -38,7 +38,7 @@ export const digitalEditionsCaseStudy: CaseStudy = {
   introLabel: "Overview",
   intro: [
     "Condé Nast Digital Editions was part of the Mag Apps initiative, an internal platform created to transform editorial content into responsive digital editions across multiple Condé Nast publications.",
-    "As Product Designer, I worked on the visual language and layout systems for titles including Vogue and Wired. The aim was to move away from bespoke, platform-specific editions and create a flexible framework that could scale across publications while still reflecting each brand’s identity.",
+    "As Product Designer, I worked on the visual language and layout systems for titles including Vogue and WIRED. The aim was to move away from bespoke, platform-specific editions and create a flexible framework that could scale across publications while still reflecting each brand’s identity.",
   ],
   featurePlacement: "beforeChallenge",
   feature: {
@@ -59,7 +59,7 @@ export const digitalEditionsCaseStudy: CaseStudy = {
     align: "left",
     paragraphs: [
       "Every layout needed to balance two competing needs: preserving the distinctive visual identity of each publication while working within a shared digital framework. Typography, image treatments and editorial patterns were developed to give teams enough flexibility to create expressive stories without relying on bespoke builds.",
-      "Rather than replicating print layouts directly, the system adapted them for readability and responsiveness across different screen sizes. This created a more scalable publishing workflow while allowing titles such as Vogue and Wired to retain their own visual voice.",
+      "Rather than replicating print layouts directly, the system adapted them for readability and responsiveness across different screen sizes. This created a more scalable publishing workflow while allowing titles such as Vogue and WIRED to retain their own visual voice.",
     ],
   },
   midGallery: [

@@ -101,7 +101,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Student Support · Guiding Families Towards The Right Help.",
+      caption: "Student Support · Guiding Families Towards The Right Help",
     },
   ],
   result: {

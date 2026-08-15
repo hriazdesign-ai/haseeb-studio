@@ -3,11 +3,13 @@ export type SiteNavItem = {
   label: string;
 };
 
+/**
+ * Legacy/fallback nav (SiteFooter + non–blocks-chrome SiteHeader).
+ * Invalid /about, /services, /contact routes removed — they 404 and are not
+ * used by the main portfolio nav (`homeParallaxBlocksNav`).
+ */
 export const siteNav = [
   { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/contact", label: "Get in touch" },
 ] as const satisfies readonly SiteNavItem[];
 
 /**
@@ -23,10 +25,10 @@ export const homeParallaxBlocksNav = [
 ] as const satisfies readonly SiteNavItem[];
 
 export const socialLinks = [
-  // TODO: Add Instagram URL when available.
-  { label: "Instagram" },
+  // Kept for restore — SiteFooter hides Instagram while `hidden` is true.
+  { label: "Instagram", hidden: true as const },
   // TODO: Add LinkedIn URL when available.
-  { label: "LinkedIn" },
+  { label: "LinkedIn", hidden: false as const },
 ] as const;
 
 /**

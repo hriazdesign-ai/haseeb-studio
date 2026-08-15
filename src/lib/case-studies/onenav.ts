@@ -91,13 +91,13 @@ export const oneNavCaseStudy: CaseStudy = {
   feature: {
     src: `${base}/responsive-navigation-1.png`,
     mobileSrc: `${base}/responsive-navigation-1-mobile.png`,
-    alt: "them. brand desktop and mobile navigation on a purple field",
+    alt: "them. desktop navigation shown closed and with the menu open",
     width: 2304,
     height: 1440,
     mobileWidth: 1170,
     mobileHeight: 780,
     zoomable: true,
-    caption: "Responsive navigation · Tablet navigation in context.",
+    caption: "Responsive navigation · Desktop navigation and menu states.",
   },
   solution: {
     id: "solution",
@@ -135,7 +135,7 @@ export const oneNavCaseStudy: CaseStudy = {
     label: "The Result",
     align: "left",
     paragraphs: [
-      "One Navigation established a shared navigation platform across Condé Nast's digital products, reducing duplication while improving consistency, scalability and usability. Beyond the initial rollout, the project also created a clear foundation for future enhancements, enabling the platform to evolve without sacrificing its core principles.",
+      "OneNav established a shared navigation platform across Condé Nast's digital products, reducing duplication while improving consistency, scalability and usability. Beyond the initial rollout, the project also created a clear foundation for future enhancements, enabling the platform to evolve without sacrificing its core principles.",
       "The project reinforced the importance of systems thinking beyond visual components. Navigation influences how users understand products, discover information and complete tasks, making it one of the most fundamental parts of the overall experience. Designing at this level required balancing user needs, technical considerations and long-term scalability to create a solution that could continue evolving alongside future products.",
     ],
   },

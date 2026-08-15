@@ -19,7 +19,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     { label: "Role:", values: ["Product Designer & Developer"] },
     {
       label: "Focus:",
-      values: ["UX/UI Design", "Visual Design", "Design System"],
+      values: ["UX/UI Design", "Visual Design", "Responsive Design"],
     },
     { label: "Platform:", values: ["Responsive Web", "Development"] },
     { label: "Year:", values: ["2026"] },
@@ -52,7 +52,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/account-3.png`,
-      alt: "Payroll service feature card from Meridian & Co.",
+      alt: "Meridian & Co. Our Results and Our Approach sections",
       width: 1300,
       height: 838,
       zoomable: true,
@@ -81,7 +81,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
   midGallery: [
     {
       src: `${base}/account-2.png`,
-      alt: "How we work feature section from the Meridian & Co. website",
+      alt: "Meridian & Co. homepage hero with Financial clarity, made simple messaging",
       width: 1300,
       height: 838,
       zoomable: true,
@@ -89,7 +89,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/account-4.png`,
-      alt: "Clear fees pricing section from the Meridian & Co. website",
+      alt: "Mobile mockups showing Meridian & Co. audience segments and results metrics",
       width: 1300,
       height: 838,
       zoomable: true,
@@ -100,7 +100,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     src: `${base}/account-5.png`,
     videoSrc: `/videos/meridian/account2.webm`,
     mobileSrc: `${base}/account-5-mobile.png`,
-    alt: "Laptop mockup showing Meridian & Co. pricing plans",
+    alt: "Desktop layouts showing Meridian & Co. audience segments, results, testimonial and contact call to action",
     width: 2344,
     height: 1563,
     mobileWidth: 2340,
@@ -128,7 +128,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/account-7.png`,
-      alt: "Common questions FAQ section from Meridian & Co.",
+      alt: "Services section listing Meridian & Co. accounting and tax offerings",
       width: 1300,
       height: 838,
       zoomable: true,

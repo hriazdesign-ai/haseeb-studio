@@ -16,7 +16,7 @@ export const deliveryDropCaseStudy: CaseStudy = {
   /** Shared 12-column portfolio heading (label / title / meta). */
   heroLayout: "portfolio",
   meta: [
-    { label: "Role:", values: ["Lead Designer"] },
+    { label: "Role:", values: ["Creative Director"] },
     {
       label: "Focus:",
       values: ["Product Design", "Brand Identity", "Digital Experience"],

@@ -17,9 +17,16 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Haseeb Riaz Studio",
+  title: "Haseeb Riaz — Senior Product Designer",
   description:
-    "Helping organisations earn trust through better digital experiences.",
+    "Senior Product Designer specialising in digital products, design systems and visual experiences.",
+  openGraph: {
+    title: "Haseeb Riaz — Senior Product Designer",
+    description:
+      "Senior Product Designer specialising in digital products, design systems and visual experiences.",
+    siteName: "Haseeb Riaz Studio",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
