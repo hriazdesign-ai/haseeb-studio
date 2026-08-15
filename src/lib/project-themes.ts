@@ -32,7 +32,7 @@ export const projectThemes = {
   /* Active case studies                                                        */
   /* -------------------------------------------------------------------------- */
   "mums-united": {
-    primary: "#4f4e4d",
+    primary: "#EF6363",
     foreground: "#ffffff",
   },
   "bright-path-learning": {
@@ -40,7 +40,7 @@ export const projectThemes = {
     foreground: "#ffffff",
   },
   "meridian-and-co": {
-    primary: "#203a5f",
+    primary: "#1A1917",
     foreground: "#ffffff",
   },
   "verso-design-system": {

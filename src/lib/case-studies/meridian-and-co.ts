@@ -48,7 +48,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Mobile Experience · Accounting Support Anywhere",
+      caption: "Mobile Experience · Financial Support Across Every Device",
     },
     {
       src: `${base}/account-3.png`,
@@ -56,7 +56,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Service Overview · Clear Financial Services",
+      caption: "Results & Approach · Building Trust Through Experience And Expertise",
     },
   ],
   challenge: {
@@ -85,7 +85,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Feature Sections · Helping Businesses Stay In Control",
+      caption: "Homepage · Creating A Clear And Confident First Impression",
     },
     {
       src: `${base}/account-4.png`,
@@ -93,11 +93,12 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Pricing Overview · Transparent Plans & Services",
+      caption: "Responsive Design · Making Key Information Clear On Mobile",
     },
   ],
   feature: {
     src: `${base}/account-5.png`,
+    videoSrc: `/videos/meridian/account2.webm`,
     mobileSrc: `${base}/account-5-mobile.png`,
     alt: "Laptop mockup showing Meridian & Co. pricing plans",
     width: 2344,
@@ -105,7 +106,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     mobileWidth: 2340,
     mobileHeight: 1560,
     zoomable: true,
-    caption: "Pricing Experience · Choosing The Right Plan",
+    caption: "Trust & Conversion · Building Confidence From Proof To Enquiry",
   },
   solution: {
     id: "solution",
@@ -123,7 +124,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Mobile Experience · Consistent Across Every Device",
+      caption: "Approach & Contact · From Personal Support To A Clear Next Step",
     },
     {
       src: `${base}/account-7.png`,
@@ -131,7 +132,7 @@ export const meridianAndCoCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Pricing Structure · Simple Plans For Growing Businesses",
+      caption: "Services · Making Accounting Support Clear And Easy To Navigate",
     },
   ],
   result: {

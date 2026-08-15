@@ -47,7 +47,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Building confidence · Clear messaging and reassurance.",
+      caption: "Clear Messaging · Helping Families Understand The Support Available" ,
     },
     {
       src: `${base}/bright-2.png`,
@@ -56,7 +56,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Trusted support · Social proof and credibility.",
+      caption: "Trusted Support · Building Confidence Through Social Proof",
     },
   ],
   challenge: {
@@ -93,7 +93,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Service overview. Helping parents understand available support.",
+      caption: "Services · Making Tutoring Options Clear And Easy To Explore",
     },
     {
       src: `${base}/bright-4.png`,
@@ -101,7 +101,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       width: 1300,
       height: 838,
       zoomable: true,
-      caption: "Student support. Clear pathways to information and contact.",
+      caption: "Student Support · Guiding Families Towards The Right Help.",
     },
   ],
   result: {

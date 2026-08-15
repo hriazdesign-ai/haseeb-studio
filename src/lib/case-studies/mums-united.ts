@@ -52,7 +52,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       width: 1120,
       height: 722,
       zoomable: true,
-      caption: "Service Overview · Helping Parents Access Local Support",
+      caption: "Service Overview · Helping Families Access The Right Support",
     },
     {
       src: `${base}/mu-2.png`,
@@ -60,7 +60,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       width: 1120,
       height: 722,
       zoomable: true,
-      caption: "Programme Directory · Community Activities & Events",
+      caption: "About · Introducing The Purpose & People Behind Mums United",
     },
   ],
   feature: {
@@ -70,7 +70,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     width: 2304,
     height: 1440,
     zoomable: true,
-    caption: "Responsive Design · Support Services Platform",
+    caption: "Homepage Experience · Bringing The Full Mums United Story Together",
   },
   pullQuote: {
     image: {
@@ -106,7 +106,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       width: 1120,
       height: 722,
       zoomable: true,
-      caption: "Mobile Experience · Community Support & Resources",
+      caption: "Past Programmes · Showcasing Mums United's Community Initiatives",
     },
     {
       src: `${base}/mu-4.png`,
@@ -114,7 +114,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       width: 1120,
       height: 722,
       zoomable: true,
-      caption: "Impact Snapshot · Building Trust Through Transparency",
+      caption: "Mobile Experience · Making Support Accessible On The Go",
     },
   ],
   extension: {
@@ -131,7 +131,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
         width: 1120,
         height: 722,
         caption:
-          "Campaign & Outreach · Creating distinctive communications across community programmes.",
+          "Impact · Making The Organisation’s Reach More Visible",
       },
       {
         src: `${base}/mums-events.png`,
@@ -139,7 +139,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
         width: 1120,
         height: 722,
         caption:
-          "Events · Extending the identity into physical spaces and community activity.",
+          "Events · Extending The Identity Into Community Spaces",
       },
     ],
     features: [
@@ -152,7 +152,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
         mobileWidth: 2340,
         mobileHeight: 1560,
         caption:
-          "Steel Champs Academy · Developing a distinctive identity for a community boxing programme.",
+          "Steel Champs Academy · Creating An Identity For The Boxing Programme",
       },
       {
         src: `${base}/steel-champs-environment.png`,
