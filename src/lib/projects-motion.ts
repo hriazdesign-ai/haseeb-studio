@@ -109,7 +109,7 @@ export const projectsMotionItems = {
     "pair-landscape",
     "A",
     {
-      src: "/images/home-parallax/bright-path-5.png",
+      src: "/images/work/bright-path-learning/bright-path-5.png",
       alt: "Bright Path Learning",
       width: 566,
       height: 566,

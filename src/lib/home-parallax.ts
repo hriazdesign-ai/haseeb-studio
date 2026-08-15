@@ -34,7 +34,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Helping Mums United communicate its impact, services and community support with greater clarity.",
     image: {
-      src: "/images/home-parallax/mu-cover-2.png",
+      src: "/images/work/mums-united/mu-cover-2.png",
       alt: "Mums United volunteer packing boxes for community support",
       width: 3000,
       height: 1800,
@@ -51,7 +51,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Making Bright Path Learning's educational support clearer, easier to navigate and more accessible.",
     image: {
-      src: "/images/home-parallax/bright-path-4.png",
+      src: "/images/work/bright-path-learning/bright-path-4.png",
       alt: "Bright Path Learning mobile app on a teal field",
       width: 566,
       height: 566,
@@ -68,7 +68,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Creating a clearer, more considered digital experience for Meridian & Co. and its clients.",
     image: {
-      src: "/images/home-parallax/meridian-2.png",
+      src: "/images/work/meridian-and-co/meridian-2.png",
       alt: "Meridian & Co. tablet interface held by a person",
       width: 2400,
       height: 3000,

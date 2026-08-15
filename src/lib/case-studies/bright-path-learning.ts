@@ -51,7 +51,7 @@ export const brightPathLearningCaseStudy: CaseStudy = {
     },
     {
       src: `${base}/bright-2.png`,
-      videoSrc: `${base}/bright-2.webm`,
+      videoSrc: `/videos/bright-path-learning/bright-2.webm`,
       alt: "Mobile mockup showing Bright Path Learning social proof",
       width: 1300,
       height: 838,

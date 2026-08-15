@@ -65,7 +65,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   ],
   feature: {
     src: `${base}/mu-lf-2.png`,
-    videoSrc: `${base}/mu-lf-2.webm`,
+    videoSrc: `/videos/mums-united/mu-lf-2.webm`,
     alt: "Programmes page in a desktop browser mockup on a gold field",
     width: 2304,
     height: 1440,

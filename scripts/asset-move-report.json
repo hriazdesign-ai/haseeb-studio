@@ -1,0 +1,507 @@
+{
+  "moves": [
+    {
+      "from": "public/images/home-parallax/mu-cover-2.png",
+      "to": "public/images/work/mums-united/mu-cover-2.png"
+    },
+    {
+      "from": "public/images/home-parallax/bright-path-4.png",
+      "to": "public/images/work/bright-path-learning/bright-path-4.png"
+    },
+    {
+      "from": "public/images/home-parallax/bright-path-5.png",
+      "to": "public/images/work/bright-path-learning/bright-path-5.png"
+    },
+    {
+      "from": "public/images/home-parallax/meridian-2.png",
+      "to": "public/images/work/meridian-and-co/meridian-2.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-lf-2.webm",
+      "to": "public/videos/mums-united/mu-lf-2.webm"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/bright-2.webm",
+      "to": "public/videos/bright-path-learning/bright-2.webm"
+    },
+    {
+      "from": "public/videos/mu-lf-2.webm",
+      "to": "public/videos/mums-united/mu-lf-2.webm",
+      "note": "removed duplicate of existing dest"
+    }
+  ],
+  "archives": [
+    {
+      "from": "public/images/home-parallax/mu-cover-1.png",
+      "to": "public/images/work/mums-united/archive/mu-cover-1.png"
+    },
+    {
+      "from": "public/images/home-parallax/mums-united.png",
+      "to": "public/images/work/mums-united/archive/mums-united.png"
+    },
+    {
+      "from": "public/images/home-parallax/mums-united-1.png",
+      "to": "public/images/work/mums-united/archive/mums-united-1.png"
+    },
+    {
+      "from": "public/images/home-parallax/mums-united-2.png",
+      "to": "public/images/work/mums-united/archive/mums-united-2.png"
+    },
+    {
+      "from": "public/images/home-parallax/mums-united-home-3.png",
+      "to": "public/images/work/mums-united/archive/mums-united-home-3.png"
+    },
+    {
+      "from": "public/images/home-parallax/bright-path.png",
+      "to": "public/images/work/bright-path-learning/archive/bright-path.png"
+    },
+    {
+      "from": "public/images/home-parallax/bright-path-1.png",
+      "to": "public/images/work/bright-path-learning/archive/bright-path-1.png"
+    },
+    {
+      "from": "public/images/home-parallax/bright-path-3.png",
+      "to": "public/images/work/bright-path-learning/archive/bright-path-3.png"
+    },
+    {
+      "from": "public/images/home-parallax/meridian.png",
+      "to": "public/images/work/meridian-and-co/archive/meridian.png"
+    },
+    {
+      "from": "public/images/home-parallax/archive/meridian-2.png",
+      "to": "public/images/work/meridian-and-co/archive/meridian-2-home-parallax-archive.png"
+    },
+    {
+      "from": "public/images/work/brand-identity/case-study/balqees-logo.png",
+      "to": "public/images/work/brand-identity/archive/case-study-balqees-logo.png"
+    },
+    {
+      "from": "public/images/work/brand-identity/case-study/hero.png",
+      "to": "public/images/work/brand-identity/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/brand-identity/case-study/street-foods.png",
+      "to": "public/images/work/brand-identity/archive/case-study-street-foods.png"
+    },
+    {
+      "from": "public/images/work/brand-identity/cover.png",
+      "to": "public/images/work/brand-identity/archive/cover.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/bright-5.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-bright-5.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/bright-6.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-bright-6.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/bright-LF-1-mobile.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-bright-LF-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/bright-LF-1.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-bright-LF-1.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/cover-1.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-cover-1.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/hero-1-mobile.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-hero-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/hero-1.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-hero-1.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/hero-2-mobile.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-hero-2-mobile.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/hero-2.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-hero-2.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/hero.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/mobile-confidence.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-mobile-confidence.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/mobile-support.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-mobile-support.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/service-overview.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-service-overview.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/case-study/student-support.png",
+      "to": "public/images/work/bright-path-learning/archive/case-study-student-support.png"
+    },
+    {
+      "from": "public/images/work/bright-path-learning/cover.jpg",
+      "to": "public/images/work/bright-path-learning/archive/cover.jpg"
+    },
+    {
+      "from": "public/images/work/delivery-drop/case-study/category-browsing.png",
+      "to": "public/images/work/delivery-drop/archive/case-study-category-browsing.png"
+    },
+    {
+      "from": "public/images/work/delivery-drop/case-study/digital-advertising-1.png",
+      "to": "public/images/work/delivery-drop/archive/case-study-digital-advertising-1.png"
+    },
+    {
+      "from": "public/images/work/delivery-drop/case-study/digital-advertising.png",
+      "to": "public/images/work/delivery-drop/archive/case-study-digital-advertising.png"
+    },
+    {
+      "from": "public/images/work/delivery-drop/case-study/hero.png",
+      "to": "public/images/work/delivery-drop/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/delivery-drop/case-study/illustration-system.png",
+      "to": "public/images/work/delivery-drop/archive/case-study-illustration-system.png"
+    },
+    {
+      "from": "public/images/work/delivery-drop/cover.png",
+      "to": "public/images/work/delivery-drop/archive/cover.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/digital-covers.png",
+      "to": "public/images/work/digital-editions/archive/case-study-digital-covers.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/editorial-system.png",
+      "to": "public/images/work/digital-editions/archive/case-study-editorial-system.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/hero.png",
+      "to": "public/images/work/digital-editions/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/interactive-edition-1-mobile.png",
+      "to": "public/images/work/digital-editions/archive/case-study-interactive-edition-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/interactive-edition-1.png",
+      "to": "public/images/work/digital-editions/archive/case-study-interactive-edition-1.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/interactive-edition.png",
+      "to": "public/images/work/digital-editions/archive/case-study-interactive-edition.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/vogue-exploration.png",
+      "to": "public/images/work/digital-editions/archive/case-study-vogue-exploration.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/case-study/wired-exploration.png",
+      "to": "public/images/work/digital-editions/archive/case-study-wired-exploration.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/cover-1.png",
+      "to": "public/images/work/digital-editions/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/cover-new-1.png",
+      "to": "public/images/work/digital-editions/archive/cover-new-1.png"
+    },
+    {
+      "from": "public/images/work/digital-editions/cover-new-2.png",
+      "to": "public/images/work/digital-editions/archive/cover-new-2.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/future-exploration.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-future-exploration.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/global-publishing-1-mobile.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-global-publishing-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-1.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-1.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-2.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-2.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-3.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-3.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-4-mobile.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-4-mobile.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-4.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-4.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/hero-5-mobile.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-hero-5-mobile.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/case-study/storytelling-desktop-mobile-1-mobile.png",
+      "to": "public/images/work/editorial-experience/archive/case-study-storytelling-desktop-mobile-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/cover-1.png",
+      "to": "public/images/work/editorial-experience/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/cover-2.png",
+      "to": "public/images/work/editorial-experience/archive/cover-2.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/cover-3.png",
+      "to": "public/images/work/editorial-experience/archive/cover-3.png"
+    },
+    {
+      "from": "public/images/work/editorial-experience/cover.png",
+      "to": "public/images/work/editorial-experience/archive/cover.png"
+    },
+    {
+      "from": "public/images/work/editorial-publications/case-study/hero-1.png",
+      "to": "public/images/work/editorial-publications/archive/case-study-hero-1.png"
+    },
+    {
+      "from": "public/images/work/editorial-publications/case-study/hero.png",
+      "to": "public/images/work/editorial-publications/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/editorial-publications/cover-1.png",
+      "to": "public/images/work/editorial-publications/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/editorial-publications/cover-1a.png",
+      "to": "public/images/work/editorial-publications/archive/cover-1a.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/account-6.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-account-6.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/feature-sections.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-feature-sections.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/hero.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/meridian-1.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-meridian-1.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/mobile-consistent.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-mobile-consistent.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/mobile-experience.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-mobile-experience.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/pricing-feature.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-pricing-feature.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/pricing-overview.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-pricing-overview.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/pricing-structure.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-pricing-structure.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/case-study/service-overview.png",
+      "to": "public/images/work/meridian-and-co/archive/case-study-service-overview.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/cover-a.png",
+      "to": "public/images/work/meridian-and-co/archive/cover-a.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/cover-b-small.png",
+      "to": "public/images/work/meridian-and-co/archive/cover-b-small.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/cover-b.png",
+      "to": "public/images/work/meridian-and-co/archive/cover-b.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/cover-c.png",
+      "to": "public/images/work/meridian-and-co/archive/cover-c.png"
+    },
+    {
+      "from": "public/images/work/meridian-and-co/meridian-1.png",
+      "to": "public/images/work/meridian-and-co/archive/meridian-1.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/hero-1-mobile.png",
+      "to": "public/images/work/mums-united/archive/case-study-hero-1-mobile.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/hero-1.png",
+      "to": "public/images/work/mums-united/archive/case-study-hero-1.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/hero.png",
+      "to": "public/images/work/mums-united/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/impact-snapshot.png",
+      "to": "public/images/work/mums-united/archive/case-study-impact-snapshot.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mobile-experience.png",
+      "to": "public/images/work/mums-united/archive/case-study-mobile-experience.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-hero-2-mobile.png",
+      "to": "public/images/work/mums-united/archive/case-study-mu-hero-2-mobile.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-hero-3.png",
+      "to": "public/images/work/mums-united/archive/case-study-mu-hero-3.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-hero-4-mobile.png",
+      "to": "public/images/work/mums-united/archive/case-study-mu-hero-4-mobile.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-hero-4.png",
+      "to": "public/images/work/mums-united/archive/case-study-mu-hero-4.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-hero.jpg",
+      "to": "public/images/work/mums-united/archive/case-study-mu-hero.jpg"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/mu-lf-1.png",
+      "to": "public/images/work/mums-united/archive/case-study-mu-lf-1.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/programme-directory.png",
+      "to": "public/images/work/mums-united/archive/case-study-programme-directory.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/programmes-feature.png",
+      "to": "public/images/work/mums-united/archive/case-study-programmes-feature.png"
+    },
+    {
+      "from": "public/images/work/mums-united/case-study/service-overview.png",
+      "to": "public/images/work/mums-united/archive/case-study-service-overview.png"
+    },
+    {
+      "from": "public/images/work/mums-united/cover-1.png",
+      "to": "public/images/work/mums-united/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/mums-united/cover.png",
+      "to": "public/images/work/mums-united/archive/cover.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/cross-brand-rollout.png",
+      "to": "public/images/work/onenav/archive/case-study-cross-brand-rollout.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/cross-device-navigation.png",
+      "to": "public/images/work/onenav/archive/case-study-cross-device-navigation.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/hero-1.png",
+      "to": "public/images/work/onenav/archive/case-study-hero-1.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/hero-2.png",
+      "to": "public/images/work/onenav/archive/case-study-hero-2.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/hero.png",
+      "to": "public/images/work/onenav/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/navigation-architecture.png",
+      "to": "public/images/work/onenav/archive/case-study-navigation-architecture.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/navigation-patterns.png",
+      "to": "public/images/work/onenav/archive/case-study-navigation-patterns.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/platform-evolution.png",
+      "to": "public/images/work/onenav/archive/case-study-platform-evolution.png"
+    },
+    {
+      "from": "public/images/work/onenav/case-study/responsive-navigation.png",
+      "to": "public/images/work/onenav/archive/case-study-responsive-navigation.png"
+    },
+    {
+      "from": "public/images/work/onenav/cover-1.png",
+      "to": "public/images/work/onenav/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/onenav/cover-2.png",
+      "to": "public/images/work/onenav/archive/cover-2.png"
+    },
+    {
+      "from": "public/images/work/onenav/cover-3.png",
+      "to": "public/images/work/onenav/archive/cover-3.png"
+    },
+    {
+      "from": "public/images/work/onenav/cover-4.png",
+      "to": "public/images/work/onenav/archive/cover-4.png"
+    },
+    {
+      "from": "public/images/work/onenav/cover.png",
+      "to": "public/images/work/onenav/archive/cover.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/across-brands-1.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-across-brands-1.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/across-brands.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-across-brands.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/built-for-publishing.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-built-for-publishing.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/design-tokens.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-design-tokens.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/hero.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-hero.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/case-study/in-production.png",
+      "to": "public/images/work/verso-design-system/archive/case-study-in-production.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/cover-1.png",
+      "to": "public/images/work/verso-design-system/archive/cover-1.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/cover-2.png",
+      "to": "public/images/work/verso-design-system/archive/cover-2.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/cover-3.png",
+      "to": "public/images/work/verso-design-system/archive/cover-3.png"
+    },
+    {
+      "from": "public/images/work/verso-design-system/cover.png",
+      "to": "public/images/work/verso-design-system/archive/cover.png"
+    }
+  ]
+}

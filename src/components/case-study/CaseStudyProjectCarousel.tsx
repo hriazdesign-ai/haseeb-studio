@@ -70,6 +70,50 @@ function CarouselArrowIcon() {
  * Full-card case-study link (Next.js Link via motion).
  * `href` comes from shared project data — never hardcoded here.
  */
+/**
+ * Prefer dedicated `smallSrc` when the file exists; otherwise keep `src`.
+ * Same probe pattern as Work cards — never start on a broken URL.
+ */
+function CarouselCardImage({ project }: { project: CaseStudyCarouselProject }) {
+  const fallbackSrc = project.image.src;
+  const smallSrc = project.image.smallSrc;
+  const [src, setSrc] = useState(fallbackSrc);
+
+  useEffect(() => {
+    if (!smallSrc || smallSrc === fallbackSrc) return;
+
+    let cancelled = false;
+    const probe = new window.Image();
+    probe.onload = () => {
+      if (!cancelled) setSrc(smallSrc);
+    };
+    probe.onerror = () => {
+      /* keep fallback — small cover not exported yet */
+    };
+    probe.src = smallSrc;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [smallSrc, fallbackSrc]);
+
+  return (
+    <Image
+      key={`${project.id}:${src}`}
+      src={src}
+      alt={project.image.alt}
+      className="case-study-carousel__image"
+      sizes="(max-width: 1023px) 85vw, 360px"
+      style={{ objectPosition: project.objectPosition }}
+      fill
+      draggable={false}
+      onError={() => {
+        if (src !== fallbackSrc) setSrc(fallbackSrc);
+      }}
+    />
+  );
+}
+
 function ProjectCard({ project }: { project: CaseStudyCarouselProject }) {
   return (
     <MotionLink
@@ -80,15 +124,7 @@ function ProjectCard({ project }: { project: CaseStudyCarouselProject }) {
     >
       <div className="case-study-carousel__media">
         <div className="case-study-carousel__media-hover">
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            className="case-study-carousel__image"
-            sizes="(max-width: 1023px) 85vw, 360px"
-            style={{ objectPosition: project.objectPosition }}
-            fill
-            draggable={false}
-          />
+          <CarouselCardImage project={project} />
         </div>
       </div>
       <p className="case-study-carousel__caption">

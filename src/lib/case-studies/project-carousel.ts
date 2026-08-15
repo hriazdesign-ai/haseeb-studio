@@ -13,6 +13,8 @@ export type CaseStudyCarouselProject = {
   href: string;
   image: {
     src: string;
+    /** Optional 6∶4 card cover; carousel prefers this when the file loads. */
+    smallSrc?: string;
     alt: string;
     width: number;
     height: number;
@@ -67,7 +69,13 @@ export function getCaseStudyCarouselProjects(
       id: project.id,
       caption: workCaptions.get(project.id) ?? project.name,
       href: project.href,
-      image: project.image,
+      image: {
+        src: project.image.src,
+        smallSrc: project.image.smallSrc,
+        alt: project.image.alt,
+        width: project.image.smallWidth ?? project.image.width,
+        height: project.image.smallHeight ?? project.image.height,
+      },
       objectPosition: workObjectPositions.get(project.id) ?? "50% 50%",
     }));
 }
