@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArtDirectedIntrinsicImage } from "@/components/case-study/ArtDirectedIntrinsicImage";
+import { CaseStudyIntrinsicVideo } from "@/components/case-study/CaseStudyIntrinsicVideo";
 import { ImageLightbox } from "@/components/case-study/ImageLightbox";
 import { useBlocksMotionBreakpoint } from "@/components/motion/useBlocksMotionBreakpoint";
 import type { CaseStudyImage } from "@/lib/case-studies";
@@ -38,6 +39,20 @@ type LargeFeatureProps = {
   label: string;
 };
 
+function isWebmPath(path: string | undefined): boolean {
+  return Boolean(path?.toLowerCase().endsWith(".webm"));
+}
+
+/**
+ * Resolve a looping video URL for Large Features.
+ * Prefer explicit `videoSrc`; otherwise treat a `.webm` `src` as the video.
+ */
+function resolveFeatureVideoSrc(image: CaseStudyImage): string | null {
+  if (image.videoSrc) return image.videoSrc;
+  if (isWebmPath(image.src)) return image.src;
+  return null;
+}
+
 /**
  * Large Feature / Closing Feature — intrinsic artwork, shared motion.
  *
@@ -46,6 +61,7 @@ type LargeFeatureProps = {
  * - desktop/tablet: subtle scroll-linked y
  * - mobile: static (fade/reveal only from page)
  * - frame background matches page so edge travel never shows a foreign band
+ * - `.webm` (via `videoSrc` or `src`) renders as `<video>`, same file on all breakpoints
  */
 export function LargeFeature({ image, label }: LargeFeatureProps) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -67,6 +83,24 @@ export function LargeFeature({ image, label }: LargeFeatureProps) {
 
   const y = useSpring(rawY, IMAGE_SPRING);
 
+  const videoSrc = resolveFeatureVideoSrc(image);
+  /** Zoom lightbox is image-only — disable for WebM features. */
+  const allowZoom = Boolean(image.zoomable && !videoSrc);
+
+  const mediaInner = videoSrc ? (
+    <CaseStudyIntrinsicVideo
+      image={image}
+      videoSrc={videoSrc}
+      sizes={FEATURE_SIZES}
+    />
+  ) : (
+    <ArtDirectedIntrinsicImage
+      image={image}
+      mobileSrc={image.mobileSrc}
+      sizes={FEATURE_SIZES}
+    />
+  );
+
   const media = (
     <div className="case-study-large-feature__frame relative w-full overflow-hidden">
       <motion.div
@@ -77,11 +111,7 @@ export function LargeFeature({ image, label }: LargeFeatureProps) {
             motionDisabled || travel === 0 ? undefined : "transform",
         }}
       >
-        <ArtDirectedIntrinsicImage
-          image={image}
-          mobileSrc={image.mobileSrc}
-          sizes={FEATURE_SIZES}
-        />
+        {mediaInner}
       </motion.div>
     </div>
   );
@@ -93,7 +123,7 @@ export function LargeFeature({ image, label }: LargeFeatureProps) {
       aria-label={label}
     >
       <figure className="m-0 flex min-w-0 flex-col gap-[18px]">
-        {image.zoomable ? (
+        {allowZoom ? (
           <ImageLightbox src={image.src} alt={image.alt}>
             {media}
           </ImageLightbox>

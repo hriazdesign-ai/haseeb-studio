@@ -91,7 +91,7 @@ export const homeProjects: Project[] = [
     name: "Mums United",
     title: "Making community support clearer and easier to access.",
     image: withSmallCoverFields({
-      src: "/images/work/mums-united/cover.png",
+      src: "/images/work/mums-united/cover-2.png",
       alt: "Laptop mockup showing the Mums United website",
       width: 4096,
       height: 3103,
@@ -104,7 +104,7 @@ export const homeProjects: Project[] = [
     name: "Bright Path Learning",
     title: "Building trust between education providers and families.",
     image: withSmallCoverFields({
-      src: "/images/work/bright-path-learning/cover.jpg",
+      src: "/images/work/bright-path-learning/cover-1.png",
       alt: "Screen mockup showing the Bright Path Learners website",
       width: 3000,
       height: 2344,

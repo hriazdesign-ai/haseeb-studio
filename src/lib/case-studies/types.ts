@@ -28,8 +28,12 @@ export type CaseStudyImage = {
   zoomable?: boolean;
   caption?: string;
   /**
-   * Optional looping video that replaces the framed fill image.
-   * `src` remains the static fallback (e.g. prefers-reduced-motion / poster).
+   * Optional looping video that replaces the primary image.
+   * - Framed gallery: fill video (`CaseStudyFillVideo`).
+   * - Large Feature: intrinsic video (`CaseStudyIntrinsicVideo`), same file on
+   *   desktop and mobile (ignores `mobileSrc` while playing).
+   * `src` should remain a raster fallback when possible (reduced-motion / lightbox).
+   * LargeFeature also treats a `.webm` `src` as the video URL when `videoSrc` is omitted.
    */
   videoSrc?: string;
 };

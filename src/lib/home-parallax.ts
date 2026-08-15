@@ -34,7 +34,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Helping Mums United communicate its impact, services and community support with greater clarity.",
     image: {
-      src: "/images/home-parallax/mums-united-home-3.png",
+      src: "/images/home-parallax/mu-cover-2.png",
       alt: "Mums United volunteer packing boxes for community support",
       width: 3000,
       height: 1800,
@@ -51,7 +51,7 @@ export const homeParallaxProjects: HomeParallaxProject[] = [
     caption:
       "Making Bright Path Learning's educational support clearer, easier to navigate and more accessible.",
     image: {
-      src: "/images/home-parallax/bright-path-3.png",
+      src: "/images/home-parallax/bright-path-4.png",
       alt: "Bright Path Learning mobile app on a teal field",
       width: 566,
       height: 566,

@@ -25,8 +25,8 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     { label: "Year:", values: ["2026"] },
   ],
   hero: {
-    src: `${base}/mu-hero-4.png`,
-    mobileSrc: `${base}/mu-hero-4-mobile.png`,
+    src: `${base}/hero-2.png`,
+    mobileSrc: `${base}/hero-2-mobile.png`,
     alt: "Mums United website homepage in a desktop browser mockup",
     width: 2880,
     height: 1440,
@@ -47,7 +47,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   featurePlacement: "beforeChallenge",
   challengeGallery: [
     {
-      src: `${base}/service-overview.png`,
+      src: `${base}/mu-1.png`,
       alt: "Service overview UI showing family support messaging",
       width: 1120,
       height: 722,
@@ -55,7 +55,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       caption: "Service Overview · Helping Parents Access Local Support",
     },
     {
-      src: `${base}/programme-directory.png`,
+      src: `${base}/mu-2.png`,
       alt: "Programme directory UI with community activity cards",
       width: 1120,
       height: 722,
@@ -64,13 +64,11 @@ export const mumsUnitedCaseStudy: CaseStudy = {
     },
   ],
   feature: {
-    src: `${base}/programmes-feature.png`,
-    mobileSrc: `${base}/programmes-feature-mobile.png`,
+    src: `${base}/mu-lf-2.png`,
+    videoSrc: `${base}/mu-lf-2.webm`,
     alt: "Programmes page in a desktop browser mockup on a gold field",
     width: 2304,
     height: 1440,
-    mobileWidth: 1170,
-    mobileHeight: 780,
     zoomable: true,
     caption: "Responsive Design · Support Services Platform",
   },
@@ -103,7 +101,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
   },
   solutionGallery: [
     {
-      src: `${base}/mobile-experience.png`,
+      src: `${base}/mu-3.png`,
       alt: "Mobile phone mockup showing a Mums United programme page",
       width: 1120,
       height: 722,
@@ -111,7 +109,7 @@ export const mumsUnitedCaseStudy: CaseStudy = {
       caption: "Mobile Experience · Community Support & Resources",
     },
     {
-      src: `${base}/impact-snapshot.png`,
+      src: `${base}/mu-4.png`,
       alt: "Impact statistic card reading 600+ young people engaged",
       width: 1120,
       height: 722,
