@@ -154,7 +154,7 @@ function inferRoleKind(input: {
   }
   /** Work / cover metadata wins over filename heuristics (e.g. “laptop” in alt). */
   if (input.group === "Work" || technical.includes("cover")) {
-    /** Smaller WorkMotion cards (not the full-width featured Verso). */
+    /** Smaller WorkMotion cards (not the full-width featured enterprise slot). */
     if (
       technical.includes("motion") &&
       !technical.includes("feature-landscape")
@@ -533,7 +533,7 @@ function workMotionSizes(role: WorkMotionMediaRole): string {
 
 /**
  * WorkMotion CSS display size (1×) from Figma rail (1240 content / 1440 max).
- * Smaller cards use a fixed 6∶4 frame; featured Verso keeps 1280∶690.
+ * Smaller cards use a fixed 6∶4 frame; featured feature-landscape keeps 1280∶690.
  */
 function workMotionRendered(role: WorkMotionMediaRole): { w: number; h: number } {
   const max = Math.min(VIEWPORT, 1440);
@@ -921,7 +921,7 @@ function buildUsageDrafts(): UsageDraft[] {
         ? workMotionSizes(motionRole)
         : workCardSizes(project.size),
       priority:
-        project.size === "featured" || project.id === "verso-design-system",
+        project.size === "featured" || motionRole === "feature-landscape",
       sourceFile: SOURCE_PROJECTS,
       renderedWidth: motionRole
         ? workMotionRendered(motionRole).w

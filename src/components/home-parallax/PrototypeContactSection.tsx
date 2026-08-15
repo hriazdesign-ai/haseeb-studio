@@ -4,6 +4,8 @@ import { homeParallaxContact } from "@/lib/home-parallax";
 type ContactItem = {
   label: string;
   href: string | null;
+  /** When true, omitted from the visible list (implementation kept). */
+  hidden?: boolean;
 };
 
 const items: ContactItem[] = [
@@ -18,6 +20,7 @@ const items: ContactItem[] = [
   {
     label: "Instagram",
     href: homeParallaxContact.instagram,
+    hidden: !homeParallaxContact.showInstagram,
   },
   {
     label: "Download CV",
@@ -29,6 +32,8 @@ const items: ContactItem[] = [
  * Prototype-only contact section. Does not replace the shared ContactSection.
  */
 export function PrototypeContactSection() {
+  const visibleItems = items.filter((item) => !item.hidden);
+
   return (
     <section id="contact" className="hp-contact" aria-labelledby="hp-contact-heading">
       <h2 id="hp-contact-heading" className="hp-contact__title">
@@ -43,14 +48,19 @@ export function PrototypeContactSection() {
         <p className="hp-contact__label">Start a conversation:</p>
 
         <ul className="hp-contact__links">
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <li key={item.label}>
                 {item.href ? (
                   <a
                     href={item.href}
                     {...(item.href.startsWith("http")
                       ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
+                      : item.href.includes(".pdf")
+                        ? {
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                          }
+                        : {})}
                   >
                     {item.label}{" "}
                     <AnimatedArrow kind="inline" />

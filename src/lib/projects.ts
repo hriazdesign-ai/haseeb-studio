@@ -174,8 +174,8 @@ export const experienceProjects: Project[] = [
     image: withSmallCoverFields({
       src: "/images/work/onenav/cover-5.png",
       alt: "OneNav mobile navigation system shown beside a WIRED article",
-      width: 3000,
-      height: 3000,
+      width: 1872,
+      height: 1872,
     }),
     size: "experience",
     href: "/work/onenav",

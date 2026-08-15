@@ -192,7 +192,7 @@ body:has(.work-motion-page) .site-footer {
 
 /* Desktop roles */
 .work-media--feature-landscape {
-  /* Full-width featured Verso — keep approved landscape frame */
+  /* Full-width featured enterprise card — keep approved landscape frame */
   aspect-ratio: 1280 / 690;
 }
 
@@ -235,7 +235,7 @@ body:has(.work-motion-page) .site-footer {
 }
 
 /*
- * Verso (feature-landscape only): keep the 3∶2 asset’s natural composition.
+ * Featured landscape only: keep the asset’s natural composition.
  * object-fit: contain — do not use a taller `.work-media-scale` overscan;
  * that changed the wrapper aspect and caused banding.
  */

@@ -73,7 +73,7 @@ function item(
   };
 }
 
-/** Visible Figma project order (spacers omitted). */
+/** Visible Figma project order (spacers omitted). Work-page display only. */
 export const workMotionItems = {
   verso: item(
     "verso-design-system",
@@ -147,13 +147,13 @@ export const workProjectScrollOffset = ["start 95%", "end 10%"] as const;
 export const workProjectParallaxSpring = cardParallax.soloSpring;
 
 /**
- * Verso cover — internal image y inside a fixed, overflow-hidden frame.
- * Card/frame stay stationary; only `.work-media-scale` translates.
- * No vertical overscan/inset on the scale layer (that distorted aspect and
- * caused banding with object-fit: contain). Travel kept modest so edges
- * stay covered while the image pans.
+ * Featured `feature-landscape` cover — internal image y inside a fixed,
+ * overflow-hidden frame. Card/frame stay stationary; only `.work-media-scale`
+ * translates. No vertical overscan/inset on the scale layer (that distorted
+ * aspect and caused banding with object-fit: contain). Travel kept modest so
+ * edges stay covered while the image pans.
  */
-export const versoImageParallax = {
+export const featureLandscapeImageParallax = {
   desktop: { from: -18, to: 18 },
   tablet: { from: -12, to: 12 },
   mobile: { from: -9, to: 9 },

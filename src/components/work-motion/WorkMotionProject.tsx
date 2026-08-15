@@ -19,8 +19,8 @@ import { useBlocksMotionMultipliers } from "@/components/motion/useBlocksMotionB
 import { resolveScaleKeyframes } from "@/lib/home-parallax-blocks-motion";
 import { progressInRange, sectionReveal } from "@/lib/motion";
 import {
+  featureLandscapeImageParallax,
   isSmallWorkMotionRole,
-  versoImageParallax,
   workMotionPresets,
   workProjectParallaxSpring,
   workProjectScrollOffset,
@@ -169,8 +169,8 @@ export function WorkMotionProject({
   cardY,
 }: WorkMotionProjectProps) {
   const isPaired = cardY !== undefined;
-  /** Verso: image pans inside a fixed frame; card/frame never translate. */
-  const isVersoImageParallax = item.id === "verso-design-system";
+  /** Featured slot: image pans inside a fixed frame; card/frame never translate. */
+  const isFeatureLandscapeParallax = item.role === "feature-landscape";
   const projectRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -185,7 +185,7 @@ export function WorkMotionProject({
     offset: workProjectScrollOffset as unknown as ["start 95%", "end 10%"],
   });
 
-  /** Frame-linked scroll for image scale (other cards) / Verso image y. */
+  /** Frame-linked scroll for image scale (other cards) / featured image y. */
   const { scrollYProgress: frameProgress } = useScroll({
     target: frameRef,
     offset: ["start 95%", "end 10%"],
@@ -209,21 +209,21 @@ export function WorkMotionProject({
     toY,
     motionDisabled,
     isPaired,
-    isVersoImageParallax,
+    isFeatureLandscapeParallax,
   });
 
-  const versoRange =
+  const featureRange =
     breakpoint === "mobile"
-      ? versoImageParallax.mobile
+      ? featureLandscapeImageParallax.mobile
       : breakpoint === "tablet"
-        ? versoImageParallax.tablet
-        : versoImageParallax.desktop;
+        ? featureLandscapeImageParallax.tablet
+        : featureLandscapeImageParallax.desktop;
 
-  const versoTravelRef = useRef({
-    from: versoRange.from,
-    to: versoRange.to,
+  const featureTravelRef = useRef({
+    from: featureRange.from,
+    to: featureRange.to,
     motionDisabled,
-    active: isVersoImageParallax,
+    active: isFeatureLandscapeParallax,
   });
 
   useEffect(() => {
@@ -232,22 +232,22 @@ export function WorkMotionProject({
       toY,
       motionDisabled,
       isPaired,
-      isVersoImageParallax,
+      isFeatureLandscapeParallax,
     };
-    versoTravelRef.current = {
-      from: versoRange.from,
-      to: versoRange.to,
+    featureTravelRef.current = {
+      from: featureRange.from,
+      to: featureRange.to,
       motionDisabled,
-      active: isVersoImageParallax,
+      active: isFeatureLandscapeParallax,
     };
   }, [
     fromY,
     toY,
     motionDisabled,
     isPaired,
-    isVersoImageParallax,
-    versoRange.from,
-    versoRange.to,
+    isFeatureLandscapeParallax,
+    featureRange.from,
+    featureRange.to,
   ]);
 
   const soloRawY = useTransform(soloProgress, (progress) => {
@@ -255,7 +255,7 @@ export function WorkMotionProject({
     if (
       travel.motionDisabled ||
       travel.isPaired ||
-      travel.isVersoImageParallax
+      travel.isFeatureLandscapeParallax
     ) {
       return 0;
     }
@@ -265,15 +265,15 @@ export function WorkMotionProject({
   const soloY = useSpring(soloRawY, workProjectParallaxSpring);
   const wholeCardY = isPaired ? cardY : soloY;
 
-  const versoImageRawY = useTransform(frameProgress, (progress) => {
-    const travel = versoTravelRef.current;
+  const featureImageRawY = useTransform(frameProgress, (progress) => {
+    const travel = featureTravelRef.current;
     if (travel.motionDisabled || !travel.active) return 0;
     return travel.from + (travel.to - travel.from) * progress;
   });
-  const versoImageY = useSpring(versoImageRawY, workProjectParallaxSpring);
+  const featureImageY = useSpring(featureImageRawY, workProjectParallaxSpring);
 
   const imageScale = useTransform(frameProgress, (progress) => {
-    if (motionDisabled || isVersoImageParallax) return 1;
+    if (motionDisabled || isFeatureLandscapeParallax) return 1;
     const [a, b, c] = resolveScaleKeyframes(
       preset.imageScale.keyframes,
       scaleStrength,
@@ -299,13 +299,15 @@ export function WorkMotionProject({
         ref={projectRef}
         className="work-project-parallax"
         style={{
-          // Verso: card stays put. Other solo cards keep whole-card y.
+          // Featured: card stays put. Other solo cards keep whole-card y.
           y:
-            motionDisabled || isVersoImageParallax
+            motionDisabled || isFeatureLandscapeParallax
               ? 0
               : wholeCardY,
           willChange:
-            motionDisabled || isVersoImageParallax ? undefined : "transform",
+            motionDisabled || isFeatureLandscapeParallax
+              ? undefined
+              : "transform",
         }}
       >
         <MotionLink
@@ -324,10 +326,10 @@ export function WorkMotionProject({
             <motion.div
               className="work-media-scale"
               style={
-                isVersoImageParallax
+                isFeatureLandscapeParallax
                   ? {
                       // Same frame box as CSS `inset: 0` — no taller overscan.
-                      y: motionDisabled ? 0 : versoImageY,
+                      y: motionDisabled ? 0 : featureImageY,
                       scale: 1,
                       transformOrigin: "center center",
                     }

@@ -13,7 +13,7 @@ import type { WorkMotionItem, WorkMotionPresetId } from "@/lib/work-motion";
 
 export const projectsMotionHero = {
   label: "Featured Case Studies",
-  title: "Helping organisations simplify complex digital products.",
+  title: "A closer look at the thinking behind the work.",
 } as const;
 
 function experienceById(id: string): Project {
@@ -69,14 +69,23 @@ function item(
   };
 }
 
-/** Visible Figma project order (709:4223). */
+/**
+ * Case Studies page display order and slot roles (Figma 709:4223).
+ * Independent from Work-page `workMotionItems` — same project IDs/routes,
+ * different featured/slot presentation.
+ */
 export const projectsMotionItems = {
-  verso: item(
-    experienceById("verso-design-system"),
-    "Verso Design System",
+  onenav: item(
+    experienceById("onenav"),
+    "OneNav",
     "feature-landscape",
     "A",
-    undefined,
+    {
+      src: "/images/work/onenav/cover-featured.png",
+      alt: "OneNav navigation patterns across Condé Nast mobile brands",
+      width: 2880,
+      height: 1553,
+    },
     { objectPosition: "50% 40%", mobileObjectPosition: "50% 35%" },
   ),
   editorial: item(
@@ -87,12 +96,18 @@ export const projectsMotionItems = {
     undefined,
     { objectPosition: "50% 45%", mobileObjectPosition: "50% 40%" },
   ),
-  onenav: item(
-    experienceById("onenav"),
-    "OneNav",
+  /** Case Studies only — occupies the square-pair slot (with Editorial). */
+  brightPath: item(
+    studioById("bright-path-learning"),
+    "Bright Path Learning",
     "square-pair",
     "B",
-    undefined,
+    {
+      src: "/images/work/bright-path-learning/bright-path-5.png",
+      alt: "Bright Path Learning",
+      width: 2400,
+      height: 1600,
+    },
     { objectPosition: "50% 50%", mobileObjectPosition: "50% 50%" },
   ),
   mumsUnited: item(
@@ -103,17 +118,19 @@ export const projectsMotionItems = {
     homeImage("mums-united"),
     { objectPosition: "50% 50%", mobileObjectPosition: "50% 45%" },
   ),
-  brightPath: item(
-    studioById("bright-path-learning"),
-    "Bright Path Learning",
+  /** Case Studies only — landscape-pair slot (with Mums United); 6∶4 cover. */
+  verso: item(
+    experienceById("verso-design-system"),
+    "Verso Design System",
     "pair-landscape",
     "A",
     {
-      src: "/images/work/bright-path-learning/bright-path-5.png",
-      alt: "Bright Path Learning",
-      width: 566,
-      height: 566,
+      src: "/images/work/verso-design-system/cover-1.png",
+      alt: "Verso design system UI collage with navigation and content components",
+      width: 3000,
+      height: 2000,
     },
+    { objectPosition: "50% 50%", mobileObjectPosition: "50% 50%" },
   ),
   meridian: item(
     studioById("meridian-and-co"),

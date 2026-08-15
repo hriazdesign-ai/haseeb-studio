@@ -98,11 +98,9 @@ export type HomeParallaxMotionMode = "image" | "block";
 export const homeParallaxContact = {
   email: "hriaz.design@gmail.com",
   mailto: "mailto:hriaz.design@gmail.com",
-  /**
-   * Social / CV destinations are not yet confirmed in the repo.
-   * LinkedIn, Instagram and Download CV render as disabled until URLs exist.
-   */
-  linkedIn: null as string | null,
+  linkedIn: "https://www.linkedin.com/in/haseeb-riaz-31444220",
+  /** Kept for easy restore — contact UI hides Instagram while this is false. */
+  showInstagram: false,
   instagram: null as string | null,
-  cv: null as string | null,
+  cv: "/documents/Haseeb%20Riaz%20CV%202026.pdf",
 };

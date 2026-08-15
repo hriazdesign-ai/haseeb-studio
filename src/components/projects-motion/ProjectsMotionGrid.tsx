@@ -9,40 +9,40 @@ import { projectsMotionItems } from "@/lib/projects-motion";
  * Reuses WorkMotionProject / WorkMotionPair for approved motion.
  */
 export function ProjectsMotionGrid() {
-  const { verso, editorial, onenav, mumsUnited, brightPath, meridian } =
+  const { onenav, editorial, brightPath, mumsUnited, verso, meridian } =
     projectsMotionItems;
 
   return (
     <div className="projects-motion-grid">
-      {/* Verso — full 12 columns */}
+      {/* OneNav — full 12 columns */}
       <div className="projects-motion-container">
         <div className="projects-desktop-grid">
           <div className="projects-col projects-col--1-13">
-            <WorkMotionProject item={verso} priority />
+            <WorkMotionProject item={onenav} priority />
           </div>
         </div>
       </div>
 
-      {/* Editorial + OneNav — left-aligned square pair (cols 1–8) */}
+      {/* Editorial + Bright Path — left-aligned square pair (cols 1–8) */}
       <div className="projects-motion-container">
         <div className="projects-desktop-grid">
           <div className="projects-col projects-col--1-9">
             <WorkMotionPair
               kind="square"
               left={editorial}
-              right={onenav}
+              right={brightPath}
               className="projects-square-pair"
             />
           </div>
         </div>
       </div>
 
-      {/* Mums + Bright Path — equal landscape pair */}
+      {/* Mums + Verso — equal landscape pair */}
       <div className="projects-motion-container">
         <WorkMotionPair
           kind="landscape"
           left={mumsUnited}
-          right={brightPath}
+          right={verso}
           className="projects-landscape-pair"
         />
       </div>
