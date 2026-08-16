@@ -183,15 +183,17 @@
   object-position: center;
 }
 
+/*
+ * Pointer-driven image scale stays on fine pointers only. On touch, tapping or
+ * even starting a swipe focuses the card link, which fired this 800ms scale
+ * mid-gesture and read as the thumbnail drifting inside its frame.
+ */
 @media (hover: hover) and (pointer: fine) {
-  .case-study-carousel__card:hover .case-study-carousel__media-hover {
+  .case-study-carousel__card:hover .case-study-carousel__media-hover,
+  .case-study-carousel__card:focus-visible .case-study-carousel__media-hover,
+  .case-study-carousel__card:focus-within .case-study-carousel__media-hover {
     transform: scale(var(--motion-image-hover-scale));
   }
-}
-
-.case-study-carousel__card:focus-visible .case-study-carousel__media-hover,
-.case-study-carousel__card:focus-within .case-study-carousel__media-hover {
-  transform: scale(var(--motion-image-hover-scale));
 }
 
 .case-study-carousel__caption {
@@ -273,6 +275,24 @@
 
   .case-study-carousel__track {
     padding-inline-start: var(--portfolio-page-gutter);
+  }
+}
+
+/* ---- Mobile ------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  /*
+   * Touch momentum vs. mandatory snapping: every flick was re-snapped and
+   * `scroll-snap-stop: always` forced a stop at each card, so cards slid back
+   * and forth after the finger lifted. Proximity keeps the alignment intent
+   * without fighting the gesture. Desktop arrows / drag are unaffected.
+   */
+  .case-study-carousel__viewport {
+    scroll-snap-type: x proximity;
+  }
+
+  .case-study-carousel__card {
+    scroll-snap-stop: normal;
   }
 }
 

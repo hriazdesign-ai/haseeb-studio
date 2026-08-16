@@ -958,6 +958,14 @@ a {
   --cs-tracking-quote: -0.04em;
 }
 
+/* Mobile caption scale — case-study pages only. */
+@media (max-width: 767px) {
+  .case-study {
+    --cs-text-caption: 12px;
+    --cs-leading-caption: 18px;
+  }
+}
+
 .type-cs-eyebrow {
   margin: 0;
   font-family: var(--font-serif);
@@ -1224,6 +1232,14 @@ a {
 
 .case-study-hero__title {
   margin: 0;
+}
+
+/* Mobile article title — steps down from the shared `.hp-hero__title` scale. */
+@media (max-width: 767px) {
+  .case-study-hero .case-study-hero__title {
+    font-size: 36px;
+    line-height: 44px;
+  }
 }
 
 /*

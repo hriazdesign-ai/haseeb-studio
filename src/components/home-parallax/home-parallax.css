@@ -192,9 +192,13 @@ body:has(.home-parallax-page) .site-footer {
    * Headings only — negate the section inset so their left edge lands on the
    * same `--hp-gutter` rail as the main page title (22px on mobile).
    * Body copy above is untouched.
+   *
+   * “What’s next” borrows `.hp-contact__title` for type only; it already sits
+   * on the rail via `.portfolio-container` and owns its own vertical rhythm.
    */
   .home-parallax-page--blocks .hp-intro__quote,
-  .home-parallax-page--blocks .hp-contact__title {
+  .home-parallax-page--blocks
+    .hp-contact__title:not(.case-study-carousel__title) {
     margin-inline: calc(var(--hp-gutter) - clamp(40px, 8vw, 100px));
   }
 
@@ -202,7 +206,8 @@ body:has(.home-parallax-page) .site-footer {
     row-gap: 40px;
   }
 
-  .home-parallax-page--blocks .hp-contact__title {
+  .home-parallax-page--blocks
+    .hp-contact__title:not(.case-study-carousel__title) {
     margin-bottom: 40px;
   }
 }
@@ -962,5 +967,14 @@ body:has(.home-parallax-page) .site-footer {
 
   .home-parallax-page--blocks .hp-footer__status {
     order: -1;
+  }
+
+  /*
+   * Case-study pages only — contact copy joins its heading on the page rail so
+   * “Let’s build something thoughtful.” and the supporting paragraph, label and
+   * links share one left edge. Homepage / Work keep their centred measure.
+   */
+  .case-study-page .hp-contact__body {
+    margin-inline: calc(var(--hp-gutter) - clamp(40px, 8vw, 100px));
   }
 }
