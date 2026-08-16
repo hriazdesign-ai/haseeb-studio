@@ -416,7 +416,7 @@ export function CaseStudyProjectCarousel({
     >
       <div className="portfolio-container portfolio-grid case-study-carousel__grid">
         <motion.h2
-          className="case-study-carousel__title"
+          className="case-study-carousel__title hp-contact__title"
           style={{
             opacity: motionDisabled ? 1 : headingOpacity,
             y: motionDisabled ? 0 : headingY,

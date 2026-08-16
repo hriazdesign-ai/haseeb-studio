@@ -32,16 +32,13 @@
   align-items: start;
 }
 
-.case-study-carousel__title {
+.case-study-carousel__title.hp-contact__title {
   grid-column: 1 / -1;
   grid-row: 1;
+  /* Typography from shared `.hp-contact__title` (“Let’s build something thoughtful.”). */
   margin: 0;
+  max-width: none;
   padding-bottom: var(--csc-title-gap);
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(2.75rem, 7vw, 5.625rem);
-  line-height: 1.11;
-  letter-spacing: -0.04em;
   color: inherit;
 }
 
@@ -231,12 +228,9 @@
     --csc-card-width: 360px;
   }
 
-  .case-study-carousel__title {
+  .case-study-carousel__title.hp-contact__title {
     grid-column: 1 / 9;
     grid-row: 1;
-    font-size: 90px;
-    line-height: 100px;
-    letter-spacing: -3.6px;
   }
 
   .case-study-carousel__controls {

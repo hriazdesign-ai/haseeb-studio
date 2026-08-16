@@ -8,7 +8,11 @@
   --hp-accent: #c8b1ff;
   --hp-accent-strong: #8351fc;
   --hp-accent-soft: rgba(169, 134, 255, 0.12);
-  --hp-gutter: clamp(1.25rem, 5vw, 4rem);
+  /*
+   * Single page gutter for hero titles, editorial statements, contact and
+   * chrome. Mobile floor is the established 22px; tablet/desktop unchanged.
+   */
+  --hp-gutter: clamp(1.375rem, 5vw, 4rem);
   /* Align shared portfolio rail with Homepage gutters when present. */
   --page-gutter: var(--hp-gutter);
   --hp-section-y: clamp(4rem, 9vw, 7.5rem);
@@ -112,6 +116,17 @@ body:has(.home-parallax-page) .site-footer {
   margin-inline: 0;
 }
 
+/*
+ * Below desktop, chrome edges follow the same `--hp-gutter` rail as page
+ * content so the footer availability label aligns with titles and statements.
+ * ≥1024px keeps the 30px chrome inset defined in globals.css.
+ */
+@media (max-width: 1023px) {
+  .home-parallax-page--blocks {
+    --site-chrome-inline: var(--hp-gutter);
+  }
+}
+
 /* Mums United media spans the viewport; caption uses the page container. */
 .home-parallax-page--blocks .hp-blocks-mums-full-bleed {
   width: 100%;
@@ -156,8 +171,9 @@ body:has(.home-parallax-page) .site-footer {
 }
 
 /*
- * Below large desktop — tighter horizontal inset + centred copy measure.
- * Desktop (≥1280) keeps the shared `.prototype-page-container` gutters.
+ * Below large desktop — section inset + centred copy measure (unchanged).
+ * The shared container keeps this inset so body copy stays where it is; only
+ * the large headings break back out onto the page title rail below.
  */
 @media (max-width: 1279px) {
   .home-parallax-page--blocks .hp-intro .prototype-page-container,
@@ -170,6 +186,16 @@ body:has(.home-parallax-page) .site-footer {
     width: 100%;
     max-width: 40rem;
     margin-inline: auto;
+  }
+
+  /*
+   * Headings only — negate the section inset so their left edge lands on the
+   * same `--hp-gutter` rail as the main page title (22px on mobile).
+   * Body copy above is untouched.
+   */
+  .home-parallax-page--blocks .hp-intro__quote,
+  .home-parallax-page--blocks .hp-contact__title {
+    margin-inline: calc(var(--hp-gutter) - clamp(40px, 8vw, 100px));
   }
 
   .home-parallax-page--blocks .hp-intro__inner {
@@ -749,9 +775,17 @@ body:has(.home-parallax-page) .site-footer {
   max-width: 12ch;
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: var(--hp-contact-size);
-  line-height: var(--hp-contact-leading);
+  font-size: var(--hp-contact-size, clamp(2.75rem, 7vw, 5.625rem));
+  line-height: var(--hp-contact-leading, 1.1);
   letter-spacing: -0.04em;
+}
+
+/* Desktop lock matches `.home-parallax-page` tokens when those vars are unset. */
+@media (min-width: 1024px) {
+  .hp-contact__title {
+    font-size: var(--hp-contact-size, 70px);
+    line-height: var(--hp-contact-leading, 80px);
+  }
 }
 
 /* Test B only: let the contact statement use its full grid/column width. */
@@ -907,16 +941,10 @@ body:has(.home-parallax-page) .site-footer {
     padding-block: 0.875rem;
   }
 
-  /* Mobile contact rail — 22px page gutter. */
-  .home-parallax-page--blocks .hp-contact .prototype-page-container {
-    padding-left: 22px;
-    padding-right: 22px;
-  }
-
   /*
    * Footer stacks so the availability pill and copyright never collide.
-   * Horizontal 22px gutters align with contact; pill sits on its own
-   * full-width row above the copyright.
+   * Horizontal gutters come from the shared `--site-chrome-inline` rail; pill
+   * sits on its own full-width row above the copyright.
    *
    * Vertical rhythm (mobile only):
    *   44px top → label → 40px gap → copyright → 64px bottom
@@ -930,8 +958,6 @@ body:has(.home-parallax-page) .site-footer {
     flex-direction: column;
     align-items: stretch;
     gap: 40px;
-    padding-left: 22px;
-    padding-right: 22px;
   }
 
   .home-parallax-page--blocks .hp-footer__status {
