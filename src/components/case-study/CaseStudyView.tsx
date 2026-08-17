@@ -398,10 +398,10 @@ function StandardBody({ study }: { study: CaseStudy }) {
               style={{ gap: "var(--hero-copy-gap)" }}
             >
               <h2 className="type-cs-section">{study.outcome.label}</h2>
-              <ul className="m-0 flex list-none flex-col p-0">
+              <ul className="case-study-outcome__list m-0 flex list-none flex-col p-0">
                 {study.outcome.items.map((item) => (
-                  <li key={item} className="type-cs-body">
-                    — {item}
+                  <li key={item} className="type-cs-body case-study-outcome__item">
+                    {item}
                   </li>
                 ))}
               </ul>

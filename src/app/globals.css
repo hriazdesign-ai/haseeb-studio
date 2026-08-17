@@ -1008,6 +1008,27 @@ a {
   color: inherit;
 }
 
+/*
+ * Outcome list — circular bullet aligned to the first line of each item.
+ * Replaces the legacy em-dash prefix; typography/spacing come from `.type-cs-body`.
+ */
+.case-study-outcome__item {
+  position: relative;
+  padding-left: calc(4px + 1rem);
+}
+
+.case-study-outcome__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5lh;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateY(-50%);
+}
+
 .type-cs-section {
   margin: 0;
   font-family: var(--font-serif);
