@@ -3,10 +3,12 @@ import { CaseStudyHeroMedia } from "@/components/case-study/CaseStudyHeroMedia";
 import { CaseStudyMedia } from "@/components/case-study/CaseStudyMedia";
 import { CaseStudyProjectCarousel } from "@/components/case-study/CaseStudyProjectCarousel";
 import { LargeFeature } from "@/components/case-study/LargeFeature";
+import { CaseStudyLightboxGallery } from "@/components/case-study/ImageLightbox";
 import { PendingCaseStudyMedia } from "@/components/case-study/PendingCaseStudyMedia";
 import { ScrollParallaxImage } from "@/components/motion/ScrollParallaxImage";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { blocksStatementMotion } from "@/lib/home-parallax-blocks-motion";
+import { getCaseStudyLightboxItems } from "@/lib/case-studies/lightbox-items";
 import type {
   CaseStudy,
   CaseStudyBodyBlock,
@@ -362,6 +364,13 @@ function StandardBody({ study }: { study: CaseStudy }) {
         </>
       ) : null}
 
+      {study.preResultGallery ? (
+        <PairedGallery
+          images={study.preResultGallery}
+          label="Detail gallery"
+        />
+      ) : null}
+
       <section
         className="container"
         aria-labelledby={result.label ? "result-heading" : undefined}
@@ -426,9 +435,10 @@ function StandardBody({ study }: { study: CaseStudy }) {
  */
 export function CaseStudyView({ study }: CaseStudyViewProps) {
   const usePortfolioHeading = study.heroLayout === "portfolio";
+  const lightboxItems = getCaseStudyLightboxItems(study);
 
   return (
-    <>
+    <CaseStudyLightboxGallery items={lightboxItems}>
       <article className="case-study">
         <header className="case-study__hero">
           {usePortfolioHeading ? (
@@ -481,6 +491,7 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
                   showCaption={false}
                   parallax
                   bordered={false}
+                  lightbox={false}
                   frameClassName="aspect-[16/9] lg:aspect-auto lg:h-[720px]"
                   sizes="100vw"
                 />
@@ -526,6 +537,6 @@ export function CaseStudyView({ study }: CaseStudyViewProps) {
         </div>
       </article>
       <CaseStudyProjectCarousel currentSlug={study.slug} />
-    </>
+    </CaseStudyLightboxGallery>
   );
 }

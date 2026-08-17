@@ -280,18 +280,51 @@
 
 /* ---- Mobile ------------------------------------------------------------- */
 
+/*
+ * Cards are static thumbnails on mobile: the only movement is the scrollport
+ * itself scrolling horizontally. The Framer variant path is switched off in
+ * `ProjectCard` (`staticCard`), so nothing writes inline transforms here; these
+ * rules neutralise the CSS side and keep radius / clipping / crop intact.
+ */
 @media (max-width: 767px) {
+  .case-study-carousel__card,
+  .case-study-carousel__media,
+  .case-study-carousel__media-hover,
+  .case-study-carousel__image,
+  .case-study-carousel__caption,
+  .case-study-carousel__caption-arrow {
+    /*
+     * `transform` only. Adding `translate` / `rotate` / `scale` longhands makes
+     * the CSS minifier fold all four into an identity `translate3d(…)`, which
+     * is a transform — a new compositing layer and containing block — instead
+     * of no transform at all.
+     */
+    transform: none;
+    transition: none;
+    animation: none;
+    will-change: auto;
+  }
+
+  /* Reveal-on-hover arrow: no hover on touch, so hold its existing rest state. */
+  .case-study-carousel__caption-arrow {
+    opacity: 0;
+  }
+
   /*
-   * Touch momentum vs. mandatory snapping: every flick was re-snapped and
-   * `scroll-snap-stop: always` forced a stop at each card, so cards slid back
-   * and forth after the finger lifted. Proximity keeps the alignment intent
-   * without fighting the gesture. Desktop arrows / drag are unaffected.
+   * Horizontal axis only. `overflow-y: visible` computes to `auto` next to
+   * `overflow-x: auto`, so the scrollport was vertically scrollable and
+   * diagonal swipes drifted the cards up/down inside it.
+   *
+   * Snapping is off because momentum flicks were re-snapped after the finger
+   * lifted — movement the cards should not have.
    */
   .case-study-carousel__viewport {
-    scroll-snap-type: x proximity;
+    overflow-y: hidden;
+    scroll-snap-type: none;
   }
 
   .case-study-carousel__card {
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
 }

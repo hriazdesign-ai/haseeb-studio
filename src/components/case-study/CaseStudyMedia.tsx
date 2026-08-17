@@ -31,6 +31,11 @@ type CaseStudyMediaProps = {
    * Off for heroes and Large Features. Defaults to true.
    */
   bordered?: boolean;
+  /**
+   * Wrap the media in the case-study lightbox. Defaults to true for inline
+   * media. Pass `false` for heroes and other non-content imagery.
+   */
+  lightbox?: boolean;
 };
 
 /** Case-study figure with optional zoom lightbox for UI detail shots. */
@@ -45,6 +50,7 @@ export function CaseStudyMedia({
   artDirectMobile = true,
   objectFit = "cover",
   bordered = true,
+  lightbox = true,
 }: CaseStudyMediaProps) {
   const mobileSrc = artDirectMobile ? image.mobileSrc : undefined;
   const frameChrome = [
@@ -110,8 +116,12 @@ export function CaseStudyMedia({
 
   return (
     <figure className="m-0 flex min-w-0 flex-col gap-[18px]">
-      {image.zoomable ? (
-        <ImageLightbox src={image.src} alt={image.alt}>
+      {lightbox ? (
+        <ImageLightbox
+          src={image.src}
+          alt={image.alt}
+          videoSrc={image.videoSrc}
+        >
           {media}
         </ImageLightbox>
       ) : (

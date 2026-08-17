@@ -950,7 +950,8 @@ a {
   --cs-tracking-section: 0.02em;
 
   --cs-text-caption: var(--text-label);
-  --cs-leading-caption: var(--leading-label);
+  /* Desktop caption leading; mobile overrides to 18px below. */
+  --cs-leading-caption: 16px;
   --cs-tracking-caption: 0.02em;
 
   --cs-text-quote: var(--text-display);
@@ -1396,6 +1397,47 @@ a {
 .case-study-lightbox__close.menu-toggle:focus-visible {
   outline: 1px solid var(--accent);
   outline-offset: 4px;
+}
+
+.case-study-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.case-study-lightbox__nav--prev {
+  left: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.case-study-lightbox__nav--next {
+  right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.case-study-lightbox__nav:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.case-study-lightbox__nav:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.case-study-lightbox__nav-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 @keyframes case-study-lightbox-in {

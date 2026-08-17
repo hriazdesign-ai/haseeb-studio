@@ -66,6 +66,41 @@ export const brandIdentityCaseStudy: CaseStudy = {
     },
     {
       type: "feature",
+      label: "Biryani Daba",
+      image: {
+        src: `${base}/BD-1.png`,
+        alt: "Biryani Daba brand identity and chicken biryani campaign artwork",
+        width: 2344,
+        height: 1563,
+        zoomable: true,
+        caption:
+          "Biryani Daba · A bold identity inspired by Pakistani street food.",
+      },
+    },
+    {
+      type: "gallery",
+      label: "Biryani Daba campaign artwork",
+      images: [
+        {
+          src: `${base}/BD-2-1.png`,
+          alt: "Biryani Daba menu and tarka dhaal campaign artwork",
+          width: 1300,
+          height: 838,
+          zoomable: true,
+          caption: "Social posts · Weekly menu graphics.",
+        },
+        {
+          src: `${base}/BD-2.png`,
+          alt: "Biryani Daba chana masala and pakora campaign artwork",
+          width: 1300,
+          height: 838,
+          zoomable: true,
+          caption: "Social posts · Campaign graphics.",
+        },
+      ],
+    },
+    {
+      type: "feature",
       label: "Street Foods",
       image: {
         src: `${base}/street-foods-1.png`,

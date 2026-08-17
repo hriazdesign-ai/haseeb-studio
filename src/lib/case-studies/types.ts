@@ -160,6 +160,11 @@ export type CaseStudy = {
   solutionCompanion?: CaseStudyNarrative;
   /** Optional paired gallery after The Solution. */
   solutionGallery?: [CaseStudyImage, CaseStudyImage];
+  /**
+   * Optional paired gallery immediately before Result / Outcome
+   * (Bright Path detail thumbnails).
+   */
+  preResultGallery?: [CaseStudyImage, CaseStudyImage];
   /** Optional large feature before the result (Verso / OneNav / Digital covers). */
   closingFeature?: CaseStudyImage;
   /**

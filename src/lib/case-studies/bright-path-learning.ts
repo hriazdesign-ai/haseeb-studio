@@ -104,6 +104,26 @@ export const brightPathLearningCaseStudy: CaseStudy = {
       caption: "Student Support · Guiding Families Towards The Right Help",
     },
   ],
+  preResultGallery: [
+    {
+      src: `${base}/bright-5.png`,
+      alt: "Bright Path Learning responsive page states on mobile and desktop",
+      width: 1300,
+      height: 838,
+      zoomable: true,
+      caption:
+        "Responsive Detail · Extending The Experience Across Key Page States",
+    },
+    {
+      src: `${base}/bright-6.png`,
+      alt: "Bright Path Learning interface detail across content and support journeys",
+      width: 1300,
+      height: 838,
+      zoomable: true,
+      caption:
+        "Interface Detail · Maintaining Clarity Across Content And Support Journeys",
+    },
+  ],
   result: {
     id: "result",
     label: "The Result",

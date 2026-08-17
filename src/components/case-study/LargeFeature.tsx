@@ -84,8 +84,6 @@ export function LargeFeature({ image, label }: LargeFeatureProps) {
   const y = useSpring(rawY, IMAGE_SPRING);
 
   const videoSrc = resolveFeatureVideoSrc(image);
-  /** Zoom lightbox is image-only — disable for WebM features. */
-  const allowZoom = Boolean(image.zoomable && !videoSrc);
 
   const mediaInner = videoSrc ? (
     <CaseStudyIntrinsicVideo
@@ -123,13 +121,13 @@ export function LargeFeature({ image, label }: LargeFeatureProps) {
       aria-label={label}
     >
       <figure className="m-0 flex min-w-0 flex-col gap-[18px]">
-        {allowZoom ? (
-          <ImageLightbox src={image.src} alt={image.alt}>
-            {media}
-          </ImageLightbox>
-        ) : (
-          media
-        )}
+        <ImageLightbox
+          src={image.src}
+          alt={image.alt}
+          videoSrc={videoSrc ?? undefined}
+        >
+          {media}
+        </ImageLightbox>
         {image.caption ? (
           <figcaption className="type-cs-caption">{image.caption}</figcaption>
         ) : null}

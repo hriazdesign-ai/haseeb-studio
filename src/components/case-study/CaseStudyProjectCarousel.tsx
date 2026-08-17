@@ -66,65 +66,52 @@ function CarouselArrowIcon() {
   );
 }
 
-/**
- * Full-card case-study link (Next.js Link via motion).
- * `href` comes from shared project data — never hardcoded here.
- */
-/**
- * Prefer dedicated `smallSrc` when the file exists; otherwise keep `src`.
- * Same probe pattern as Work cards — never start on a broken URL.
- */
-function CarouselCardImage({ project }: { project: CaseStudyCarouselProject }) {
-  const fallbackSrc = project.image.src;
-  const smallSrc = project.image.smallSrc;
-  const [src, setSrc] = useState(fallbackSrc);
-
-  useEffect(() => {
-    if (!smallSrc || smallSrc === fallbackSrc) return;
-
-    let cancelled = false;
-    const probe = new window.Image();
-    probe.onload = () => {
-      if (!cancelled) setSrc(smallSrc);
-    };
-    probe.onerror = () => {
-      /* keep fallback — small cover not exported yet */
-    };
-    probe.src = smallSrc;
-
-    return () => {
-      cancelled = true;
-    };
-  }, [smallSrc, fallbackSrc]);
-
+function CarouselCardImage({
+  project,
+  eager,
+}: {
+  project: CaseStudyCarouselProject;
+  eager: boolean;
+}) {
   return (
     <Image
-      key={`${project.id}:${src}`}
-      src={src}
+      src={project.image.src}
       alt={project.image.alt}
       className="case-study-carousel__image"
       sizes="(max-width: 1023px) 85vw, 360px"
       style={{ objectPosition: project.objectPosition }}
       fill
+      loading={eager ? "eager" : "lazy"}
+      fetchPriority={eager ? "low" : undefined}
       draggable={false}
-      onError={() => {
-        if (src !== fallbackSrc) setSrc(fallbackSrc);
-      }}
     />
   );
 }
 
-function ProjectCard({ project }: { project: CaseStudyCarouselProject }) {
+/**
+ * `staticCard` (mobile) drops the Framer variant path completely: no parent
+ * rest/hover variants, so neither the card nor its arrow ever receives an
+ * inline transform that a touch gesture could trigger mid-swipe.
+ */
+function ProjectCard({
+  project,
+  staticCard,
+  eager,
+}: {
+  project: CaseStudyCarouselProject;
+  eager: boolean;
+  staticCard: boolean;
+}) {
   return (
     <MotionLink
       href={project.href}
       className="case-study-carousel__card"
       aria-label={project.caption}
-      {...animatedArrowLinkProps}
+      {...(staticCard ? {} : animatedArrowLinkProps)}
     >
       <div className="case-study-carousel__media">
         <div className="case-study-carousel__media-hover">
-          <CarouselCardImage project={project} />
+          <CarouselCardImage project={project} eager={eager} />
         </div>
       </div>
       <p className="case-study-carousel__caption">
@@ -133,7 +120,7 @@ function ProjectCard({ project }: { project: CaseStudyCarouselProject }) {
         </span>
         <AnimatedArrow
           className="case-study-carousel__caption-arrow"
-          kind="caption"
+          kind={staticCard ? "inline" : "caption"}
         >
           ↗
         </AnimatedArrow>
@@ -171,8 +158,11 @@ export function CaseStudyProjectCarousel({
   const [canNext, setCanNext] = useState(false);
   const [dragging, setDragging] = useState(false);
   const shouldReduceMotion = useReducedMotion();
-  const { captionY } = useBlocksMotionMultipliers();
+  const { captionY, breakpoint } = useBlocksMotionMultipliers();
   const motionDisabled = Boolean(shouldReduceMotion);
+  /* Mobile cards are static thumbnails — see `.case-study-carousel` mobile CSS. */
+  const staticCards = breakpoint === "mobile";
+  const [preloadCards, setPreloadCards] = useState(false);
 
   const updateEdges = useCallback(() => {
     const el = carouselViewportRef.current;
@@ -284,6 +274,31 @@ export function CaseStudyProjectCarousel({
       ro.disconnect();
     };
   }, [projects.length, carouselLeft, updateEdges, cancelScrollAnimation]);
+
+  /*
+   * Mobile fits roughly one card, so the rest of the strip stays `loading="lazy"`
+   * and decodes mid-swipe — each source has its own aspect ratio, so a card that
+   * arrives empty and then paints reads as the image moving inside its frame.
+   * Warm the whole strip once the section is within a screen of the viewport,
+   * i.e. before a swipe is possible. Desktop keeps native lazy loading.
+   */
+  useEffect(() => {
+    if (!staticCards) return;
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        setPreloadCards(true);
+        observer.disconnect();
+      },
+      { rootMargin: "100% 0px" },
+    );
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [staticCards]);
 
   const scrollByCard = useCallback(
     (direction: -1 | 1) => {
@@ -477,7 +492,12 @@ export function CaseStudyProjectCarousel({
       >
         <div className="case-study-carousel__track">
           {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              staticCard={staticCards}
+              eager={preloadCards}
+            />
           ))}
         </div>
       </div>
