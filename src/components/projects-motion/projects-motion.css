@@ -132,7 +132,7 @@ body:has(.projects-motion-page) .site-footer {
   gap: var(--projects-pair-gap);
 }
 
-/* Captions inherit white from page; keep Work typography (20/24) */
+/* Captions inherit white from page; keep Work listing typography (18/24) */
 
 @media (max-width: 1023px) {
   .projects-desktop-grid {

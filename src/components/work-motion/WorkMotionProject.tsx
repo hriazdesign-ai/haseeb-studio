@@ -81,7 +81,13 @@ function WorkCardMediaImage({
   );
 }
 
-function ProjectCaption({ children }: { children: string }) {
+function ProjectCaption({
+  children,
+  staticArrow,
+}: {
+  children: string;
+  staticArrow: boolean;
+}) {
   const captionRef = useRef<HTMLParagraphElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const reducedMotion = Boolean(shouldReduceMotion);
@@ -112,7 +118,10 @@ function ProjectCaption({ children }: { children: string }) {
       }}
     >
       <span className="work-project__caption-text">{children}</span>
-      <AnimatedArrow className="work-project__caption-arrow" kind="caption">
+      <AnimatedArrow
+        className="work-project__caption-arrow"
+        kind={staticArrow ? "inline" : "caption"}
+      >
         ↗
       </AnimatedArrow>
     </motion.p>
@@ -176,6 +185,7 @@ export function WorkMotionProject({
   const shouldReduceMotion = useReducedMotion();
   const { breakpoint, scaleStrength } = useBlocksMotionMultipliers();
   const motionDisabled = Boolean(shouldReduceMotion);
+  const staticArrow = breakpoint === "mobile";
   const preset = workMotionPresets[item.preset];
   const blockRange = preset.blockY;
 
@@ -320,7 +330,7 @@ export function WorkMotionProject({
               "--work-mobile-object-position": item.mobileObjectPosition,
             } as CSSProperties
           }
-          {...animatedArrowLinkProps}
+          {...(staticArrow ? {} : animatedArrowLinkProps)}
         >
           <div ref={frameRef} className={frameClass}>
             <motion.div
@@ -353,7 +363,7 @@ export function WorkMotionProject({
             </motion.div>
           </div>
 
-          <ProjectCaption>{item.caption}</ProjectCaption>
+          <ProjectCaption staticArrow={staticArrow}>{item.caption}</ProjectCaption>
         </MotionLink>
       </motion.div>
     </article>

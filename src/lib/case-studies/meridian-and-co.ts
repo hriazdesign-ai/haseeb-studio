@@ -78,6 +78,8 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     },
     text: "Helping businesses feel more confident about their finances.",
   },
+  /* Large feature sits directly under the quote; pair follows. */
+  featurePlacement: "beforeMidGallery",
   midGallery: [
     {
       src: `${base}/account-2.png`,

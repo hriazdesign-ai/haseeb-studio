@@ -85,7 +85,7 @@ function PullQuoteImage({
           className="absolute inset-0 bg-[rgb(15_15_15/0.35)]"
           aria-hidden="true"
         />
-        <div className="absolute inset-x-0 bottom-0 container pb-11 text-white">
+        <div className="case-study__pull-quote-copy absolute inset-x-0 bottom-0 container text-white">
           <ScrollReveal
             as="p"
             className="type-cs-quote max-w-[35.25rem]"

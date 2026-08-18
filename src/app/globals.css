@@ -1053,7 +1053,7 @@ a {
 
 .type-cs-quote {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--cs-text-quote);
   font-weight: 300;
   line-height: var(--cs-leading-quote);
@@ -1062,13 +1062,25 @@ a {
 }
 
 .type-cs-quote--aside {
-  font-family: var(--font-serif);
   color: #929292;
 }
 
 .case-study__hero {
   background: var(--case-study-hero-bg, #4f4e4d);
   color: var(--case-study-hero-fg, #ffffff);
+}
+
+/* Overlay copy on image quotes. Desktop/tablet keep the previous 44px bottom inset. */
+.case-study__pull-quote-copy {
+  padding-bottom: 2.75rem;
+}
+
+@media (max-width: 767px) {
+  .case-study__pull-quote-copy {
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-bottom: 22px;
+  }
 }
 
 .case-study__hero-inner {

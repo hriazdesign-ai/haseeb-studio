@@ -262,7 +262,7 @@ body:has(.work-motion-page) .site-footer {
   margin: 0;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.02em;
 }
@@ -354,6 +354,34 @@ body:has(.work-motion-page) .site-footer {
   .work-square-pair .work-media-frame,
   .work-square-pair .work-media--square-pair {
     aspect-ratio: 6 / 4;
+  }
+}
+
+/*
+ * Mobile / small widths only (existing 767px floor).
+ * First listing card is the featured landscape role, which uses contain on
+ * desktop/tablet. Cover it in the 6∶4 mobile frame so the image fills.
+ */
+@media (max-width: 767px) {
+  .work-motion-page .work-motion-grid > :first-child
+    .work-media--feature-landscape
+    .work-media-hover
+    img,
+  .projects-motion-page .projects-motion-grid > :first-child
+    .work-media--feature-landscape
+    .work-media-hover
+    img {
+    object-fit: cover;
+  }
+
+  /*
+   * Caption arrows: Framer rest state is opacity 0. Hold them visible on
+   * touch/mobile; desktop hover/focus variants are unchanged.
+   */
+  .work-motion-page .work-project__caption-arrow,
+  .projects-motion-page .work-project__caption-arrow {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
