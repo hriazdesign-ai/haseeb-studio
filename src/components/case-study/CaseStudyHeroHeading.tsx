@@ -25,7 +25,14 @@ export function CaseStudyHeroHeading({ study }: CaseStudyHeroHeadingProps) {
         <aside className="case-study-hero__meta" aria-label="Project details">
           <dl className="case-study-hero__meta-list m-0">
             {study.meta.map((group) => (
-              <div key={group.label} className="case-study-hero__meta-group">
+              <div
+                key={group.label}
+                className={`case-study-hero__meta-group${
+                  group.label === "Role:"
+                    ? " case-study-hero__meta-group--role"
+                    : ""
+                }`}
+              >
                 <dt className="case-study-hero__meta-key">{group.label}</dt>
                 {group.values.map((value) => (
                   <dd key={value} className="case-study-hero__meta-value">
@@ -36,6 +43,23 @@ export function CaseStudyHeroHeading({ study }: CaseStudyHeroHeadingProps) {
                 ))}
               </div>
             ))}
+            {study.liveSite ? (
+              <div className="case-study-hero__meta-group">
+                <dt className="case-study-hero__meta-key">
+                  {study.liveSite.label ?? "Live site:"}
+                </dt>
+                <dd className="case-study-hero__meta-value">
+                  <a
+                    href={study.liveSite.href}
+                    className="case-study-hero__meta-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {study.liveSite.text ?? "Visit website ↗"}
+                  </a>
+                </dd>
+              </div>
+            ) : null}
           </dl>
         </aside>
       </div>

@@ -1300,6 +1300,17 @@ a {
   color: inherit;
 }
 
+.case-study-hero__meta-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.case-study-hero__meta-link:hover,
+.case-study-hero__meta-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .case-study-hero__meta-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1312,6 +1323,12 @@ a {
   flex-direction: column;
   gap: var(--cs-meta-stack, 0.5rem);
   min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .case-study-hero__meta-group--role {
+    padding-right: 34px;
+  }
 }
 
 @media (min-width: 1024px) {

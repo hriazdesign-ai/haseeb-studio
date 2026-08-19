@@ -102,6 +102,12 @@ export type CaseStudy = {
    */
   heroLayout?: "legacy" | "portfolio";
   meta: CaseStudyMetaGroup[];
+  /** Optional hero metadata link — rendered after `meta` when provided. */
+  liveSite?: {
+    href: string;
+    label?: string;
+    text?: string;
+  };
   hero: CaseStudyImage;
   /** Optional section label above the intro (e.g. Overview). */
   introLabel?: string;

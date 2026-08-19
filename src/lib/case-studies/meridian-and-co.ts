@@ -24,6 +24,11 @@ export const meridianAndCoCaseStudy: CaseStudy = {
     { label: "Platform:", values: ["Responsive Web", "Development"] },
     { label: "Year:", values: ["2026"] },
   ],
+  liveSite: {
+    href: "https://meridian-co-accounting.vercel.app/",
+    label: "Live site:",
+    text: "Visit website ↗",
+  },
   hero: {
     src: `${base}/hero-2.png`,
     mobileSrc: `${base}/hero-2-mobile.png`,
