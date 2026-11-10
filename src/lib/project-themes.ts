@@ -71,6 +71,14 @@ export const projectThemes = {
     primary: "#247541",
     foreground: "#ffffff",
   },
+  /**
+   * Standalone recruiter page (`/rtl-localisation`) — not listed in Work /
+   * homepage / project carousels.
+   */
+  "rtl-localisation": {
+    primary: "#2A3544",
+    foreground: "#ffffff",
+  },
 } as const satisfies Record<string, ProjectTheme>;
 
 export type ProjectThemeId = keyof typeof projectThemes;
