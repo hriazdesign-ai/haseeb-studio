@@ -2,8 +2,8 @@ import type { CaseStudyImage } from "@/lib/case-studies/types";
 import type { CaseStudyLightboxItem } from "@/lib/case-studies/lightbox-items";
 
 /**
- * Canonical stills for `/verso`, ordered to match Figma Studio Verso (1555:5335).
- * Paths sync with `public/verso/`.
+ * Canonical stills for `/verso`, ordered to match Figma Studio Verso (1576:13441).
+ * Paths sync with `public/verso/`. Matched by visual content, not filename alone.
  */
 export const versoMedia = {
   hero: {
@@ -36,15 +36,6 @@ export const versoMedia = {
     zoomable: true,
     caption: "Distinct Brand Identities · Shared Design Foundations",
   },
-  wiredArticle: {
-    src: "/verso/Verso-4a.jpg",
-    alt: "WIRED article layout showing responsive design, colour theming and visual hierarchy",
-    width: 2304,
-    height: 1440,
-    zoomable: true,
-    caption:
-      "WIRED Article · Responsive Design, Colour Theming & Visual Hierarchy",
-  },
   storefront: {
     src: "/verso/Verso-4.jpg",
     alt: "Verso storefront showing responsive layouts and visual design",
@@ -69,9 +60,35 @@ export const versoMedia = {
     zoomable: true,
     caption: "Reusable Components · Creating Consistent UI Patterns",
   },
+  navArchitecture: {
+    src: "/verso/Verso-12.jpg",
+    alt: "Global navigation component architecture and responsive behaviour in Figma",
+    width: 1680,
+    height: 1083,
+    zoomable: true,
+    caption:
+      "Global Navigation · Component Architecture & Responsive Behaviour",
+  },
+  navCrossBrand: {
+    src: "/verso/Verso-13.jpg",
+    alt: "Global navigation applied across GQ, WIRED, SELF and Pitchfork",
+    width: 1680,
+    height: 1083,
+    zoomable: true,
+    caption: "Global Navigation · Applied Across Condé Nast Brands",
+  },
+  wiredArticle: {
+    src: "/verso/Verso-4a.jpg",
+    alt: "WIRED article layout showing responsive design, colour theming and visual hierarchy",
+    width: 2304,
+    height: 1440,
+    zoomable: true,
+    caption:
+      "WIRED Article · Responsive Design, Colour Theming & Visual Hierarchy",
+  },
   designTokens: {
-    src: "/verso/Verso-7.jpg",
-    alt: "Verso design tokens establishing a shared visual language",
+    src: "/verso/Verso-14.jpg",
+    alt: "Typography documentation alongside an editorial layout applying shared design tokens",
     width: 2304,
     height: 1440,
     zoomable: true,
@@ -86,9 +103,9 @@ export const versoMedia = {
     caption:
       "Cross-Brand Applications · Supporting Different Editorial Experiences",
   },
-  flexibleComponents: {
+  japaneseLayouts: {
     src: "/verso/Verso-8.jpg",
-    alt: "Flexible Verso components adapting across products and brands",
+    alt: "Flexible Verso components adapting across products, brands and languages",
     width: 1680,
     height: 1083,
     zoomable: true,
@@ -96,20 +113,21 @@ export const versoMedia = {
   },
   refinement: {
     src: "/verso/Verso-10.jpg",
-    alt: "Verso system refinement simplifying components through collaboration",
+    alt: "Component audit graphic showing opportunities to simplify variations and properties",
     width: 2304,
     height: 1440,
     zoomable: true,
     caption:
       "System Refinement · Simplifying Components Through Collaboration",
   },
-  closing: {
-    src: "/verso/Verso-11.jpg",
-    alt: "Verso in production as a scalable foundation for editorial products",
+  futureExplorations: {
+    src: "/verso/Verso-15.jpg",
+    alt: "Future explorations of adaptive mastheads, enhanced search and contextual navigation",
     width: 2304,
     height: 1440,
     zoomable: true,
-    caption: "Verso in Production · A Scalable Foundation for Editorial Products",
+    caption:
+      "Future Explorations · Adaptive Mastheads, Enhanced Search & Contextual Navigation",
   },
 } as const satisfies Record<string, CaseStudyImage>;
 
@@ -119,14 +137,16 @@ export function getVersoLightboxItems(): CaseStudyLightboxItem[] {
     versoMedia.onboarding,
     versoMedia.componentLibrary,
     versoMedia.brandFoundations,
-    versoMedia.wiredArticle,
     versoMedia.storefront,
     versoMedia.imageSpecs,
     versoMedia.reusableComponents,
+    versoMedia.navArchitecture,
+    versoMedia.navCrossBrand,
+    versoMedia.wiredArticle,
     versoMedia.designTokens,
     versoMedia.crossBrand,
-    versoMedia.flexibleComponents,
+    versoMedia.japaneseLayouts,
     versoMedia.refinement,
-    versoMedia.closing,
+    versoMedia.futureExplorations,
   ].map((image) => ({ src: image.src, alt: image.alt }));
 }

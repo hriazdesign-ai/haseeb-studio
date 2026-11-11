@@ -11,7 +11,6 @@ import {
   versoCollaboration,
   versoComponentDesign,
   versoDesignTokens,
-  versoScalability,
 } from "@/lib/case-studies/verso";
 import {
   getVersoLightboxItems,
@@ -69,9 +68,55 @@ function NarrativeCopy({
   );
 }
 
+function TwoColumnNarrative({
+  label,
+  subhead,
+  left,
+  right,
+}: {
+  label: string;
+  subhead: string;
+  left: readonly string[];
+  right: readonly string[];
+}) {
+  return (
+    <section className="container" aria-label={label}>
+      <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
+        <div
+          className="flex max-w-[35.25rem] flex-col"
+          style={{ gap: "var(--hero-copy-gap)" }}
+        >
+          <h2 className="type-cs-section">{label}</h2>
+          <div className="flex flex-col gap-8">
+            <p className="verso-page__subhead">{subhead}</p>
+            {left.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className="type-cs-body">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="flex max-w-[35.25rem] flex-col"
+          style={{ gap: "var(--hero-copy-gap)" }}
+        >
+          <div className="flex flex-col gap-8">
+            {right.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className="type-cs-body">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /**
  * Standalone Verso case-study layout.
- * Section order and copy from Figma Studio Verso (1555:5335).
+ * Section order and media from Figma Studio Verso (1576:13441).
  * Spacing / media patterns mirror `/rtl-localisation`.
  */
 export function VersoView({ study }: VersoViewProps) {
@@ -87,14 +132,15 @@ export function VersoView({ study }: VersoViewProps) {
   const challengeParagraphs = challenge.paragraphs.slice(1);
   const visualSubhead = solution.paragraphs[0];
   const visualParagraphs = solution.paragraphs.slice(1);
-  const outcomeParagraphs = result.paragraphs;
+  const outcomeSubhead = result.paragraphs[0];
+  const outcomeParagraphs = result.paragraphs.slice(1);
 
   const heroMeta = [
     "Design System",
     "Component Library",
     "Documentation",
     "Governance",
-    "2025",
+    "2026",
   ];
 
   return (
@@ -135,7 +181,7 @@ export function VersoView({ study }: VersoViewProps) {
           className="case-study__body stack"
           style={{ gap: "var(--stack-gap)" }}
         >
-          {/* Project overview — right column */}
+          {/* Project overview — unchanged */}
           <NarrativeCopy
             label={study.introLabel ?? "Project overview"}
             paragraphs={overviewParagraphs}
@@ -147,7 +193,7 @@ export function VersoView({ study }: VersoViewProps) {
             label="Project Overview"
           />
 
-          {/* The Challenge — two columns */}
+          {/* The Challenge — unchanged */}
           <section className="container" aria-label="The Challenge">
             <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-6">
               <div
@@ -169,7 +215,10 @@ export function VersoView({ study }: VersoViewProps) {
                 className="flex max-w-[35.25rem] flex-col"
                 style={{ gap: "var(--hero-copy-gap)" }}
               >
-                <div className="flex flex-col gap-8" aria-label="Challenge continued">
+                <div
+                  className="flex flex-col gap-8"
+                  aria-label="Challenge continued"
+                >
                   {versoChallengeGoals.paragraphs.map((paragraph) => (
                     <p key={paragraph.slice(0, 40)} className="type-cs-body">
                       {paragraph}
@@ -185,8 +234,7 @@ export function VersoView({ study }: VersoViewProps) {
             label="Distinct Brand Identities"
           />
 
-          {/* Visual design — right column only.
-              Figma left rail is opacity:0 leftover tutoring copy — omitted. */}
+          {/* Visual design */}
           <NarrativeCopy
             label={solution.label}
             subhead={visualSubhead}
@@ -194,20 +242,17 @@ export function VersoView({ study }: VersoViewProps) {
             align="right"
           />
 
-          <VersoFullWidthMedia
-            image={versoMedia.wiredArticle}
-            label="WIRED Article"
-          />
-
           <VersoPairedMedia
             images={[versoMedia.storefront, versoMedia.imageSpecs]}
             label="Storefront and image specifications"
           />
 
-          <NarrativeCopy
+          {/* Component Design */}
+          <TwoColumnNarrative
             label={versoComponentDesign.label}
-            paragraphs={versoComponentDesign.paragraphs}
-            align="left"
+            subhead={versoComponentDesign.subhead}
+            left={versoComponentDesign.left}
+            right={versoComponentDesign.right}
           />
 
           <VersoFullWidthMedia
@@ -215,6 +260,17 @@ export function VersoView({ study }: VersoViewProps) {
             label="Reusable Components"
           />
 
+          <VersoPairedMedia
+            images={[versoMedia.navArchitecture, versoMedia.navCrossBrand]}
+            label="Global Navigation"
+          />
+
+          <VersoFullWidthMedia
+            image={versoMedia.wiredArticle}
+            label="WIRED Article"
+          />
+
+          {/* Design tokens */}
           <NarrativeCopy
             label={versoDesignTokens.label}
             subhead={versoDesignTokens.subhead}
@@ -227,27 +283,27 @@ export function VersoView({ study }: VersoViewProps) {
             label="Design Tokens"
           />
 
-          <NarrativeCopy
-            label={versoScalability.label}
-            subhead={versoScalability.subhead}
-            paragraphs={versoScalability.paragraphs}
-            align="left"
-          />
-
           <VersoPairedMedia
-            images={[versoMedia.crossBrand, versoMedia.flexibleComponents]}
-            label="Scalability"
+            images={[versoMedia.crossBrand, versoMedia.japaneseLayouts]}
+            label="Cross-brand and Japanese-language examples"
           />
 
-          <NarrativeCopy
+          {/* Collaboration & Refinement */}
+          <TwoColumnNarrative
             label={versoCollaboration.label}
-            paragraphs={versoCollaboration.paragraphs}
-            align="left"
+            subhead={versoCollaboration.subhead}
+            left={versoCollaboration.left}
+            right={versoCollaboration.right}
           />
 
           <VersoFullWidthMedia
             image={versoMedia.refinement}
             label="System Refinement"
+          />
+
+          <VersoFullWidthMedia
+            image={versoMedia.futureExplorations}
+            label="Future Explorations"
           />
 
           {/* Outcome — quote left, outcome right */}
@@ -285,6 +341,7 @@ export function VersoView({ study }: VersoViewProps) {
                   {result.label}
                 </h2>
                 <div className="flex flex-col gap-8">
+                  <p className="verso-page__subhead">{outcomeSubhead}</p>
                   {outcomeParagraphs.map((paragraph) => (
                     <p key={paragraph.slice(0, 40)} className="type-cs-body">
                       {paragraph}
@@ -294,11 +351,6 @@ export function VersoView({ study }: VersoViewProps) {
               </div>
             </div>
           </section>
-
-          <VersoFullWidthMedia
-            image={versoMedia.closing}
-            label="Verso in Production"
-          />
         </div>
       </article>
     </CaseStudyLightboxGallery>
