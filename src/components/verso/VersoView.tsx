@@ -82,14 +82,12 @@ export function VersoView({ study }: VersoViewProps) {
 
   if (!challenge || !solution || !result) return null;
 
-  const overviewSubhead = study.intro[0];
-  const overviewParagraphs = study.intro.slice(1);
+  const overviewParagraphs = study.intro;
   const challengeSubhead = challenge.paragraphs[0];
   const challengeParagraphs = challenge.paragraphs.slice(1);
   const visualSubhead = solution.paragraphs[0];
   const visualParagraphs = solution.paragraphs.slice(1);
-  const outcomeSubhead = result.paragraphs[0];
-  const outcomeParagraphs = result.paragraphs.slice(1);
+  const outcomeParagraphs = result.paragraphs;
 
   const heroMeta = [
     "Design System",
@@ -140,7 +138,6 @@ export function VersoView({ study }: VersoViewProps) {
           {/* Project overview — right column */}
           <NarrativeCopy
             label={study.introLabel ?? "Project overview"}
-            subhead={overviewSubhead}
             paragraphs={overviewParagraphs}
             align="right"
           />
@@ -172,16 +169,12 @@ export function VersoView({ study }: VersoViewProps) {
                 className="flex max-w-[35.25rem] flex-col"
                 style={{ gap: "var(--hero-copy-gap)" }}
               >
-                <div className="flex flex-col gap-8" aria-label="Challenge goals">
-                  <p className="type-cs-body">{versoChallengeGoals.intro}</p>
-                  <ul className="verso-page__goal-list">
-                    {versoChallengeGoals.items.map((item) => (
-                      <li key={item} className="type-cs-body">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="type-cs-body">{versoChallengeGoals.closing}</p>
+                <div className="flex flex-col gap-8" aria-label="Challenge continued">
+                  {versoChallengeGoals.paragraphs.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)} className="type-cs-body">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
               </div>
             </div>
@@ -213,7 +206,6 @@ export function VersoView({ study }: VersoViewProps) {
 
           <NarrativeCopy
             label={versoComponentDesign.label}
-            subhead={versoComponentDesign.subhead}
             paragraphs={versoComponentDesign.paragraphs}
             align="left"
           />
@@ -249,7 +241,6 @@ export function VersoView({ study }: VersoViewProps) {
 
           <NarrativeCopy
             label={versoCollaboration.label}
-            subhead={versoCollaboration.subhead}
             paragraphs={versoCollaboration.paragraphs}
             align="left"
           />
@@ -294,7 +285,6 @@ export function VersoView({ study }: VersoViewProps) {
                   {result.label}
                 </h2>
                 <div className="flex flex-col gap-8">
-                  <p className="verso-page__subhead">{outcomeSubhead}</p>
                   {outcomeParagraphs.map((paragraph) => (
                     <p key={paragraph.slice(0, 40)} className="type-cs-body">
                       {paragraph}

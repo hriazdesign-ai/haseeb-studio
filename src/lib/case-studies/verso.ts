@@ -4,7 +4,7 @@ import type { CaseStudy } from "./types";
 
 /**
  * Verso Design System. Standalone page at `/verso`.
- * Copy and section order from Figma Studio Verso (1555:5335).
+ * Section order and media from Figma Studio Verso (1555:5335).
  */
 export const versoCaseStudy: CaseStudy = {
   slug: "verso-design-system",
@@ -27,10 +27,9 @@ export const versoCaseStudy: CaseStudy = {
   hero: versoMedia.hero,
   introLabel: "Project overview",
   intro: [
-    "A shared foundation for global products",
-    "Verso is Condé Nast's design system, created to bring consistency across digital products while supporting the different needs of editorial teams and publishing brands.",
-    "The challenge was to create a common visual language without limiting the flexibility of individual products.",
-    "As a Senior Product Designer, I worked across visual design, storefront layouts, reusable components, design tokens and system documentation, helping develop a foundation that could evolve as products and requirements changed.",
+    "Verso is Condé Nast's design system, created to bring consistency and scalability to digital products across global brands including Vogue, WIRED, GQ and The New Yorker.",
+    "As a Senior Product Designer, I contributed to the development and evolution of the system, working across reusable components, visual design, documentation and responsive patterns.",
+    "The aim was to create shared foundations that teams could build upon, while preserving the individual character of each brand.",
   ],
   challenge: {
     id: "challenge",
@@ -38,8 +37,7 @@ export const versoCaseStudy: CaseStudy = {
     align: "left",
     paragraphs: [
       "Consistency without uniformity",
-      "Condé Nast operates across multiple products, brands and editorial workflows, each with different requirements.",
-      "Over time, similar interface patterns had evolved independently, creating inconsistencies in layout, behaviour and implementation.",
+      "Condé Nast operates across multiple products, brands and editorial workflows, each with different requirements. Over time, similar interface patterns had evolved independently, creating inconsistencies in layout, behaviour and implementation.",
     ],
   },
   pullQuote: {
@@ -60,36 +58,30 @@ export const versoCaseStudy: CaseStudy = {
   },
   result: {
     id: "outcome",
-    label: "Outcome",
+    label: "Outcome and reflection",
     align: "right",
     paragraphs: [
-      "A stronger foundation for future products",
-      "Verso helped establish a more consistent and reusable design language across Condé Nast's digital products. Through shared components, clearer documentation and more structured design decisions, teams had a stronger foundation for designing and building interfaces.",
+      "Verso established a shared design language across Condé Nast's digital products, supporting consistency while allowing individual brands to retain their visual identities.",
+      "The work reinforced the importance of designing systems that are not only visually consistent, but also practical for the teams using them.",
+      "For me, the biggest lesson was that a successful design system needs to balance structure with flexibility. It should make everyday design decisions easier without limiting creativity or the ability to evolve.",
     ],
   },
 };
 
-/** Challenge goals column — Figma right rail under The Challenge. */
+/** Challenge right column — continues The Challenge narrative. */
 export const versoChallengeGoals = {
-  intro: "The goal was to establish shared foundations that would:",
-  items: [
-    "Create a more consistent experience.",
-    "Reduce duplicated design and development effort.",
-    "Support different product and brand requirements.",
-    "Make future changes easier to implement and maintain.",
+  paragraphs: [
+    "We needed a system that would reduce duplication, improve consistency and make future changes easier to manage, without restricting individual brand identities.",
+    "The challenge wasn't simply creating reusable components. It was making them flexible enough to work across different products, teams and editorial experiences.",
   ],
-  closing:
-    "The challenge wasn't simply designing individual components. It was understanding how those components would work together as a flexible, scalable system.",
 } as const;
 
 export const versoComponentDesign = {
-  label: "Component design",
-  subhead: "From individual interfaces to reusable patterns",
+  label: "Design system and components",
   paragraphs: [
-    "Rather than designing each interface independently, we established reusable patterns that could be applied across different products.",
-    "My work involved reviewing existing components, identifying inconsistencies and exploring opportunities to simplify the system.",
-    "This included considering component states, layout behaviour, accessibility and how individual elements would work together within larger interfaces.",
-    "The objective was to give designers and engineers a reliable foundation without restricting the needs of individual products.",
+    "A key part of my work involved developing and refining reusable interface patterns that could support different brands and product requirements.",
+    "This included looking at component behaviour, responsive layouts, typography and design tokens, alongside the documentation teams needed to use the system effectively.",
+    "Rather than treating components as isolated elements, I focused on how they worked together to create consistent, flexible experiences.",
   ],
 } as const;
 
@@ -116,12 +108,10 @@ export const versoScalability = {
 } as const;
 
 export const versoCollaboration = {
-  label: "Collaboration & iteration",
-  subhead: "Designing together, refining continuously",
+  label: "What we found",
   paragraphs: [
-    "Verso was an ongoing collaboration between product designers, engineers and stakeholders.",
-    "Design decisions were explored, reviewed and refined through regular discussions and feedback.",
-    "A major part of the process involved simplifying existing patterns, clarifying intended behaviour and ensuring components were practical to implement.",
-    "Documentation also played an important role, helping teams understand how and when to use components consistently.",
+    "Reviewing existing components revealed opportunities to simplify the system.",
+    "Some components had accumulated unnecessary variations, overlapping properties and inconsistent naming conventions, making them harder to understand and maintain.",
+    "By identifying these issues, we could establish clearer patterns and reduce complexity for both designers and developers.",
   ],
 } as const;
