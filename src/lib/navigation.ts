@@ -83,6 +83,12 @@ export const MERIDIAN_AND_CO_CASE_STUDY_PATH = "/work/meridian-and-co";
 export const RTL_LOCALISATION_PATH = "/rtl-localisation";
 
 /**
+ * Standalone Verso page — shared for header chrome only.
+ * Not linked from homepage, Work, or project listings.
+ */
+export const VERSO_STANDALONE_PATH = "/verso";
+
+/**
  * Portfolio case studies with solid project-themed SiteHeader
  * (`data-theme="case-study"` → `--case-study-hero-bg` + white type).
  */
@@ -98,6 +104,7 @@ export const PORTFOLIO_CASE_STUDY_PATHS = [
   BRIGHT_PATH_LEARNING_CASE_STUDY_PATH,
   MERIDIAN_AND_CO_CASE_STUDY_PATH,
   RTL_LOCALISATION_PATH,
+  VERSO_STANDALONE_PATH,
 ] as const;
 
 export function isVersoCaseStudyRoute(pathname: string): boolean {
@@ -124,8 +131,9 @@ export function isBlocksChromeRoute(pathname: string): boolean {
     path === "/projects-motion-test" ||
     /* Case studies under /work/[slug] — same shared portfolio nav. */
     (path.startsWith("/work/") && path !== "/work") ||
-    /* Standalone recruiter page — chrome only, not listed in nav. */
-    path === RTL_LOCALISATION_PATH
+    /* Standalone recruiter pages — chrome only, not listed in nav. */
+    path === RTL_LOCALISATION_PATH ||
+    path === VERSO_STANDALONE_PATH
   );
 }
 
