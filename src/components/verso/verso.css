@@ -1,6 +1,27 @@
 /* Page-scoped styles for /verso only. */
 
 /*
+ * Unify SiteHeader + case-study hero to #011829.
+ * Header lives outside `.verso-page`, so scope via :has.
+ */
+body:has(.verso-page) {
+  --case-study-hero-bg: #011829;
+  --nav-background: #011829;
+  --site-header-bg: #011829;
+}
+
+body:has(.verso-page) .site-header[data-theme="case-study"],
+body:has(.verso-page) .site-header[data-theme="case-study"] .site-header__bar,
+body:has(.verso-page) .site-header[data-theme="case-study"] .mobile-nav,
+body:has(.verso-page) .site-header[data-theme="case-study"] .mobile-nav__panel {
+  background: #011829;
+}
+
+.verso-page .case-study__hero {
+  background: #011829;
+}
+
+/*
  * Other light case studies get the contact keyline from
  * `.case-study-carousel` `border-bottom`. This page omits What’s next,
  * so restore the same full-width 1px rule on the contact section only.
