@@ -296,7 +296,7 @@ export function VersoView({ study }: VersoViewProps) {
           </section>
 
           <VersoFullWidthMedia
-            image={versoMedia.inProduction}
+            image={versoMedia.closing}
             label="Verso in Production"
           />
         </div>

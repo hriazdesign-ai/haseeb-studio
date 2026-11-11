@@ -37,7 +37,7 @@ export const versoMedia = {
     caption: "Distinct Brand Identities · Shared Design Foundations",
   },
   wiredArticle: {
-    src: "/verso/Verso-11.jpg",
+    src: "/verso/Verso-4a.jpg",
     alt: "WIRED article layout showing responsive design, colour theming and visual hierarchy",
     width: 2304,
     height: 1440,
@@ -103,8 +103,8 @@ export const versoMedia = {
     caption:
       "System Refinement · Simplifying Components Through Collaboration",
   },
-  inProduction: {
-    src: "/verso/Verso-7.jpg",
+  closing: {
+    src: "/verso/Verso-11.jpg",
     alt: "Verso in production as a scalable foundation for editorial products",
     width: 2304,
     height: 1440,
@@ -127,6 +127,6 @@ export function getVersoLightboxItems(): CaseStudyLightboxItem[] {
     versoMedia.crossBrand,
     versoMedia.flexibleComponents,
     versoMedia.refinement,
-    versoMedia.inProduction,
+    versoMedia.closing,
   ].map((image) => ({ src: image.src, alt: image.alt }));
 }
