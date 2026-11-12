@@ -21,7 +21,7 @@ export const versoMedia = {
     caption: "System Onboarding · Introducing Shared Design Principles",
   },
   componentLibrary: {
-    src: "/verso/Verso-2-v2.jpg",
+    src: "/verso/Verso-2-v3.jpg",
     alt: "Verso component library showing responsive behaviour and reusable UI patterns",
     width: 1680,
     height: 1083,
@@ -51,6 +51,15 @@ export const versoMedia = {
     height: 1083,
     zoomable: true,
     caption: "Image Specifications · Consistent Cropping & Aspect Ratios",
+  },
+  visualIdentity: {
+    src: "/verso/Verso-16.jpg",
+    alt: "Visual identity and illustrations bringing the Verso design system to life",
+    width: 2304,
+    height: 1440,
+    zoomable: true,
+    caption:
+      "Visual Identity & Illustrations · Bringing the Verso Design System to Life",
   },
   reusableComponents: {
     src: "/verso/Verso-6.jpg",
@@ -139,6 +148,7 @@ export function getVersoLightboxItems(): CaseStudyLightboxItem[] {
     versoMedia.brandFoundations,
     versoMedia.storefront,
     versoMedia.imageSpecs,
+    versoMedia.visualIdentity,
     versoMedia.reusableComponents,
     versoMedia.navArchitecture,
     versoMedia.navCrossBrand,

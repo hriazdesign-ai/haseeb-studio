@@ -247,6 +247,11 @@ export function VersoView({ study }: VersoViewProps) {
             label="Storefront and image specifications"
           />
 
+          <VersoFullWidthMedia
+            image={versoMedia.visualIdentity}
+            label="Visual Identity and Illustrations"
+          />
+
           {/* Component Design */}
           <TwoColumnNarrative
             label={versoComponentDesign.label}
