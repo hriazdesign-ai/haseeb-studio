@@ -21,7 +21,7 @@ export const versoMedia = {
     caption: "System Onboarding · Introducing Shared Design Principles",
   },
   componentLibrary: {
-    src: "/verso/Verso-2.jpg",
+    src: "/verso/Verso-2-v2.jpg",
     alt: "Verso component library showing responsive behaviour and reusable UI patterns",
     width: 1680,
     height: 1083,
